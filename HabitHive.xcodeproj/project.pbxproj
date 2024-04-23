@@ -18,6 +18,7 @@
 		550962132BD8085900DB5DEC /* LogInView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 550962122BD8085900DB5DEC /* LogInView.swift */; };
 		550962152BD8091F00DB5DEC /* NavigationItems.swift in Sources */ = {isa = PBXBuildFile; fileRef = 550962142BD8091F00DB5DEC /* NavigationItems.swift */; };
 		550962172BD80A6F00DB5DEC /* SignUpView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 550962162BD80A6F00DB5DEC /* SignUpView.swift */; };
+		5509621A2BD8449400DB5DEC /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 550962182BD8449400DB5DEC /* Localizable.strings */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -33,6 +34,7 @@
 		550962122BD8085900DB5DEC /* LogInView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogInView.swift; sourceTree = "<group>"; };
 		550962142BD8091F00DB5DEC /* NavigationItems.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationItems.swift; sourceTree = "<group>"; };
 		550962162BD80A6F00DB5DEC /* SignUpView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpView.swift; sourceTree = "<group>"; };
+		550962192BD8449400DB5DEC /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -76,6 +78,7 @@
 				550962122BD8085900DB5DEC /* LogInView.swift */,
 				550961FE2BD8004600DB5DEC /* Assets.xcassets */,
 				550962002BD8004600DB5DEC /* Preview Content */,
+				550962182BD8449400DB5DEC /* Localizable.strings */,
 			);
 			path = HabitHive;
 			sourceTree = "<group>";
@@ -147,6 +150,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				550962022BD8004600DB5DEC /* Preview Assets.xcassets in Resources */,
+				5509621A2BD8449400DB5DEC /* Localizable.strings in Resources */,
 				550961FF2BD8004600DB5DEC /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -171,6 +175,17 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXVariantGroup section */
+		550962182BD8449400DB5DEC /* Localizable.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				550962192BD8449400DB5DEC /* en */,
+			);
+			name = Localizable.strings;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
 		550962032BD8004600DB5DEC /* Debug */ = {
