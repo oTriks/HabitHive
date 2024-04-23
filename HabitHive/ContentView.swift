@@ -1,61 +1,39 @@
-//
-//  ContentView.swift
-//  HabitHive
-//
-//  Created by Martin Larsson on 2024-04-23.
-//
-
 import SwiftUI
-import SwiftData
 
 struct ContentView: View {
-    @Environment(\.modelContext) private var modelContext
-    @Query private var items: [Item]
+    @State private var selection = 0
 
     var body: some View {
-        NavigationSplitView {
-            List {
-                ForEach(items) { item in
-                    NavigationLink {
-                        Text("Item at \(item.timestamp, format: Date.FormatStyle(date: .numeric, time: .standard))")
-                    } label: {
-                        Text(item.timestamp, format: Date.FormatStyle(date: .numeric, time: .standard))
+        NavigationView {
+            TabView(selection: $selection) {
+                ProgressView()
+                    .tabItem {
+                        Label("Progress", systemImage: "house")
                     }
-                }
-                .onDelete(perform: deleteItems)
+                    .tag(0)
+
+                DailyView()
+                    .tabItem {
+                        Label("Daily", systemImage: "bell")
+                    }
+                    .tag(1)
+
+                HabitsView()
+                    .tabItem {
+                        Label("Habits", systemImage: "gear")
+                    }
+                    .tag(2)
             }
+            .navigationTitle("Habit Reminder")
             .toolbar {
                 ToolbarItem(placement: .navigationBarTrailing) {
-                    EditButton()
-                }
-                ToolbarItem {
-                    Button(action: addItem) {
-                        Label("Add Item", systemImage: "plus")
+                    Button(action: {
+                        // Actions for the button
+                    }) {
+                        Image(systemName: "plus")
                     }
                 }
             }
-        } detail: {
-            Text("Select an item")
         }
     }
-
-    private func addItem() {
-        withAnimation {
-            let newItem = Item(timestamp: Date())
-            modelContext.insert(newItem)
-        }
-    }
-
-    private func deleteItems(offsets: IndexSet) {
-        withAnimation {
-            for index in offsets {
-                modelContext.delete(items[index])
-            }
-        }
-    }
-}
-
-#Preview {
-    ContentView()
-        .modelContainer(for: Item.self, inMemory: true)
 }
