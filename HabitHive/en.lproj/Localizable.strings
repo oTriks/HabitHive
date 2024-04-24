@@ -1,0 +1,15 @@
+/*
+  Localizable.strings
+  HabitHive
+
+  Created by Martin Larsson on 2024-04-23.
+  
+*/
+
+"log_in" = "Log in";
+"sign_up" = "Sign up";
+"username" = "Enter username";
+"password" = "Enter password";
+"re_password" = "Re-enter password";
+"cancel" = "Cancel";
+

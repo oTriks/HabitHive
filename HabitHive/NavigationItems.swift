@@ -1,5 +1,5 @@
 
-enum NavigationItem {
+enum NavigationItems {
     case contentView
     case signUpView
 
