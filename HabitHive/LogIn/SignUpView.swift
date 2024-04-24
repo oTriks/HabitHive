@@ -1,11 +1,12 @@
 import SwiftUI
+import Firebase
 
 struct SignUpView: View {
     @State private var username: String = ""
     @State private var password: String = ""
     @State private var rePassword: String = ""
     @Environment(\.dismiss) var dismiss
-
+//    let db = Firestore.firestore()
     
 var body: some View {
     NavigationStack {
@@ -34,6 +35,7 @@ var body: some View {
                 }
                 
                 CustomButton(text: NSLocalizedString("sign_up", comment: "Sign up button text"), backgroundColor: Color("button")) {
+                    
                 }
                 
             }
