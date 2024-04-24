@@ -1,4 +1,4 @@
-/* 
+/*
   Localizable.strings
   HabitHive
 
@@ -7,3 +7,9 @@
 */
 
 "log_in" = "Log in";
+"sign_up" = "Sign up";
+"username" = "Enter username";
+"password" = "Enter password";
+"re_password" = "Re-enter password";
+"cancel" = "Cancel";
+
