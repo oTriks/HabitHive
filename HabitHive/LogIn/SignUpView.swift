@@ -8,6 +8,7 @@ struct SignUpView: View {
     @Environment(\.dismiss) var dismiss
 //    let db = Firestore.firestore()
     // funkar?
+    // funkar nu? 
 var body: some View {
     NavigationStack {
         VStack {
