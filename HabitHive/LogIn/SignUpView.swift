@@ -2,13 +2,11 @@ import SwiftUI
 import Firebase
 
 struct SignUpView: View {
-    @State private var username: String = ""
-    @State private var password: String = ""
-    @State private var rePassword: String = ""
+
+    @StateObject private var viewModel = SignUpViewModel()
     @Environment(\.dismiss) var dismiss
-//    let db = Firestore.firestore()
-    // funkar?
-    // funkar nu? 
+    
+    
 var body: some View {
     NavigationStack {
         VStack {
@@ -22,12 +20,12 @@ var body: some View {
                 .font(.title)
                 .padding(.bottom, 20)
 
-            TextField(NSLocalizedString("username", comment: "Placeholder text username input field"), text: $username)
+            TextField(NSLocalizedString("username", comment: "Placeholder text username input field"), text: $viewModel.username)
                 .modifier(ElevatedTextFieldStyle())
 
-            SecureField(NSLocalizedString("password", comment: "Placeholder text password input field"), text: $password)
+            SecureField(NSLocalizedString("password", comment: "Placeholder text password input field"), text: $viewModel.password)
                 .modifier(ElevatedTextFieldStyle())
-            SecureField(NSLocalizedString("re_password", comment: "Placeholder text re-password input field"), text: $password)
+            SecureField(NSLocalizedString("re_password", comment: "Placeholder text re-password input field"), text: $viewModel.rePassword)
                 .modifier(ElevatedTextFieldStyle())
 
             HStack {
@@ -36,12 +34,17 @@ var body: some View {
                 }
                 
                 CustomButton(text: NSLocalizedString("sign_up", comment: "Sign up button text"), backgroundColor: Color("button")) {
-                    
-                }
-                
-            }
-            .frame(maxWidth: .infinity)
-            .padding(.horizontal)
+                                        viewModel.registerUser { success in
+                                            if success {
+                                                dismiss()
+                                            } else {
+                                                print("Registration failed")
+                                            }
+                                        }
+                                    }
+                                }
+                                .frame(maxWidth: .infinity)
+                                .padding(.horizontal)
         }
     }
 }

@@ -2,57 +2,74 @@
 import SwiftUI
 
 struct LoginView: View {
-    @State private var username: String = ""
-    @State private var password: String = ""
+    @StateObject private var viewModel = LoginViewModel()
     @State private var navigationItem: NavigationItems? = nil
-    @State private var rememberMe = false
     @State private var showSignUp = false
+    @State private var errorMessage = ""
+    @State private var loginSuccess = false
 
     
     var body: some View {
-        NavigationStack {
-            VStack {
-                Image("HabitHiveIcon")
-                    .resizable()
-                    .scaledToFit()
-                    .frame(width: 120, height: 120)
-                    .padding(.bottom, 5)
-                
-                Text(NSLocalizedString("log_in", comment: "Log in text"))
-                    .font(.title)
-                    .padding(.bottom, 20)
-                
-                TextField(NSLocalizedString("username", comment: "Placeholder text username input field"), text: $username)
-                    .modifier(ElevatedTextFieldStyle())
-                
-                SecureField(NSLocalizedString("password", comment: "Placeholder text password input field"), text: $password)
-                    .modifier(ElevatedTextFieldStyle())
-                
-                HStack {
-                    Spacer()
-                    Checkbox(isChecked: $rememberMe, label: "Remember me")
-                }
-                
-                HStack {
-                    CustomButton(text: NSLocalizedString("sign_up", comment: "Sign up button text"), backgroundColor: Color("button")) {
-                        showSignUp = true
-
+            NavigationStack {
+                VStack {
+                    Image("HabitHiveIcon")
+                        .resizable()
+                        .scaledToFit()
+                        .frame(width: 120, height: 120)
+                        .padding(.bottom, 5)
+                    
+                    Text("Log In")
+                        .font(.title)
+                        .padding(.bottom, 20)
+                    
+                    TextField("Email", text: $viewModel.username)
+                        .keyboardType(.emailAddress)
+                        .autocapitalization(.none)
+                        .modifier(ElevatedTextFieldStyle())
+                    
+                    SecureField("Password", text: $viewModel.password)
+                        .modifier(ElevatedTextFieldStyle())
+                    
+                    HStack {
+                        Spacer()
+                        Checkbox(isChecked: $viewModel.rememberMe, label: "Remember me")
                     }
-                  
-            
-                    CustomButton(text: NSLocalizedString("log_in", comment: "Login button text"), backgroundColor: Color("button")) {
+                    
+                    if !viewModel.errorMessage.isEmpty {
+                        Text(viewModel.errorMessage)
+                            .foregroundColor(.red)
+                            .padding()
                     }
-                }
-                .frame(maxWidth: .infinity)
-                .padding(.horizontal)
+                    
+                    HStack {
+                        CustomButton(text: "Sign Up", backgroundColor: Color("button")) {
+                            viewModel.navigationItem = .signUpView
+                        }
+                        CustomButton(text: "Log In", backgroundColor: Color("button")) {
+                            viewModel.login()
+                        }
+                        
+                    }
+                    .frame(maxWidth: .infinity)
+                    .padding(.horizontal)
                 
-                 NavigationLink(destination: SignUpView(), isActive: $showSignUp) {
-                     EmptyView()
-                 }
                 
+                            
+                                NavigationLink(destination: SignUpView(), tag: .signUpView, selection: $viewModel.navigationItem) {
+                                    EmptyView()
+                                }
+                                
+                                NavigationLink(destination: ContentView(), tag: .contentView, selection: $viewModel.navigationItem) {
+                                    EmptyView()
+                                }
+                            }
                 
+                                .onAppear {
+                                                viewModel.checkAutoLogin()
+                                            
             
             }
+            
         }
     }
 }
