@@ -25,9 +25,51 @@ struct NewHabitView: View {
                                                                    showDaysPicker: $showDayPicker)
 
                     case 3:
-                        DatePicker("Start Date", selection: $startDate, displayedComponents: .date)
-                            .datePickerStyle(GraphicalDatePickerStyle())
-                            .padding()
+                        VStack {
+                            HStack {
+                                Image(systemName: "calendar")
+                                    .padding(.leading)
+                                Text("Start Date")
+                                    .padding(.leading)
+                                Spacer()
+                                Text("Today")
+                                    .padding(.trailing)
+                            }
+                            Divider()
+                                .padding(.horizontal)
+                            
+                            VStack {
+                                Divider()
+                                    .padding(.horizontal)
+                                HStack {
+                                    Image(systemName: "calendar")
+                                        .padding(.leading)
+                                    Text("End Date")
+                                        .padding(.leading)
+
+                                    Spacer()
+                                    Toggle("", isOn: .constant(false))
+                                        .padding(.trailing)
+                                }
+                                Divider()
+                                    .padding(.horizontal)
+                                HStack {
+                                    Image(systemName: "alarm")
+                                    Text("Notifications")
+                                        .padding(.leading)
+                                    Spacer()
+                                    Text("0")
+                                        .padding(.trailing)
+                                }
+                                .padding(.horizontal)
+                            }
+                            Spacer()
+                        }
+
+
+
+
+
 
                     default:
                         Text("Creating new habit...")
@@ -41,10 +83,13 @@ struct NewHabitView: View {
                         Button("Cancel") {
                             print("Creation process canceled")
                         }
+                        .foregroundColor(Color("negative"))
                     } else {
                         Button("Back") {
                             if step > 1 { step -= 1 }
                         }
+                        .foregroundColor(Color("negative"))
+
                     }
 
                     Spacer()
@@ -55,13 +100,23 @@ struct NewHabitView: View {
                         } else {
                             print("Habit Created")
                         }
+                        
                     }
+                    .foregroundColor(Color("positive"))
+
                 }
                 .padding()
             }
             .navigationTitle("Step \(step)")
         }
     }
+}
+
+func formattedDate(from date: Date) -> String {
+    let formatter = DateFormatter()
+    formatter.dateStyle = .medium
+    formatter.timeStyle = .none
+    return formatter.string(from: date)
 }
 
 struct NewHabitView_Previews: PreviewProvider {
