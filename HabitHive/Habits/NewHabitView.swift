@@ -58,17 +58,19 @@ struct NewHabitView: View {
                                     Text("Notifications")
                                         .padding(.leading)
                                     Spacer()
-                                    Text("0")
-                                        .padding(.trailing)
+                                    Button(action: {
+                                        // Open NewHabitView when Notifications is pressed
+                                        // You can set some state variable to trigger the navigation
+                                    }) {
+                                        Text("0")
+                                    }
+                                    .foregroundColor(.blue) // Change color to indicate it's interactive
+                                    .padding(.trailing)
                                 }
                                 .padding(.horizontal)
                             }
                             Spacer()
                         }
-
-
-
-
 
 
                     default:

@@ -1,20 +1,26 @@
 import SwiftUI
 
 struct HabitsView: View {
+    @StateObject private var viewModel = HabitsViewModel()
+    
     var body: some View {
-        ZStack(alignment: .bottomTrailing) {
-            Text("Habits")
-                .frame(maxWidth: .infinity, maxHeight: .infinity)
-
-            CustomFloatingActionButton(
-                action: { print("Floating Action Button Tapped") },
-                imageName: "plus"
+        NavigationView {
+            ZStack(alignment: .bottomTrailing) {
+                Text("Habits")
+                    .frame(maxWidth: .infinity, maxHeight: .infinity)
                 
-            )
+                CustomFloatingActionButton(
+                    action: viewModel.addNewHabit,
+                    imageName: "plus"
+                )
+                .sheet(isPresented: $viewModel.isAddingNewHabit) {
+                    NewHabitView()
+                }
+            }
+            .navigationBarHidden(true)
         }
     }
 }
-
 
 
 // Preview provider

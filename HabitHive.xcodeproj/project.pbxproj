@@ -31,6 +31,8 @@
 		5509EA8E2BDA7A9B0048A8DF /* NewHabitView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5509EA8D2BDA7A9B0048A8DF /* NewHabitView.swift */; };
 		5509EA902BDA7E200048A8DF /* FrequencySelevtionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5509EA8F2BDA7E200048A8DF /* FrequencySelevtionView.swift */; };
 		5509EA922BDA7FF10048A8DF /* DayPickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5509EA912BDA7FF10048A8DF /* DayPickerView.swift */; };
+		5509EA942BDA8CE90048A8DF /* HabitsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5509EA932BDA8CE90048A8DF /* HabitsViewModel.swift */; };
+		5509EA962BDA8E500048A8DF /* CustomPopupView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5509EA952BDA8E500048A8DF /* CustomPopupView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -56,6 +58,8 @@
 		5509EA8D2BDA7A9B0048A8DF /* NewHabitView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewHabitView.swift; sourceTree = "<group>"; };
 		5509EA8F2BDA7E200048A8DF /* FrequencySelevtionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FrequencySelevtionView.swift; sourceTree = "<group>"; };
 		5509EA912BDA7FF10048A8DF /* DayPickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DayPickerView.swift; sourceTree = "<group>"; };
+		5509EA932BDA8CE90048A8DF /* HabitsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HabitsViewModel.swift; sourceTree = "<group>"; };
+		5509EA952BDA8E500048A8DF /* CustomPopupView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomPopupView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -147,6 +151,7 @@
 			children = (
 				5509620E2BD8050600DB5DEC /* HabitsView.swift */,
 				5509EA8D2BDA7A9B0048A8DF /* NewHabitView.swift */,
+				5509EA932BDA8CE90048A8DF /* HabitsViewModel.swift */,
 			);
 			path = Habits;
 			sourceTree = "<group>";
@@ -160,6 +165,7 @@
 				5509EA8B2BDA776C0048A8DF /* FloatingActionButton.swift */,
 				5509EA8F2BDA7E200048A8DF /* FrequencySelevtionView.swift */,
 				5509EA912BDA7FF10048A8DF /* DayPickerView.swift */,
+				5509EA952BDA8E500048A8DF /* CustomPopupView.swift */,
 			);
 			path = Customs;
 			sourceTree = "<group>";
@@ -247,6 +253,7 @@
 				5509620D2BD804E800DB5DEC /* DailyView.swift in Sources */,
 				550962352BDA454D00DB5DEC /* SignUpViewModel.swift in Sources */,
 				5509621E2BD8F20900DB5DEC /* ElevatedTextFieldStyle.swift in Sources */,
+				5509EA942BDA8CE90048A8DF /* HabitsViewModel.swift in Sources */,
 				5509EA8E2BDA7A9B0048A8DF /* NewHabitView.swift in Sources */,
 				550962132BD8085900DB5DEC /* LogInView.swift in Sources */,
 				550962152BD8091F00DB5DEC /* NavigationItems.swift in Sources */,
@@ -256,6 +263,7 @@
 				5509621C2BD8EBF000DB5DEC /* CustomButton.swift in Sources */,
 				550961F92BD8004400DB5DEC /* HabitHiveApp.swift in Sources */,
 				5509EA8C2BDA776C0048A8DF /* FloatingActionButton.swift in Sources */,
+				5509EA962BDA8E500048A8DF /* CustomPopupView.swift in Sources */,
 				550962202BD8F74500DB5DEC /* Checkbox.swift in Sources */,
 				5509620F2BD8050600DB5DEC /* HabitsView.swift in Sources */,
 				5509EA902BDA7E200048A8DF /* FrequencySelevtionView.swift in Sources */,
