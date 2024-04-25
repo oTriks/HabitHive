@@ -7,7 +7,7 @@ struct SignUpView: View {
     @State private var rePassword: String = ""
     @Environment(\.dismiss) var dismiss
 //    let db = Firestore.firestore()
-    
+    // funkar?
 var body: some View {
     NavigationStack {
         VStack {
