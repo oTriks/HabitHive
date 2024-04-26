@@ -2,7 +2,22 @@ import SwiftUI
 
 struct ContentView: View {
     @State private var selection = 0
-        // test 
+    // Assuming you have an array of Habit objects
+    var habits: [Habit] = []
+
+    var navigationTitle: String {
+        switch selection {
+        case 0:
+            return "Progress"
+        case 1:
+            return "Daily"
+        case 2:
+            return "Habits"
+        default:
+            return "Habit Reminder" // Default title
+        }
+    }
+    
     var body: some View {
         NavigationView {
             TabView(selection: $selection) {
@@ -12,7 +27,7 @@ struct ContentView: View {
                     }
                     .tag(0)
 
-                DailyView()
+                DailyView(habits: habits) 
                     .tabItem {
                         Label("Daily", systemImage: "bell")
                     }
@@ -24,7 +39,7 @@ struct ContentView: View {
                     }
                     .tag(2)
             }
-            .navigationTitle("Habit Reminder")
+            .navigationTitle(navigationTitle) // Use the dynamic navigation title
             .toolbar {
                 ToolbarItem(placement: .navigationBarTrailing) {
                     Button(action: {
