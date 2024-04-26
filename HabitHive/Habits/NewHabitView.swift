@@ -7,6 +7,7 @@ struct NewHabitView: View {
     @State private var frequencyOption = "Every day" // Default selection
     @State private var showDayPicker = false // Manage day picker visibility
     @State private var startDate = Date() // Assuming you need a date state for the DatePicker
+    @ObservedObject var viewModel = NewHabitViewModel()
 
     var body: some View {
         NavigationView {
@@ -100,9 +101,16 @@ struct NewHabitView: View {
                         if step < 3 {
                             step += 1
                         } else {
-                            print("Habit Created")
+                            let habit = Habit(name: habitName, description: habitDescription, frequency: frequencyOption, startDate: startDate)
+                            viewModel.saveHabitToFirestore(habit: habit) { result in
+                                switch result {
+                                case .success(let updatedHabit):
+                                    print("Habit Created with ID: \(updatedHabit.id ?? "unknown")")
+                                case .failure(let error):
+                                    print("Error creating habit: \(error)")
+                                }
+                            }
                         }
-                        
                     }
                     .foregroundColor(Color("positive"))
 

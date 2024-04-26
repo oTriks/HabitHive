@@ -3,8 +3,9 @@ import SwiftUI
 struct FrequencySelectionView: View {
     @Binding var selectedFrequency: String
     let options: [String]
-    @Binding var showDaysPicker: Bool // Controls visibility for "Specific days" picker
-    @State private var repeatDays: Int = 2 // Holds the number of days for the "Repeat" option
+    @Binding var showDaysPicker: Bool
+    @State private var repeatDays: Int = 2
+    @State private var selectedDays: [String] = []
 
     var body: some View {
         VStack {

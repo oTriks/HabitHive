@@ -4,9 +4,8 @@ import Combine
 import FirebaseFirestore
 
 
-class HabitsViewModel: ObservableObject {
+class DailyViewModel: ObservableObject {
     @Published var habits: [Habit] = []
-       @Published var isAddingNewHabit = false
        private var db = Firestore.firestore()
     
     init() {
@@ -25,7 +24,5 @@ class HabitsViewModel: ObservableObject {
            }
        }
     
-    func addNewHabit() {
-        isAddingNewHabit = true
-    }
+    
 }
