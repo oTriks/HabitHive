@@ -16,14 +16,14 @@ struct FrequencySelectionView: View {
                 }) {
                     HStack {
                         Image(systemName: self.selectedFrequency == option ? "largecircle.fill.circle" : "circle")
-                            .foregroundColor(self.selectedFrequency == option ? Color("positive") : .gray)
+                            .foregroundColor(self.selectedFrequency == option ? Color("Positive") : .gray)
                         Text(option)
                             .foregroundColor(.black)
                     }
                     .padding()
                 }
                 .frame(maxWidth: .infinity, alignment: .leading)
-                .background(self.selectedFrequency == option ? Color("positive").opacity(0.1) : Color.clear)
+                .background(self.selectedFrequency == option ? Color("Positive").opacity(0.1) : Color.clear)
                 .cornerRadius(5)
 
                 // Show the DayPickerView for "Specific days"

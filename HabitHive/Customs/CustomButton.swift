@@ -8,7 +8,7 @@ struct CustomButton: View {
     var body: some View {
         Button(action: action) {
             Text(text)
-                .foregroundColor(Color("text primary"))
+                .foregroundColor(Color("Text primary"))
                 .padding(.vertical, 10)
                 .padding(.horizontal, 20)  
                 .background(backgroundColor)

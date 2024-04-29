@@ -17,7 +17,7 @@ struct DayPickerView: View {
                         selectedDays.insert(id)
                     }
                 }
-                .foregroundColor(selectedDays.contains(id) ? Color("positive") : .gray)
+                .foregroundColor(selectedDays.contains(id) ? Color("Positive") : .gray)
                 .padding()
                 .background(Color.white)
                 .cornerRadius(5)

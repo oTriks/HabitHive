@@ -86,12 +86,12 @@ struct NewHabitView: View {
                         Button("Cancel") {
                             print("Creation process canceled")
                         }
-                        .foregroundColor(Color("negative"))
+                        .foregroundColor(Color("Negative"))
                     } else {
                         Button("Back") {
                             if step > 1 { step -= 1 }
                         }
-                        .foregroundColor(Color("negative"))
+                        .foregroundColor(Color("Negative"))
 
                     }
 
@@ -112,7 +112,7 @@ struct NewHabitView: View {
                             }
                         }
                     }
-                    .foregroundColor(Color("positive"))
+                    .foregroundColor(Color("Positive"))
 
                 }
                 .padding()

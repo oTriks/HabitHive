@@ -12,9 +12,9 @@ struct Checkbox: View {
         }) {
             HStack {
                 Text(label)
-                    .foregroundColor(Color("text trailing"))  
+                    .foregroundColor(Color("Text trailing"))
                 Image(systemName: isChecked ? "checkmark.square" : "square")
-                    .foregroundColor(Color("outline"))
+                    .foregroundColor(Color("Outline"))
             }
             .padding(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 10))
         }
