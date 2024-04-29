@@ -4,10 +4,12 @@ struct NewHabitView: View {
     @State private var step = 1
     @State private var habitName = ""
     @State private var habitDescription = ""
-    @State private var frequencyOption = "Every day" // Default selection
-    @State private var showDayPicker = false // Manage day picker visibility
-    @State private var startDate = Date() // Assuming you need a date state for the DatePicker
+    @State private var frequencyOption = "Every day"
+    @State private var showDayPicker = false
+    @State private var startDate = Date()
     @ObservedObject var viewModel = NewHabitViewModel()
+    @Binding var isPresented: Bool
+    @Binding var shouldDismissToHabits: Bool
 
     var body: some View {
         NavigationView {
@@ -21,9 +23,9 @@ struct NewHabitView: View {
                             .modifier(ElevatedTextFieldStyle())
 
                     case 2:
-                                            FrequencySelectionView(selectedFrequency: $frequencyOption,
-                                                                   options: ["Every day", "Specific days", "Repeat"],
-                                                                   showDaysPicker: $showDayPicker)
+                        FrequencySelectionView(selectedFrequency: $frequencyOption,
+                                               options: ["Every day", "Specific days", "Repeat"],
+                                               showDaysPicker: $showDayPicker)
 
                     case 3:
                         VStack {
@@ -65,7 +67,7 @@ struct NewHabitView: View {
                                     }) {
                                         Text("0")
                                     }
-                                    .foregroundColor(.blue) // Change color to indicate it's interactive
+                                    .foregroundColor(.blue)
                                     .padding(.trailing)
                                 }
                                 .padding(.horizontal)
@@ -80,11 +82,10 @@ struct NewHabitView: View {
                 }
                 Spacer()
 
-                // Navigation buttons
                 HStack {
                     if step == 1 {
                         Button("Cancel") {
-                            print("Creation process canceled")
+                            isPresented = false
                         }
                         .foregroundColor(Color("Negative"))
                     } else {
@@ -106,6 +107,8 @@ struct NewHabitView: View {
                                 switch result {
                                 case .success(let updatedHabit):
                                     print("Habit Created with ID: \(updatedHabit.id ?? "unknown")")
+                                    shouldDismissToHabits = true
+
                                 case .failure(let error):
                                     print("Error creating habit: \(error)")
                                 }
@@ -131,6 +134,8 @@ func formattedDate(from date: Date) -> String {
 
 struct NewHabitView_Previews: PreviewProvider {
     static var previews: some View {
-        NewHabitView()
+        NewHabitView(isPresented: .constant(false), shouldDismissToHabits: .constant(false))
     }
 }
+
+

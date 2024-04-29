@@ -1,8 +1,11 @@
 import SwiftUI
+import Combine
 
 
 struct HabitsView: View {
     @StateObject private var viewModel = HabitsViewModel()
+    @State private var isAddingNewHabit = false
+    @State private var isShowingNewHabitView = false
     
     var body: some View {
         NavigationView {
@@ -16,20 +19,24 @@ struct HabitsView: View {
                     .padding(.horizontal)
                     .padding(.top, 10)
                 }
-                .background(Color.gray.opacity(0.1)) // Optional background color for the scroll view
-
-                // Floating Action Button
+                .background(Color.gray.opacity(0.1))
+                
                 CustomFloatingActionButton(
-                    action: { viewModel.addNewHabit() },
+                    action: { isAddingNewHabit = true },
                     imageName: "plus"
                 )
-                .padding(20) // Adjust padding to ensure visibility and accessibility
-                .shadow(radius: 4) // Optional: adds subtle shadow for better visibility
-                .sheet(isPresented: $viewModel.isAddingNewHabit) {
-                    NewHabitView(viewModel: NewHabitViewModel())
-                }
+                .padding(20)
+                .shadow(radius: 4)
             }
             .navigationBarHidden(true)
+            .sheet(isPresented: $isAddingNewHabit) {
+                NewHabitView(isPresented: $isAddingNewHabit, shouldDismissToHabits: $isShowingNewHabitView)
+            }
+            .onReceive(Just(isShowingNewHabitView)) { newValue in
+                if !newValue {
+                    isAddingNewHabit = false
+                }
+            }
         }
     }
 }
