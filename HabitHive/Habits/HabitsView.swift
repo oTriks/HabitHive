@@ -3,6 +3,8 @@ import Combine
 
 
 struct HabitsView: View {
+    @EnvironmentObject var userModel: UserModel // Access the shared user model
+
     @StateObject private var viewModel = HabitsViewModel()
     @State private var isAddingNewHabit = false
     @State private var isShowingNewHabitView = false
@@ -30,7 +32,8 @@ struct HabitsView: View {
             }
             .navigationBarHidden(true)
             .sheet(isPresented: $isAddingNewHabit) {
-                NewHabitView(isPresented: $isAddingNewHabit, shouldDismissToHabits: $isShowingNewHabitView)
+                NewHabitView(isPresented: $isAddingNewHabit, shouldDismissToHabits: $isShowingNewHabitView, userModel: userModel) 
+
             }
             .onReceive(Just(isShowingNewHabitView)) { newValue in
                 if !newValue {

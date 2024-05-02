@@ -5,33 +5,21 @@ struct DailyHabitCardView: View {
     @State private var isSelected = false
     
     var body: some View {
-        VStack(alignment: .leading, spacing: 10) {
+        GeometryReader { geometry in
             HStack {
-                VStack(alignment: .leading, spacing: 10) {
+                VStack(alignment: .leading, spacing: 8) {
                     Text(habit.name)
-                        .font(.title2)
-                        .fontWeight(.bold)
-                        .foregroundColor(.primary)
-                        .fixedSize(horizontal: false, vertical: true)
-
+                        .font(.headline)
+                        .frame(maxWidth: .infinity, alignment: .leading)
 
                     Text(habit.description)
-                        .font(.body)
-                        .foregroundColor(.secondary)
-                        .fixedSize(horizontal: false, vertical: true)
+                        .font(.subheadline)
+                        .foregroundColor(.gray)
+                        .frame(maxWidth: .infinity, alignment: .leading)
                 }
-                .padding()
-                .background(Color.white)
-                .cornerRadius(10)
-                .shadow(color: .gray, radius: 5, x: 0, y: 2)
-                .frame(width: 300) 
-                .frame(maxWidth: .infinity, alignment: .leading)
                 
-                Spacer()
-            }
-            
-            HStack {
-                Spacer()
+                Spacer() 
+                
                 Button(action: {
                     isSelected.toggle()
                 }) {
@@ -44,18 +32,14 @@ struct DailyHabitCardView: View {
                                 .foregroundColor(.white)
                         )
                 }
-                .padding(.trailing)
             }
+            .padding()
+            .frame(width: geometry.size.width - 32)
+            .background(Color.white)
+            .cornerRadius(10)
+            .shadow(radius: 5)
+            .padding(.horizontal)
         }
-        .padding(.horizontal)
-        .frame(maxWidth: .infinity) // Expand the card to full screen width
     }
 }
 
-struct DailyHabitCardView_Previews: PreviewProvider {
-    static var previews: some View {
-        DailyHabitCardView(habit: Habit.sampleHabit)
-            .previewLayout(.sizeThatFits)
-            .padding()
-    }
-}

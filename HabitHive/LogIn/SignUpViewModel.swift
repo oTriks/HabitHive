@@ -8,23 +8,22 @@ class SignUpViewModel: ObservableObject {
     @Published var password: String = ""
     @Published var rePassword: String = ""
     
-    func registerUser(completion: @escaping (Bool) -> Void) {
-        guard password == rePassword, !username.isEmpty, !password.isEmpty else {
-            completion(false)
-            return
-        }
-
-        db.collection("users").addDocument(data: [
-            "username": username,
-            "password": password
-        ]) { error in
+    func registerUser(completion: @escaping (Bool, String?) -> Void) {
+        Auth.auth().createUser(withEmail: username, password: password) { authResult, error in
             if let error = error {
-                print("Error adding document: \(error)")
-                completion(false)
-            } else {
+                print("Error registering user: \(error)")
+                completion(false, nil)
+            } else if let authResult = authResult {
                 print("User registered successfully")
-                completion(true) 
+                // Now you can access the userID like this:
+                let userID = authResult.user.uid
+                // Optionally, store additional user data in Firestore
+                self.db.collection("users").document(userID).setData([
+                    "username": self.username
+                ])
+                completion(true, userID)
             }
         }
     }
+
 }

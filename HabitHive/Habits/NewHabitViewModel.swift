@@ -3,19 +3,28 @@ import FirebaseFirestore
 
 class NewHabitViewModel: ObservableObject {
     private var db = Firestore.firestore()
+    private var userID: String
+
+    init(userID: String) {
+            self.userID = userID
+        }
     
     func saveHabitToFirestore(habit: Habit, completion: @escaping (Result<Habit, Error>) -> Void) {
         var localHabit = habit
+        localHabit.userID = self.userID // Use the userID that was set during ViewModel initialization
+
         let habitsCollection = db.collection("habits")
         
-        // Ensure that the progress map is generated and assigned
         if localHabit.progress == nil {
             localHabit.progress = generateDateProgressMap()
         }
         
+        // Create a new habit instance with the userID set
+        let habitWithUserID = Habit(id: localHabit.id, name: localHabit.name, description: localHabit.description, frequency: localHabit.frequency, startDate: localHabit.startDate, daysOfWeek: localHabit.daysOfWeek, progress: localHabit.progress, userID: localHabit.userID)
+        
         do {
             // Serialize the Habit object and add it to the collection
-            let ref = try habitsCollection.addDocument(from: localHabit)
+            let ref = try habitsCollection.addDocument(from: habitWithUserID)
             localHabit.id = ref.documentID
             
             ref.getDocument { (document, error) in
@@ -29,6 +38,7 @@ class NewHabitViewModel: ObservableObject {
             completion(.failure(error))
         }
     }
+
     
     private func generateDateProgressMap() -> [String: String] {
         var progressMap = [String: String]()

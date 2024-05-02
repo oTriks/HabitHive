@@ -4,11 +4,11 @@ struct DailyView: View {
     @ObservedObject var viewModel = DailyViewModel()
     
     @State private var selectedDate = Date()
-    private let dateFormatter: DateFormatter = {
-        let formatter = DateFormatter()
-        formatter.dateFormat = "E"
-        return formatter
-    }()
+        private let dateFormatter: DateFormatter = {
+            let formatter = DateFormatter()
+            formatter.dateFormat = "E"
+            return formatter
+        }()
     
     var body: some View {
         VStack {
@@ -30,20 +30,22 @@ struct DailyView: View {
                         }
                     }
                 }
-                .padding()
+                .padding(.horizontal)
             }
             
             // Habit cards
             ScrollView {
-                VStack(spacing: 20) {
+                VStack(spacing: 100) {
                     ForEach(viewModel.habits, id: \.id) { habit in
                         DailyHabitCardView(habit: habit)
+                            .padding()
                     }
                 }
-                .padding()
             }
         }
     }
+
+
 }
 
 extension Date {
@@ -73,13 +75,4 @@ extension Date {
     }
 }
 
-struct DailyView_Previews: PreviewProvider {
-    static var previews: some View {
-        let viewModel = DailyViewModel()
-        viewModel.habits = [Habit.sampleHabit]
-        
-        return DailyView(viewModel: viewModel)
-    }
-}
 
-// Habit model and ViewModel remain unchanged
