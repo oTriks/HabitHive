@@ -8,6 +8,7 @@ class AppDelegate: NSObject, UIApplicationDelegate {
     FirebaseApp.configure()
     print("Firebase configured successfully.")
     return true
+
   }
 }
 

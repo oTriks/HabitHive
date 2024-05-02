@@ -2,6 +2,7 @@ import SwiftUI
 
 struct HabitCardView: View {
     var habit: Habit
+    @ObservedObject var viewModel: HabitsViewModel
 
     var body: some View {
         VStack(alignment: .leading, spacing: 10) {
@@ -22,9 +23,10 @@ struct HabitCardView: View {
                     .foregroundColor(.secondary)
             }
 
-            if let days = habit.daysOfWeek, !days.isEmpty, let progressMap = habit.progress {
-                ScrollableWeekdaysView(currentDate: habit.startDate, daysOfWeek: days, progressMap: progressMap)
-                    .frame(height: 60) // Adjust height as needed
+           
+            if let progressMap = habit.progress, !progressMap.isEmpty, let habitId = habit.id {
+                ScrollableWeekdaysView(progressMap: progressMap, currentDate: habit.startDate, habitId: habitId, viewModel: viewModel)
+                    .frame(height: 60)
             }
         }
         .padding()
@@ -34,6 +36,8 @@ struct HabitCardView: View {
         .padding(.horizontal)
     }
 }
+
+
 
 
 extension Habit {
@@ -46,7 +50,7 @@ extension Habit {
         for dayOffset in -2...2 {
             if let date = calendar.date(byAdding: .day, value: dayOffset, to: startDate) {
                 let dateString = formatDate(date)
-                progress[dateString] = (dayOffset == 0 ? "Done" : "Pending") // Mark today as done for visualization
+                progress[dateString] = (dayOffset == 0 ? "Done" : "Pending")
             }
         }
         
@@ -63,15 +67,16 @@ extension Habit {
     
     private static func formatDate(_ date: Date) -> String {
         let formatter = DateFormatter()
-        formatter.dateFormat = "yyyy-MM-dd" // Matching the format expected in the progress dictionary
+        formatter.dateFormat = "yyyy-MM-dd"
         return formatter.string(from: date)
     }
 }
 
 struct HabitCardView_Previews: PreviewProvider {
     static var previews: some View {
-        HabitCardView(habit: Habit.sampleHabit)
+        HabitCardView(habit: Habit.sampleHabit, viewModel: HabitsViewModel())
             .previewLayout(.sizeThatFits)
             .padding()
     }
 }
+

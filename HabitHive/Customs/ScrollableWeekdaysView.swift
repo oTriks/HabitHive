@@ -1,9 +1,12 @@
 import SwiftUI
 
 struct ScrollableWeekdaysView: View {
+    var progressMap: [String: String]
     var currentDate: Date
-    var daysOfWeek: [String]
-    var progressMap: [String: String] // Accepting progress data
+    var habitId: String  // Add this to hold the habit ID
+
+    @State private var dataLoaded = false
+    @ObservedObject var viewModel: HabitsViewModel
 
     private let formatter: DateFormatter = {
         let formatter = DateFormatter()
@@ -11,45 +14,126 @@ struct ScrollableWeekdaysView: View {
         return formatter
     }()
 
+    private var dates: [Date] {
+        progressMap.keys.compactMap { dateString in
+            formatter.date(from: dateString)
+        }.sorted()
+    }
+
     var body: some View {
         ScrollView(.horizontal, showsIndicators: false) {
-            HStack(spacing: 10) {
-                Spacer()
-                ForEach(daysOfWeek.indices, id: \.self) { index in
-                    let day = dateForWeekday(dayName: daysOfWeek[index])
-                    let dateString = formatter.string(from: day)
-                    let progress = progressMap[dateString] ?? "Unknown"
-                    VStack {
-                        Text(daysOfWeek[index].prefix(1))
-                            .frame(width: 28, alignment: .center)
-                        Text(formatter.string(from: day))
-                            .frame(width: 28, alignment: .center)
-                        Text(progress)
-                            .font(.caption)
-                            .foregroundColor(progressColor(for: progress))
+            ScrollViewReader { scrollViewProxy in
+                LazyHStack(spacing: 10) {
+                    ForEach(dates, id: \.self) { date in
+                        let dateString = formatter.string(from: date)
+                        let progress = progressMap[dateString] ?? "Unknown"
+                        
+                        DayView(date: date, progress: progress, updateProgress: {
+                            viewModel.updateProgress(for: habitId, date: dateString, status: "Done")
+                        }).id(date)
+
+                                            }
+                                        }
+                .padding()
+                .onChange(of: dataLoaded) { _ in
+                    scrollToCurrentDate(using: scrollViewProxy)
+                }
+                .onAppear {
+                
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+                        self.dataLoaded = true
                     }
                 }
-                Spacer()
             }
-            .padding()
         }
         .frame(height: 60)
     }
 
-    private func dateForWeekday(dayName: String) -> Date {
-        guard let weekday = DateFormatter().weekdaySymbols.firstIndex(of: dayName) else { return currentDate }
-        let calendar = Calendar.current
-        return calendar.nextDate(after: currentDate, matching: DateComponents(weekday: weekday + 1), matchingPolicy: .nextTime)!
+    private func scrollToCurrentDate(using scrollViewProxy: ScrollViewProxy) {
+        if let currentDateIndex = dates.firstIndex(where: { formatter.string(from: $0) == formatter.string(from: currentDate) }) {
+            withAnimation {
+                scrollViewProxy.scrollTo(dates[currentDateIndex], anchor: .center)
+            }
+        }
+    }
+}
+
+
+
+struct DayView: View {
+    var date: Date
+    var progress: String
+    var updateProgress: () -> Void
+
+    
+    public init(date: Date, progress: String, updateProgress: @escaping () -> Void) {
+        self.date = date
+        self.progress = progress
+        self.updateProgress = updateProgress
     }
 
-    private func progressColor(for status: String) -> Color {
+    private var weekdayFormatter: DateFormatter = {
+        let formatter = DateFormatter()
+        formatter.dateFormat = "E"  // "Sun, Mon, Tue, Wed, Thu, Fri, Sat"
+        return formatter
+    }()
+
+    private var dayFormatter: DateFormatter = {
+        let formatter = DateFormatter()
+        formatter.dateFormat = "d"  // Day of the month as a number
+        return formatter
+    }()
+
+    var body: some View {
+        VStack {
+            // Display the first character of the weekday, e.g., "S" for "Sunday"
+            Text(weekdayFormatter.string(from: date).prefix(1))
+                .font(.headline)
+                .frame(width: 28, alignment: .center)
+            
+            // Display the day of the month in a square with status-specific background and border
+            Text(dayFormatter.string(from: date))
+                .font(.caption)
+                .frame(width: 28, height: 28, alignment: .center)
+                .background(background(for: progress))
+                .border(borderColor(for: progress), width: 2) // Adding a border with specific width
+                .cornerRadius(4)  // Slightly rounded corners for aesthetics
+                .foregroundColor(textColor(for: progress))
+                .onTapGesture {
+                                    updateProgress()  // Call the update function when tapped
+                                }
+        }
+    }
+
+    // Background color based on the progress status
+    private func background(for status: String) -> Color {
         switch status {
         case "Done":
-            return .green
+            return Color("Positive")
         case "Failed":
-            return .red
+            return Color("Negative")
         default:
-            return .gray
+            return .clear  // No fill for "Pending"
+        }
+    }
+
+    // Border color for the square around the day number
+    private func borderColor(for status: String) -> Color {
+        switch status {
+        case "Pending":
+            return Color("silver background")  // Gray border for "Pending"
+        default:
+            return .clear  // Clear border for other statuses
+        }
+    }
+
+    // Text color based on the progress status
+    private func textColor(for status: String) -> Color {
+        switch status {
+        case "Done", "Failed":
+            return .white  // White text for contrast
+        default:
+            return Color("Text primary")  // Black text for visibility
         }
     }
 }

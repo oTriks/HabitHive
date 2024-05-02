@@ -43,6 +43,7 @@
 		5509EAAA2BDBB1800048A8DF /* ProgressViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5509EAA92BDBB1800048A8DF /* ProgressViewModel.swift */; };
 		5509EAAC2BDBB1CA0048A8DF /* ProgressHabitView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5509EAAB2BDBB1CA0048A8DF /* ProgressHabitView.swift */; };
 		5509EAAE2BDBB1E00048A8DF /* ProgressHabitViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5509EAAD2BDBB1E00048A8DF /* ProgressHabitViewModel.swift */; };
+		5548ED4F2BE3828A00E4CBF2 /* DebugCurrentDateView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5548ED4E2BE3828A00E4CBF2 /* DebugCurrentDateView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -80,6 +81,7 @@
 		5509EAA92BDBB1800048A8DF /* ProgressViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgressViewModel.swift; sourceTree = "<group>"; };
 		5509EAAB2BDBB1CA0048A8DF /* ProgressHabitView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgressHabitView.swift; sourceTree = "<group>"; };
 		5509EAAD2BDBB1E00048A8DF /* ProgressHabitViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgressHabitViewModel.swift; sourceTree = "<group>"; };
+		5548ED4E2BE3828A00E4CBF2 /* DebugCurrentDateView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DebugCurrentDateView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -127,6 +129,7 @@
 				550961FE2BD8004600DB5DEC /* Assets.xcassets */,
 				550962002BD8004600DB5DEC /* Preview Content */,
 				550962182BD8449400DB5DEC /* Localizable.strings */,
+				5548ED4E2BE3828A00E4CBF2 /* DebugCurrentDateView.swift */,
 			);
 			path = HabitHive;
 			sourceTree = "<group>";
@@ -292,6 +295,7 @@
 				5509EA982BDB98160048A8DF /* NewHabitViewModel.swift in Sources */,
 				5509EA8E2BDA7A9B0048A8DF /* NewHabitView.swift in Sources */,
 				5509EAAE2BDBB1E00048A8DF /* ProgressHabitViewModel.swift in Sources */,
+				5548ED4F2BE3828A00E4CBF2 /* DebugCurrentDateView.swift in Sources */,
 				550962132BD8085900DB5DEC /* LogInView.swift in Sources */,
 				550962152BD8091F00DB5DEC /* NavigationItems.swift in Sources */,
 				550961FB2BD8004400DB5DEC /* ContentView.swift in Sources */,

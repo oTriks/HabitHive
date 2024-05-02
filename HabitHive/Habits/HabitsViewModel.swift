@@ -24,16 +24,36 @@ class HabitsViewModel: ObservableObject {
                     return nil
                 }
                 
-                // Debug print to check the progress data
-                print("Fetched Habit Data: \(habitData)")
-
-                habitData.id = queryDocumentSnapshot.documentID // Update the id property
+                habitData.id = queryDocumentSnapshot.documentID
                 return habitData
             }
         }
     }
 
 
+    func updateProgress(for habitID: String, date: String, status: String) {
+        let habitRef = db.collection("habits").document(habitID)
+        let updatePath = "progress.\(date)"
+
+        // Update Firestore
+        habitRef.updateData([updatePath: status]) { error in
+            if let error = error {
+                print("Error updating progress: \(error)")
+            } else {
+                // Update local data
+                if let index = self.habits.firstIndex(where: { $0.id == habitID }) {
+                    self.habits[index].progress?[date] = status
+                    DispatchQueue.main.async {
+                        self.objectWillChange.send()  // Notify observers of the data change
+                    }
+                }
+                print("Progress updated successfully")
+            }
+        }
+    }
+
+
+    
     
     func addNewHabit() {
         isAddingNewHabit = true
