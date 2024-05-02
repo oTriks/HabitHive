@@ -24,16 +24,50 @@ class HabitsViewModel: ObservableObject {
                     return nil
                 }
                 
-                // Debug print to check the progress data
-                print("Fetched Habit Data: \(habitData)")
-
-                habitData.id = queryDocumentSnapshot.documentID // Update the id property
+                habitData.id = queryDocumentSnapshot.documentID
                 return habitData
             }
         }
     }
 
 
+    func updateProgress(for habitID: String, date: String) {
+        guard let index = self.habits.firstIndex(where: { $0.id == habitID }),
+              let currentStatus = self.habits[index].progress?[date] else {
+            print("Habit or date not found")
+            return
+        }
+        
+        let newStatus: String
+        switch currentStatus {
+            case "Done":
+                newStatus = "Failed"
+            case "Failed":
+                newStatus = "Pending"
+            default:
+                newStatus = "Done"
+        }
+        
+        let updatePath = "progress.\(date)"
+        let habitRef = db.collection("habits").document(habitID)
+        
+        habitRef.updateData([updatePath: newStatus]) { error in
+            if let error = error {
+                print("Error updating progress: \(error)")
+            } else {
+                self.habits[index].progress?[date] = newStatus
+                DispatchQueue.main.async {
+                    self.objectWillChange.send()
+                }
+                print("Progress updated successfully to \(newStatus)")
+            }
+        }
+    }
+
+
+
+
+    
     
     func addNewHabit() {
         isAddingNewHabit = true

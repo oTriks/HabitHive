@@ -13,7 +13,7 @@ struct HabitsView: View {
                 ScrollView {
                     VStack(spacing: 12) {
                         ForEach(viewModel.habits, id: \.id) { habit in
-                            HabitCardView(habit: habit)
+                            HabitCardView(habit: habit, viewModel: viewModel)
                         }
                     }
                     .padding(.horizontal)
