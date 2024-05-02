@@ -27,7 +27,7 @@ struct ContentView: View {
                     }
                     .tag(0)
 
-                DailyView(habits: habits) 
+                DailyView() 
                     .tabItem {
                         Label("Daily", systemImage: "bell")
                     }

@@ -1,40 +1,35 @@
 import SwiftUI
 
 struct ProgressHabitCardView: View {
-    var habit: Habit
-    @State private var isSelected = false
+    let habitName: String
+    let habitDescription: String
     
     var body: some View {
-        VStack(alignment: .leading, spacing: 10) {
-            HStack {
-                VStack(alignment: .leading, spacing: 10) {
-                    Text(habit.name)
-                        .font(.title2)
-                        .fontWeight(.bold)
-                        .foregroundColor(.primary)
+        GeometryReader { geometry in
+            VStack(alignment: .leading, spacing: 8) {
+                Text(habitName)
+                    .font(.headline)
+                    .frame(maxWidth: .infinity, alignment: .leading) // Align text to the left edge
 
-                    Text(habit.description)
-                        .font(.body)
-                        .foregroundColor(.secondary)
-                }
-                .padding()
-                .background(Color.white)
-                .cornerRadius(10)
-                .shadow(color: .gray, radius: 5, x: 0, y: 2)
-                .padding(.horizontal)
-                .frame(maxWidth: .infinity, alignment: .leading) // Expand the card horizontally
-                
-                
-                
+                Text(habitDescription)
+                    .font(.subheadline)
+                    .foregroundColor(.gray)
+                    .frame(maxWidth: .infinity, alignment: .leading) // Align text to the left edge
+
             }
+            .padding()
+            .frame(width: geometry.size.width - 32)
+            .background(Color.white)
+            .cornerRadius(10)
+            .shadow(radius: 5)
+            .padding(.horizontal)
         }
     }
 }
 
 struct ProgressHabitCardView_Previews: PreviewProvider {
     static var previews: some View {
-        ProgressHabitCardView(habit: Habit.sampleHabit)
-            .previewLayout(.sizeThatFits)
+        ProgressHabitCardView(habitName: "Exercise", habitDescription: "Go for a run or hit the gym")
             .padding()
     }
 }

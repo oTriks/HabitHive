@@ -12,34 +12,43 @@ struct DailyHabitCardView: View {
                         .font(.title2)
                         .fontWeight(.bold)
                         .foregroundColor(.primary)
+                        .fixedSize(horizontal: false, vertical: true)
+
 
                     Text(habit.description)
                         .font(.body)
                         .foregroundColor(.secondary)
+                        .fixedSize(horizontal: false, vertical: true)
                 }
                 .padding()
                 .background(Color.white)
                 .cornerRadius(10)
                 .shadow(color: .gray, radius: 5, x: 0, y: 2)
-                .padding(.horizontal)
-                .frame(maxWidth: .infinity, alignment: .leading) // Expand the card horizontally
+                .frame(width: 300) 
+                .frame(maxWidth: .infinity, alignment: .leading)
                 
-                Spacer() // Spacer to push the circle to the right edge
-                
+                Spacer()
+            }
+            
+            HStack {
+                Spacer()
                 Button(action: {
                     isSelected.toggle()
                 }) {
                     Circle()
-                        .fill(Color.blue) // Customize circle color
-                        .frame(width: 48, height: 48) // Customize circle size
-                        .padding(10) // Add padding around the circle
+                        .fill(Color.blue)
+                        .frame(width: 48, height: 48)
+                        .padding(10)
                         .overlay(
                             Image(systemName: isSelected ? "checkmark" : "xmark")
                                 .foregroundColor(.white)
                         )
                 }
+                .padding(.trailing)
             }
         }
+        .padding(.horizontal)
+        .frame(maxWidth: .infinity) // Expand the card to full screen width
     }
 }
 
