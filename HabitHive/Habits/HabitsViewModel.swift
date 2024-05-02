@@ -31,26 +31,40 @@ class HabitsViewModel: ObservableObject {
     }
 
 
-    func updateProgress(for habitID: String, date: String, status: String) {
-        let habitRef = db.collection("habits").document(habitID)
+    func updateProgress(for habitID: String, date: String) {
+        guard let index = self.habits.firstIndex(where: { $0.id == habitID }),
+              let currentStatus = self.habits[index].progress?[date] else {
+            print("Habit or date not found")
+            return
+        }
+        
+        let newStatus: String
+        switch currentStatus {
+            case "Done":
+                newStatus = "Failed"
+            case "Failed":
+                newStatus = "Pending"
+            default:
+                newStatus = "Done"
+        }
+        
         let updatePath = "progress.\(date)"
-
-        // Update Firestore
-        habitRef.updateData([updatePath: status]) { error in
+        let habitRef = db.collection("habits").document(habitID)
+        
+        habitRef.updateData([updatePath: newStatus]) { error in
             if let error = error {
                 print("Error updating progress: \(error)")
             } else {
-                // Update local data
-                if let index = self.habits.firstIndex(where: { $0.id == habitID }) {
-                    self.habits[index].progress?[date] = status
-                    DispatchQueue.main.async {
-                        self.objectWillChange.send()  // Notify observers of the data change
-                    }
+                self.habits[index].progress?[date] = newStatus
+                DispatchQueue.main.async {
+                    self.objectWillChange.send()
                 }
-                print("Progress updated successfully")
+                print("Progress updated successfully to \(newStatus)")
             }
         }
     }
+
+
 
 
     

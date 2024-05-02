@@ -3,7 +3,7 @@ import SwiftUI
 struct ScrollableWeekdaysView: View {
     var progressMap: [String: String]
     var currentDate: Date
-    var habitId: String  // Add this to hold the habit ID
+    var habitId: String
 
     @State private var dataLoaded = false
     @ObservedObject var viewModel: HabitsViewModel
@@ -29,8 +29,10 @@ struct ScrollableWeekdaysView: View {
                         let progress = progressMap[dateString] ?? "Unknown"
                         
                         DayView(date: date, progress: progress, updateProgress: {
-                            viewModel.updateProgress(for: habitId, date: dateString, status: "Done")
-                        }).id(date)
+                                                    viewModel.updateProgress(for: habitId, date: dateString)
+                                                })
+
+                        .id(date)
 
                                             }
                                         }
@@ -100,7 +102,7 @@ struct DayView: View {
                 .cornerRadius(4)  // Slightly rounded corners for aesthetics
                 .foregroundColor(textColor(for: progress))
                 .onTapGesture {
-                                    updateProgress()  // Call the update function when tapped
+                                    updateProgress()
                                 }
         }
     }
