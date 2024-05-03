@@ -15,7 +15,6 @@ struct ProgressView: View {
         }
         .navigationTitle("Progress")
         .onAppear {
-                   // Check if the userModel.userID is retrieved
                    if let userID = userModel.userID {
                        print("User ID retrieved in ProgressView: \(userID)")
                        viewModel.configure(withUserID: userID)

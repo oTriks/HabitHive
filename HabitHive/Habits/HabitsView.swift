@@ -1,21 +1,20 @@
 import SwiftUI
 import Combine
 
-
 struct HabitsView: View {
-    @EnvironmentObject var userModel: UserModel // Access the shared user model
-
+    @EnvironmentObject var userModel: UserModel
     @StateObject private var viewModel = HabitsViewModel()
+
     @State private var isAddingNewHabit = false
     @State private var isShowingNewHabitView = false
-    
+
     var body: some View {
         NavigationView {
             ZStack(alignment: .bottomTrailing) {
                 ScrollView {
                     VStack(spacing: 12) {
                         ForEach(viewModel.habits, id: \.id) { habit in
-                            HabitCardView(habit: habit, viewModel: viewModel)
+                            HabitCardView(habit: habit, viewModel: viewModel)  // Proper access
                         }
                     }
                     .padding(.horizontal)
@@ -31,22 +30,17 @@ struct HabitsView: View {
                 .shadow(radius: 4)
             }
             .navigationBarHidden(true)
-            .sheet(isPresented: $isAddingNewHabit) {
-                NewHabitView(isPresented: $isAddingNewHabit, shouldDismissToHabits: $isShowingNewHabitView, userModel: userModel) 
-
-            }
-            .onReceive(Just(isShowingNewHabitView)) { newValue in
-                if !newValue {
-                    isAddingNewHabit = false
+            .onAppear {
+                if let userID = userModel.userID {
+                    viewModel.configure(withUserID: userID)
+                } else {
+                    print("User ID is nil")
                 }
             }
+
         }
     }
 }
-
-
-
-
 
 
 // Preview provider

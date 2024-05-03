@@ -37,7 +37,11 @@ class HabitsViewModel: ObservableObject {
         }
     }
 
-
+    func configure(withUserID userID: String) {
+        self.userID = userID
+        fetchHabits()
+    }
+    
     func updateProgress(for habitID: String, date: String) {
         guard let index = self.habits.firstIndex(where: { $0.id == habitID }),
               let currentStatus = self.habits[index].progress?[date] else {
