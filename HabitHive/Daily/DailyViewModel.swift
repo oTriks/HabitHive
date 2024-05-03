@@ -6,7 +6,8 @@ class DailyViewModel: ObservableObject {
     @Published var habits: [Habit] = []
     private var db = Firestore.firestore()
     private var listener: ListenerRegistration?
-    
+    @Published var progressMap: [String: String] = [:]
+
     deinit {
         listener?.remove()
     }

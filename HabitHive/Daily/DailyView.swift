@@ -2,77 +2,47 @@ import SwiftUI
 
 struct DailyView: View {
     @ObservedObject var viewModel = DailyViewModel()
-    
     @State private var selectedDate = Date()
-        private let dateFormatter: DateFormatter = {
-            let formatter = DateFormatter()
-            formatter.dateFormat = "E"
-            return formatter
-        }()
     
     var body: some View {
-        VStack {
-            ScrollView(.horizontal, showsIndicators: false) {
-                LazyHGrid(rows: [GridItem(.flexible())], spacing: 20) {
-                    ForEach(Date().daysInRange(from: -30, to: 30), id: \.self) { date in
-                        VStack {
-                            Text(dateFormatter.string(from: date))
-                                .font(.headline)
-                            Text("\(date.day)")
-                                .font(.subheadline)
-                        }
-                        .padding()
-                        .background(selectedDate.isSameDay(as: date) ? Color.blue : Color.clear)
-                        .foregroundColor(selectedDate.isSameDay(as: date) ? .white : .primary)
-                        .clipShape(RoundedRectangle(cornerRadius: 10))
-                        .onTapGesture {
-                            selectedDate = date
+        NavigationView {
+            VStack {
+                ScrollDaysView(startDate: Date().addingTimeInterval(-60 * 24 * 60 * 60), // Start 60 days earlier
+                               endDate: Date().addingTimeInterval(60 * 24 * 60 * 60),    // End 60 days later
+                               selectedDate: $selectedDate)
+                
+                ScrollView {
+                    LazyVStack(spacing: 95) {
+                        ForEach(viewModel.habits, id: \.id) { habit in
+                            DailyHabitCardView(habit: habit)
+                                .padding(.horizontal)
                         }
                     }
-                }
-                .padding(.horizontal)
-            }
-            
-            // Habit cards
-            ScrollView {
-                VStack(spacing: 100) {
-                    ForEach(viewModel.habits, id: \.id) { habit in
-                        DailyHabitCardView(habit: habit)
-                            .padding()
-                    }
+                    .padding(.top, 10)
                 }
             }
+            .navigationBarHidden(true)
+            .onAppear {
+                viewModel.fetchHabits()
+                selectedDate = Date() // Set selectedDate to current date
+            }
         }
-    }
-
-
-}
-
-extension Date {
-    func daysInRange(from startOffset: Int, to endOffset: Int) -> [Date] {
-        var dates: [Date] = []
-        let calendar = Calendar.current
-        let startDate = calendar.date(byAdding: .month, value: startOffset, to: self)!
-        let endDate = calendar.date(byAdding: .month, value: endOffset, to: self)!
-        var currentDate = startDate
-        
-        while currentDate <= endDate {
-            dates.append(currentDate)
-            currentDate = calendar.date(byAdding: .day, value: 1, to: currentDate)!
-        }
-        
-        return dates
-    }
-    
-    var day: Int {
-        let calendar = Calendar.current
-        return calendar.component(.day, from: self)
-    }
-    
-    func isSameDay(as otherDate: Date) -> Bool {
-        let calendar = Calendar.current
-        return calendar.isDate(self, inSameDayAs: otherDate)
     }
 }
 
 
+    
+  
+
+
+struct DailyView_Previews: PreviewProvider {
+    static var previews: some View {
+        let viewModel = DailyViewModel()
+        viewModel.habits = [
+            Habit(id: "1", name: "Exercise", description: "Daily workout", frequency: "Daily", startDate: Date(), daysOfWeek: nil, progress: nil, userID: "userID1"),
+            Habit(id: "2", name: "Read", description: "Read a book", frequency: "Weekly", startDate: Date(), daysOfWeek: ["Monday"], progress: nil, userID: "userID2")
+            // Add more sample habits as needed
+        ]
+        return DailyView(viewModel: viewModel)
+    }
+}

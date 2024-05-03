@@ -14,7 +14,7 @@ struct HabitsView: View {
                 ScrollView {
                     VStack(spacing: 12) {
                         ForEach(viewModel.habits, id: \.id) { habit in
-                            HabitCardView(habit: habit, viewModel: viewModel)  // Proper access
+                            HabitCardView(habit: habit, viewModel: viewModel)  
                         }
                     }
                     .padding(.horizontal)
@@ -43,10 +43,12 @@ struct HabitsView: View {
 }
 
 
-// Preview provider
 struct HabitsView_Previews: PreviewProvider {
     static var previews: some View {
-        HabitsView()
-            .previewDevice(PreviewDevice(rawValue: "iPhone 15 Pro"))
+        let userModel = UserModel() // Provide a UserModel instance here
+        let viewModel = HabitsViewModel() // Provide a HabitsViewModel instance here
+        return HabitsView()
+            .environmentObject(userModel)
+            .environmentObject(viewModel)
     }
 }
