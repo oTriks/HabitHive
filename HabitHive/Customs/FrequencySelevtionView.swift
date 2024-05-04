@@ -1,11 +1,10 @@
 import SwiftUI
-
 struct FrequencySelectionView: View {
     @Binding var selectedFrequency: String
     let options: [String]
     @Binding var showDaysPicker: Bool
     @State private var repeatDays: Int = 2
-    @State private var selectedDays: [String] = []
+    @State private var selectedDays: Set<String> = []  // Use Set<String> to match DayPickerView
 
     var body: some View {
         VStack {
@@ -15,8 +14,8 @@ struct FrequencySelectionView: View {
                     self.showDaysPicker = (option == "Specific days")
                 }) {
                     HStack {
-                        Image(systemName: self.selectedFrequency == option ? "largecircle.fill.circle" : "circle")
-                            .foregroundColor(self.selectedFrequency == option ? Color("Positive") : .gray)
+                        Image(systemName: selectedFrequency == option ? "largecircle.fill.circle" : "circle")
+                            .foregroundColor(selectedFrequency == option ? Color("Positive") : .gray)
                         Text(option)
                             .foregroundColor(.black)
                     }
@@ -26,27 +25,8 @@ struct FrequencySelectionView: View {
                 .background(self.selectedFrequency == option ? Color("Positive").opacity(0.1) : Color.clear)
                 .cornerRadius(5)
 
-                // Show the DayPickerView for "Specific days"
                 if option == "Specific days" && showDaysPicker {
-                    DayPickerView()
-                }
-
-                // Layout for "Repeat" option
-                if option == "Repeat" && selectedFrequency == "Repeat" {
-                    HStack {
-                        Text("Every")
-                            .foregroundColor(.black)
-                        
-                        TextField("", value: $repeatDays, formatter: NumberFormatter())
-                            .keyboardType(.numberPad)
-                            .frame(width: 50)
-                            .textFieldStyle(RoundedBorderTextFieldStyle())
-                            .multilineTextAlignment(.center)
-                        
-                        Text("days")
-                            .foregroundColor(.black)
-                    }
-                    .padding()
+                    DayPickerView(selectedDays: $selectedDays)
                 }
             }
         }

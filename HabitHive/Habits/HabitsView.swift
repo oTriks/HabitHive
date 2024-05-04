@@ -5,8 +5,8 @@ struct HabitsView: View {
     @EnvironmentObject var userModel: UserModel
     @StateObject private var viewModel = HabitsViewModel()
 
-    @State private var isAddingNewHabit = false
     @State private var isShowingNewHabitView = false
+    @State private var shouldDismissToHabits = false
 
     var body: some View {
         NavigationView {
@@ -14,20 +14,27 @@ struct HabitsView: View {
                 ScrollView {
                     VStack(spacing: 12) {
                         ForEach(viewModel.habits, id: \.id) { habit in
-                            HabitCardView(habit: habit, viewModel: viewModel)  
+                            HabitCardView(habit: habit, viewModel: viewModel)
                         }
                     }
                     .padding(.horizontal)
                     .padding(.top, 10)
                 }
                 .background(Color.gray.opacity(0.1))
-                
+
                 CustomFloatingActionButton(
-                    action: { isAddingNewHabit = true },
+                    action: { isShowingNewHabitView = true },
                     imageName: "plus"
                 )
                 .padding(20)
                 .shadow(radius: 4)
+                .sheet(isPresented: $isShowingNewHabitView) {
+                    NewHabitView(
+                        isPresented: $isShowingNewHabitView,
+                        shouldDismissToHabits: $shouldDismissToHabits,
+                        userModel: userModel
+                    )
+                }
             }
             .navigationBarHidden(true)
             .onAppear {
@@ -37,10 +44,11 @@ struct HabitsView: View {
                     print("User ID is nil")
                 }
             }
-
         }
     }
 }
+
+
 
 
 struct HabitsView_Previews: PreviewProvider {

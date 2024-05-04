@@ -13,7 +13,7 @@ struct DailyView: View {
                 
                 ScrollView {
                     LazyVStack(spacing: 95) {
-                        ForEach(viewModel.habits, id: \.id) { habit in
+                        ForEach(viewModel.filteredHabits(for: selectedDate), id: \.id) { habit in
                             DailyHabitCardView(habit: habit)
                                 .padding(.horizontal)
                         }
@@ -27,6 +27,21 @@ struct DailyView: View {
                 selectedDate = Date() // Set selectedDate to current date
             }
         }
+    }
+}
+
+extension DailyViewModel {
+    func filteredHabits(for date: Date) -> [Habit] {
+        let dateString = formatDate(date)
+        return habits.filter { habit in
+            habit.dailyMap?[dateString] ?? false
+        }
+    }
+    
+    private func formatDate(_ date: Date) -> String {
+        let formatter = DateFormatter()
+        formatter.dateFormat = "yyyy-MM-dd" // Use ISO-8601 format
+        return formatter.string(from: date)
     }
 }
 

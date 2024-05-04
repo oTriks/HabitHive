@@ -1,23 +1,22 @@
 import SwiftUI
 
 struct DayPickerView: View {
-    var daysOfWeek = [
-        ("S", UUID()), ("M", UUID()), ("T", UUID()),
-        ("W", UUID()), ("T", UUID()), ("F", UUID()), ("S", UUID())
-    ]
-    @State private var selectedDays: Set<UUID> = []
+    let daysOfWeek = ["S", "M", "T", "W", "TH", "F", "SA"]
+    @Binding var selectedDays: Set<String>
 
     var body: some View {
         HStack {
-            ForEach(daysOfWeek, id: \.1) { day, id in
+            ForEach(daysOfWeek, id: \.self) { day in
                 Button(day) {
-                    if selectedDays.contains(id) {
-                        selectedDays.remove(id)
+                    if selectedDays.contains(day) {
+                        selectedDays.remove(day)
+                        print("Removed \(day), selectedDays now: \(selectedDays)")
                     } else {
-                        selectedDays.insert(id)
+                        selectedDays.insert(day)
+                        print("Added \(day), selectedDays now: \(selectedDays)")
                     }
                 }
-                .foregroundColor(selectedDays.contains(id) ? Color("Positive") : .gray)
+                .foregroundColor(selectedDays.contains(day) ? Color("Positive") : .gray)
                 .padding()
                 .background(Color.white)
                 .cornerRadius(5)

@@ -10,5 +10,6 @@ struct Habit: Codable, Identifiable {
     var daysOfWeek: [String]?  
     var progress: [String: String]?
     var userID: String // Reference to the user who owns the habit
+    var dailyMap: [String: Bool]?  // Tracks which days are active based on frequency
 
 }

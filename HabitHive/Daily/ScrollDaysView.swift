@@ -51,7 +51,6 @@ struct ScrollDaysView: View {
                 }
             }
         }
-        .background(Color.blue)
     }
 }
 
@@ -68,17 +67,15 @@ struct Day2View: View {
             VStack(spacing: 0) {
                 Text(dayMonthFormatter.string(from: date))
                     .font(.caption)
-                    .frame(width: 48, height: 28, alignment: .center)
-                    .foregroundColor(isSelected ? Color.white : Color.black)
                 
                 Text(dayFormatter.string(from: date))
                     .font(.headline)
-                    .frame(width: 48, alignment: .center)
-                    .background(isSelected ? Color.blue : Color.clear)
-                    .border(isSelected ? Color.white : Color.clear, width: 2)
-                    .cornerRadius(4)
-                    .foregroundColor(isSelected ? Color.white : Color.black)
             }
+            .frame(width: 35, alignment: .center)  // Specify the width for alignment
+            .padding(4)  // Adjust padding here; try values like 4, 6, 8 etc.
+            .background(isSelected ? Color.red : Color.clear)  // Apply the background to the entire VStack
+            .cornerRadius(14)  // Rounded corners for the background
+            .foregroundColor(isSelected ? Color.white : Color.black)  // Text color
         }
 
         private var dayMonthFormatter: DateFormatter = {
