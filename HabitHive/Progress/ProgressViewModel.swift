@@ -1,28 +1,44 @@
-
 import Foundation
 import Combine
 import FirebaseFirestore
 
-
 class ProgressViewModel: ObservableObject {
     @Published var habits: [Habit] = []
-       private var db = Firestore.firestore()
+    private var db = Firestore.firestore()
+    private var listener: ListenerRegistration?
     
-    init() {
-           fetchHabits()
-       }
+    deinit {
+        listener?.remove()
+    }
     
-    func fetchHabits() {
-           db.collection("habits").addSnapshotListener { querySnapshot, error in
-               guard let documents = querySnapshot?.documents else {
-                   print("No documents")
-                   return
-               }
-               self.habits = documents.compactMap { queryDocumentSnapshot -> Habit? in
-                   try? queryDocumentSnapshot.data(as: Habit.self)
-               }
-           }
-       }
+    func configure(withUserID userID: String) {
+        fetchHabits(forUserID: userID)
+    }
     
+    internal func fetchHabits(forUserID userID: String) {
+        print("Fetching habits for user ID: \(userID)")
+        listener?.remove() // Remove previous listener if any
+        listener = db.collection("habits")
+            .whereField("userID", isEqualTo: userID) // Filter habits by user ID
+            .addSnapshotListener { querySnapshot, error in
+                if let error = error {
+                    print("Error fetching habits: \(error.localizedDescription)")
+                    return
+                }
+                
+                guard let documents = querySnapshot?.documents else {
+                    print("No documents")
+                    return
+                }
+                
+                print("Fetched \(documents.count) documents")
+                
+                self.habits = documents.compactMap { queryDocumentSnapshot -> Habit? in
+                    var habit = try? queryDocumentSnapshot.data(as: Habit.self)
+                    habit?.id = queryDocumentSnapshot.documentID // Assigning document ID to habit's id property
+                    return habit
+                }
+            }
+    }
     
 }

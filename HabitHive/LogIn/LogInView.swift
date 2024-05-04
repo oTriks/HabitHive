@@ -2,12 +2,17 @@
 import SwiftUI
 
 struct LoginView: View {
-    @StateObject private var viewModel = LoginViewModel()
+    @EnvironmentObject var userModel: UserModel
+    @StateObject var viewModel = LoginViewModel()
+
     @State private var navigationItem: NavigationItems? = nil
     @State private var showSignUp = false
     @State private var errorMessage = ""
     @State private var loginSuccess = false
 
+    init() {
+           _viewModel = StateObject(wrappedValue: LoginViewModel())
+       }
     
     var body: some View {
             NavigationStack {
@@ -46,10 +51,14 @@ struct LoginView: View {
                             viewModel.navigationItem = .signUpView
                         }
                         CustomButton(text: "Log In", backgroundColor: Color("button")) {
+                            viewModel.userModel = userModel
                             viewModel.login()
                         }
                         
                     }
+                    .onAppear {
+                                viewModel.userModel = userModel  // Ensure userModel is set when the view appears
+                            }
                     .frame(maxWidth: .infinity)
                     .padding(.horizontal)
                 
@@ -64,11 +73,7 @@ struct LoginView: View {
                                 }
                             }
                 
-                                .onAppear {
-                                                viewModel.checkAutoLogin()
-                                            
-            
-            }
+                              
             
         }
     }

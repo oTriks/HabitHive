@@ -1,28 +1,48 @@
 import SwiftUI
 
 struct DailyView: View {
-    var habits: [Habit] // Assuming you have an array of habits
-
+    @ObservedObject var viewModel = DailyViewModel()
+    @State private var selectedDate = Date()
+    
     var body: some View {
-        ScrollView {
-            VStack(spacing: 20) {
-                ForEach(habits, id: \.id) { habit in
-                    DailyHabitCardView(habit: habit) // Corrected the view name
+        NavigationView {
+            VStack {
+                ScrollDaysView(startDate: Date().addingTimeInterval(-60 * 24 * 60 * 60), // Start 60 days earlier
+                               endDate: Date().addingTimeInterval(60 * 24 * 60 * 60),    // End 60 days later
+                               selectedDate: $selectedDate)
+                
+                ScrollView {
+                    LazyVStack(spacing: 95) {
+                        ForEach(viewModel.habits, id: \.id) { habit in
+                            DailyHabitCardView(habit: habit)
+                                .padding(.horizontal)
+                        }
+                    }
+                    .padding(.top, 10)
                 }
             }
-            .padding()
+            .navigationBarHidden(true)
+            .onAppear {
+                viewModel.fetchHabits()
+                selectedDate = Date() // Set selectedDate to current date
+            }
         }
     }
 }
 
+
+    
+  
+
+
 struct DailyView_Previews: PreviewProvider {
     static var previews: some View {
-        let habits = [
-            Habit(id: "1", name: "Read Books", description: "Read at least one chapter of a non-fiction book", frequency: "Every day", startDate: Date(), daysOfWeek: ["Monday", "Wednesday", "Friday"]),
-            Habit(id: "2", name: "Exercise", description: "Go for a 30-minute run", frequency: "Every day", startDate: Date(), daysOfWeek: nil)
+        let viewModel = DailyViewModel()
+        viewModel.habits = [
+            Habit(id: "1", name: "Exercise", description: "Daily workout", frequency: "Daily", startDate: Date(), daysOfWeek: nil, progress: nil, userID: "userID1"),
+            Habit(id: "2", name: "Read", description: "Read a book", frequency: "Weekly", startDate: Date(), daysOfWeek: ["Monday"], progress: nil, userID: "userID2")
+            // Add more sample habits as needed
         ]
-        
-        DailyView(habits: habits)
-        
+        return DailyView(viewModel: viewModel)
     }
 }

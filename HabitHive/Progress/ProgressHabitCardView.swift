@@ -5,36 +5,42 @@ struct ProgressHabitCardView: View {
     @State private var isSelected = false
     
     var body: some View {
-        VStack(alignment: .leading, spacing: 10) {
+        GeometryReader { geometry in
             HStack {
-                VStack(alignment: .leading, spacing: 10) {
+                VStack(alignment: .leading, spacing: 8) {
                     Text(habit.name)
-                        .font(.title2)
-                        .fontWeight(.bold)
-                        .foregroundColor(.primary)
+                        .font(.headline)
+                        .frame(maxWidth: .infinity, alignment: .leading)
 
                     Text(habit.description)
-                        .font(.body)
-                        .foregroundColor(.secondary)
+                        .font(.subheadline)
+                        .foregroundColor(.gray)
+                        .frame(maxWidth: .infinity, alignment: .leading)
                 }
-                .padding()
-                .background(Color.white)
-                .cornerRadius(10)
-                .shadow(color: .gray, radius: 5, x: 0, y: 2)
-                .padding(.horizontal)
-                .frame(maxWidth: .infinity, alignment: .leading) // Expand the card horizontally
                 
+                Spacer()
                 
-                
+                Button(action: {
+                    isSelected.toggle()
+                }) {
+                    Circle()
+                        .fill(Color.blue)
+                        .frame(width: 48, height: 48)
+                        .padding(10)
+                        .overlay(
+                            Image(systemName: isSelected ? "checkmark" : "xmark")
+                                .foregroundColor(.white)
+                        )
+                }
             }
+            .padding()
+            .frame(width: geometry.size.width - 32)
+            .background(Color.white)
+            .cornerRadius(10)
+            .shadow(radius: 5)
+            .padding(.horizontal)
         }
     }
 }
 
-struct ProgressHabitCardView_Previews: PreviewProvider {
-    static var previews: some View {
-        ProgressHabitCardView(habit: Habit.sampleHabit)
-            .previewLayout(.sizeThatFits)
-            .padding()
-    }
-}
+

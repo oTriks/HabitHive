@@ -7,10 +7,24 @@ struct NewHabitView: View {
     @State private var frequencyOption = "Every day"
     @State private var showDayPicker = false
     @State private var startDate = Date()
-    @ObservedObject var viewModel = NewHabitViewModel()
+    @EnvironmentObject var userModel: UserModel // Assuming UserModel holds the userID
+    @ObservedObject var viewModel: NewHabitViewModel
     @Binding var isPresented: Bool
     @Binding var shouldDismissToHabits: Bool
 
+    
+    init(isPresented: Binding<Bool>, shouldDismissToHabits: Binding<Bool>, userModel: UserModel) {
+        self._isPresented = isPresented
+        self._shouldDismissToHabits = shouldDismissToHabits
+        // Handle the optional userID safely
+        guard let userID = userModel.userID else {
+            fatalError("User ID must be set")
+        }
+        self._viewModel = ObservedObject(initialValue: NewHabitViewModel(userID: userID))
+    }
+
+    
+    
     var body: some View {
         NavigationView {
             VStack {
@@ -102,7 +116,18 @@ struct NewHabitView: View {
                         if step < 3 {
                             step += 1
                         } else {
-                            let habit = Habit(name: habitName, description: habitDescription, frequency: frequencyOption, startDate: startDate)
+                            guard let userID = userModel.userID else {
+                                print("User ID not set, cannot create habit")
+                                            return
+                                        }
+                            
+                            let habit = Habit(
+                                       name: habitName,
+                                       description: habitDescription,
+                                       frequency: frequencyOption,
+                                       startDate: startDate,
+                                       userID: userID  // Assuming the initializer for Habit now requires a userID
+                                   )
                             viewModel.saveHabitToFirestore(habit: habit) { result in
                                 switch result {
                                 case .success(let updatedHabit):
@@ -132,10 +157,6 @@ func formattedDate(from date: Date) -> String {
     return formatter.string(from: date)
 }
 
-struct NewHabitView_Previews: PreviewProvider {
-    static var previews: some View {
-        NewHabitView(isPresented: .constant(false), shouldDismissToHabits: .constant(false))
-    }
-}
+
 
 

@@ -8,12 +8,19 @@ class HabitsViewModel: ObservableObject {
     @Published var habits: [Habit] = []
        @Published var isAddingNewHabit = false
        private var db = Firestore.firestore()
-    
-    init() {
+    private var userID: String?
+
+    init(userID: String? = nil) {
+        self.userID = userID
+
            fetchHabits()
        }
     
     func fetchHabits() {
+        guard let userID = userID else {
+                    print("User ID not set, fetching habits is not possible")
+                    return
+                }
         db.collection("habits").addSnapshotListener { querySnapshot, error in
             guard let documents = querySnapshot?.documents else {
                 print("No documents")
@@ -30,7 +37,11 @@ class HabitsViewModel: ObservableObject {
         }
     }
 
-
+    func configure(withUserID userID: String) {
+        self.userID = userID
+        fetchHabits()
+    }
+    
     func updateProgress(for habitID: String, date: String) {
         guard let index = self.habits.firstIndex(where: { $0.id == habitID }),
               let currentStatus = self.habits[index].progress?[date] else {

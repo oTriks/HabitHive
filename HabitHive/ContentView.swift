@@ -2,7 +2,6 @@ import SwiftUI
 
 struct ContentView: View {
     @State private var selection = 0
-    // Assuming you have an array of Habit objects
     var habits: [Habit] = []
 
     var navigationTitle: String {
@@ -14,7 +13,7 @@ struct ContentView: View {
         case 2:
             return "Habits"
         default:
-            return "Habit Reminder" // Default title
+            return "Habit Reminder"
         }
     }
     
@@ -27,7 +26,7 @@ struct ContentView: View {
                     }
                     .tag(0)
 
-                DailyView(habits: habits) 
+                DailyView() 
                     .tabItem {
                         Label("Daily", systemImage: "bell")
                     }

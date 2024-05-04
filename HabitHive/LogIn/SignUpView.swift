@@ -34,7 +34,7 @@ var body: some View {
                 }
                 
                 CustomButton(text: NSLocalizedString("sign_up", comment: "Sign up button text"), backgroundColor: Color("button")) {
-                                        viewModel.registerUser { success in
+                    viewModel.registerUser { success, userID in
                                             if success {
                                                 dismiss()
                                             } else {
