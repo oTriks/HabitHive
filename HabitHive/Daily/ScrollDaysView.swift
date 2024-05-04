@@ -3,14 +3,14 @@ import SwiftUI
 struct ScrollDaysView: View {
     var startDate: Date
     var endDate: Date
-    var selectedDate: Binding<Date>
-    @State private var scrollViewProxy: ScrollViewProxy?
+    @Binding var selectedDate: Date
     
     private var dates: [Date] {
         var currentDate = startDate
         var dateArray = [Date]()
         while currentDate <= endDate {
-            dateArray.append(currentDate)
+            let startOfDay = Calendar.current.startOfDay(for: currentDate) // Normalize to start of day
+            dateArray.append(startOfDay)
             currentDate = Calendar.current.date(byAdding: .day, value: 1, to: currentDate)!
         }
         return dateArray
@@ -21,49 +21,37 @@ struct ScrollDaysView: View {
             ScrollViewReader { proxy in
                 HStack(spacing: 10) {
                     ForEach(dates, id: \.self) { date in
-                        VStack(spacing: 10) {
-                            Day2View(date: date, isSelected: selectedDate.wrappedValue == date)
-                                .onTapGesture {
-                                    selectedDate.wrappedValue = date
+                        Day2View(date: date, isSelected: Calendar.current.isDate(selectedDate, inSameDayAs: date))
+                            .id(date)
+                            .onTapGesture {
+                                let startOfDay = Calendar.current.startOfDay(for: date) // Normalize tapped date
+                                selectedDate = startOfDay
+                                withAnimation {
+                                    proxy.scrollTo(startOfDay, anchor: .center)
                                 }
-                                .id(date)
+                            }
+                    }
+                }
+                .padding(.horizontal)
+                .onAppear {
+                    let startOfDay = Calendar.current.startOfDay(for: selectedDate) // Normalize initially selected date
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                        withAnimation {
+                            proxy.scrollTo(startOfDay, anchor: .center)
                         }
                     }
                 }
-                .padding(.bottom, 10)
-                .onAppear {
-                    scrollViewProxy = proxy
-                    scrollToSelectedDate()
-                    // Scroll to May 7th when the view appears
-                    scrollToMay7th(using: proxy)
-                }
-                .onChange(of: selectedDate.wrappedValue) { _ in
-                    scrollToSelectedDate()
+                .onChange(of: selectedDate) { newValue in
+                    let startOfDay = Calendar.current.startOfDay(for: newValue) // Normalize changed date
+                    DispatchQueue.main.async {
+                        withAnimation {
+                            proxy.scrollTo(startOfDay, anchor: .center)
+                        }
+                    }
                 }
             }
         }
         .background(Color.blue)
-    }
-    
-    private func scrollToSelectedDate() {
-        guard let scrollViewProxy = scrollViewProxy,
-              let index = dates.firstIndex(of: selectedDate.wrappedValue) else { return }
-        
-        withAnimation {
-            scrollViewProxy.scrollTo(dates[index], anchor: .center)
-        }
-    }
-    
-    private func scrollToMay7th(using proxy: ScrollViewProxy?) {
-        let desiredDate = Calendar.current.date(from: DateComponents(year: 2024, month: 5, day: 12)) // May 7th
-        
-        guard let desiredDate = desiredDate else { return }
-        
-        DispatchQueue.main.async {
-            withAnimation {
-                proxy?.scrollTo(desiredDate, anchor: .center)
-            }
-        }
     }
 }
 
@@ -72,50 +60,36 @@ struct Day2View: View {
     var isSelected: Bool
     
     public init(date: Date, isSelected: Bool) {
-        self.date = date
-        self.isSelected = isSelected
-    }
+            self.date = date
+            self.isSelected = isSelected
+        }
     
     var body: some View {
-        VStack(spacing: 0) {
-            // Display "Mon, Apr" above
-            Text(dayMonthFormatter.string(from: date))
-                .font(.caption)
-                .frame(width: 48, height: 28, alignment: .center)
-                .foregroundColor(textColor)
-            
-            // Display the day number underneath
-            Text(dayFormatter.string(from: date))
-                .font(.headline)
-                .frame(width: 48, alignment: .center)
-                .background(background)
-                .border(borderColor, width: 2)
-                .cornerRadius(4)
-                .foregroundColor(textColor)
+            VStack(spacing: 0) {
+                Text(dayMonthFormatter.string(from: date))
+                    .font(.caption)
+                    .frame(width: 48, height: 28, alignment: .center)
+                    .foregroundColor(isSelected ? Color.white : Color.black)
+                
+                Text(dayFormatter.string(from: date))
+                    .font(.headline)
+                    .frame(width: 48, alignment: .center)
+                    .background(isSelected ? Color.blue : Color.clear)
+                    .border(isSelected ? Color.white : Color.clear, width: 2)
+                    .cornerRadius(4)
+                    .foregroundColor(isSelected ? Color.white : Color.black)
+            }
         }
+
+        private var dayMonthFormatter: DateFormatter = {
+            let formatter = DateFormatter()
+            formatter.dateFormat = "E, MMM"
+            return formatter
+        }()
+
+        private var dayFormatter: DateFormatter = {
+            let formatter = DateFormatter()
+            formatter.dateFormat = "d"
+            return formatter
+        }()
     }
-
-    private var background: Color {
-        isSelected ? Color.blue : Color.clear
-    }
-
-    private var borderColor: Color {
-        isSelected ? Color.white : Color.clear
-    }
-
-    private var textColor: Color {
-        isSelected ? Color.white : Color.black
-    }
-
-    private var dayMonthFormatter: DateFormatter = {
-        let formatter = DateFormatter()
-        formatter.dateFormat = "E, MMM" // "Mon, Apr"
-        return formatter
-    }()
-
-    private var dayFormatter: DateFormatter = {
-        let formatter = DateFormatter()
-        formatter.dateFormat = "d" // Day of the month as a number
-        return formatter
-    }()
-}
