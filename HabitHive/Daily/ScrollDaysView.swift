@@ -71,11 +71,11 @@ struct Day2View: View {
                 Text(dayFormatter.string(from: date))
                     .font(.headline)
             }
-            .frame(width: 35, alignment: .center)  // Specify the width for alignment
-            .padding(4)  // Adjust padding here; try values like 4, 6, 8 etc.
-            .background(isSelected ? Color.red : Color.clear)  // Apply the background to the entire VStack
+            .frame(width: 35, alignment: .center)
+            .padding(4)
+            .background(isSelected ? Color("button") : Color.clear)
             .cornerRadius(14)  // Rounded corners for the background
-            .foregroundColor(isSelected ? Color.white : Color.black)  // Text color
+            .foregroundColor(isSelected ? Color("Text primary") : Color("Text trailing"))
         }
 
         private var dayMonthFormatter: DateFormatter = {

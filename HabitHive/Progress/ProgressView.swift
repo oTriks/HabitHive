@@ -5,20 +5,23 @@ struct ProgressView: View {
     @StateObject var viewModel = ProgressViewModel() // Instead of @ObservedObject
 
     var body: some View {
-        ScrollView {
-            VStack(spacing: 95) {
-                ForEach(viewModel.habits) { habit in
-                    ProgressHabitCardView(habit: habit)
+        NavigationView {
+            ScrollView {
+                VStack(spacing: 95) {
+                    ForEach(viewModel.habits) { habit in
+                        NavigationLink(destination: ProgressHabitView(habit: habit)) {
+                            ProgressHabitCardView(habit: habit)
+                        }
+                    }
+                }
+                .padding()
+            }
+            .onAppear {
+                if let userID = userModel.userID {
+                    print("User ID retrieved in ProgressView: \(userID)")
+                    viewModel.configure(withUserID: userID)
                 }
             }
-            .padding()
         }
-        .navigationTitle("Progress")
-        .onAppear {
-            if let userID = userModel.userID {
-                print("User ID retrieved in ProgressView: \(userID)")
-                viewModel.configure(withUserID: userID)
-            }
-        }
-           }
-       }
+    }
+}

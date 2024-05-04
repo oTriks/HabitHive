@@ -2,6 +2,8 @@ import SwiftUI
 
 struct DailyHabitCardView: View {
     var habit: Habit
+    var progressStatus: String?  // Status for the selected date
+
     @State private var isSelected = false
     
     var body: some View {
@@ -18,20 +20,19 @@ struct DailyHabitCardView: View {
                         .frame(maxWidth: .infinity, alignment: .leading)
                 }
                 
-                Spacer() 
+                Spacer()
                 
-                Button(action: {
-                    isSelected.toggle()
-                }) {
-                    Circle()
-                        .fill(Color.blue)
-                        .frame(width: 48, height: 48)
-                        .padding(10)
-                        .overlay(
-                            Image(systemName: isSelected ? "checkmark" : "xmark")
-                                .foregroundColor(.white)
-                        )
-                }
+                
+                
+                Image(systemName: iconBasedOnStatus())
+                    .foregroundColor(.white)
+                    .frame(width: 48, height: 48)
+                    .background(isSelected ? Color.green : Color.gray)
+                    .clipShape(Circle())
+                    .onTapGesture {
+                        isSelected.toggle()
+                    }
+                .padding(10)
             }
             .padding()
             .frame(width: geometry.size.width - 32)
@@ -41,5 +42,15 @@ struct DailyHabitCardView: View {
             .padding(.horizontal)
         }
     }
-}
 
+    private func iconBasedOnStatus() -> String {
+        switch progressStatus {
+            case "Done":
+                return "checkmark"
+            case "Failed":
+                return "xmark"
+            default:
+                return "circle"
+            }
+        }
+    }

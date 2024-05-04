@@ -11,6 +11,7 @@ struct NewHabitView: View {
     @ObservedObject var viewModel: NewHabitViewModel
     @Binding var isPresented: Bool
     @Binding var shouldDismissToHabits: Bool
+    @State private var showingNotificationSetup = false
 
     
     init(isPresented: Binding<Bool>, shouldDismissToHabits: Binding<Bool>, userModel: UserModel) {
@@ -74,10 +75,11 @@ struct NewHabitView: View {
                                     Image(systemName: "alarm")
                                     Text("Notifications")
                                         .padding(.leading)
+                                    
                                     Spacer()
                                     Button(action: {
-                                        // Open NewHabitView when Notifications is pressed
-                                        // You can set some state variable to trigger the navigation
+                                        showingNotificationSetup.toggle()  // Toggle the state to show the popup
+
                                     }) {
                                         Text("0")
                                     }
@@ -146,9 +148,18 @@ struct NewHabitView: View {
                 .padding()
             }
             .navigationTitle("Step \(step)")
+            .sheet(isPresented: $showingNotificationSetup) {
+                            CustomPopupView()
+                        }
         }
     }
+    
+    
+    
 }
+
+
+
 
 func formattedDate(from date: Date) -> String {
     let formatter = DateFormatter()

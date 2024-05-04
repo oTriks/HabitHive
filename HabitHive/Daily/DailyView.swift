@@ -24,7 +24,7 @@ struct DailyView: View {
             .navigationBarHidden(true)
             .onAppear {
                 viewModel.fetchHabits()
-                selectedDate = Date() // Set selectedDate to current date
+                selectedDate = Date()
             }
         }
     }
@@ -40,7 +40,7 @@ extension DailyViewModel {
     
     private func formatDate(_ date: Date) -> String {
         let formatter = DateFormatter()
-        formatter.dateFormat = "yyyy-MM-dd" // Use ISO-8601 format
+        formatter.dateFormat = "yyyy-MM-dd" 
         return formatter.string(from: date)
     }
 }
