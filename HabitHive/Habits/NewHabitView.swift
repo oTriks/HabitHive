@@ -86,8 +86,7 @@ struct NewHabitView: View {
                                     
                                     Spacer()
                                     Button(action: {
-                                        showingNotificationSetup.toggle()
-
+                                        showingNotificationSetup.toggle() // Toggle the state variable
                                     }) {
                                         Text("0")
                                     }
@@ -161,8 +160,8 @@ struct NewHabitView: View {
             }
             .navigationTitle("Step \(step)")
             .sheet(isPresented: $showingNotificationSetup) {
-                            CustomPopupView()
-                        }
+                    CustomPopupView()
+                }
         }
     }
     
