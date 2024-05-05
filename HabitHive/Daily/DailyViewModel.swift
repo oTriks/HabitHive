@@ -30,5 +30,10 @@ class DailyViewModel: ObservableObject {
             }
         }
     }
+    
+    
+    
 }
+
+
 

@@ -7,14 +7,16 @@ struct DailyView: View {
     var body: some View {
         NavigationView {
             VStack {
-                ScrollDaysView(startDate: Date().addingTimeInterval(-60 * 24 * 60 * 60), // Start 60 days earlier
-                               endDate: Date().addingTimeInterval(60 * 24 * 60 * 60),    // End 60 days later
-                               selectedDate: $selectedDate)
+                ScrollDaysView(
+                    startDate: Date().addingTimeInterval(-60 * 24 * 60 * 60), // Start 60 days earlier
+                    endDate: Date().addingTimeInterval(60 * 24 * 60 * 60),    // End 60 days later
+                    selectedDate: $selectedDate
+                )
                 
                 ScrollView {
-                    LazyVStack(spacing: 95) {
-                        ForEach(viewModel.filteredHabits(for: selectedDate), id: \.id) { habit in
-                            DailyHabitCardView(habit: habit)
+                    LazyVStack(spacing: 10) {
+                        ForEach(viewModel.filteredHabits(for: selectedDate), id: \.habit.id) { (habit, progressStatus) in
+                            DailyHabitCardView(habit: habit, progressStatus: progressStatus)
                                 .padding(.horizontal)
                         }
                     }
@@ -31,22 +33,24 @@ struct DailyView: View {
 }
 
 extension DailyViewModel {
-    func filteredHabits(for date: Date) -> [Habit] {
+    func filteredHabits(for date: Date) -> [(habit: Habit, progressStatus: String?)] {
         let dateString = formatDate(date)
-        return habits.filter { habit in
-            habit.dailyMap?[dateString] ?? false
+        return habits.compactMap { habit in
+            if habit.dailyMap?[dateString] ?? false {
+                let progressStatus = habit.progress?[dateString] ?? nil
+                return (habit: habit, progressStatus: progressStatus)
+            }
+            return nil
         }
     }
-    
+
     private func formatDate(_ date: Date) -> String {
         let formatter = DateFormatter()
-        formatter.dateFormat = "yyyy-MM-dd" 
+        formatter.dateFormat = "yyyy-MM-dd"
         return formatter.string(from: date)
     }
 }
 
-
-    
 struct DailyView_Previews: PreviewProvider {
     static var previews: some View {
         // Create sample data for the preview
