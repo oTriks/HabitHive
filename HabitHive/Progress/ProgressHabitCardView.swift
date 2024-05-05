@@ -21,8 +21,12 @@ struct ProgressHabitCardView: View {
                     
                 }
                 
-                CardProgressBar(progress: habit.progress ?? [:], totalDays: calculateTotalDays(for: habit))
-                                       .frame(width: geometry.size.width - 200) // Adjust the width based on card size
+                CardProgressBar(
+                                    progress: habit.progress ?? [:],
+                                    startDate: habit.startDate,
+                                    endDate: habit.endDate
+                                )
+                                .frame(width: geometry.size.width - 200)
                 
                 
             

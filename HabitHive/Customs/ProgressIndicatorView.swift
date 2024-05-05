@@ -1,8 +1,11 @@
 import SwiftUI
 
 struct ProgressIndicatorView: View {
-    var startDate: Date   // Starting date of the habit.
-    var endDate: Date     // End date of the habit.
+    var startDate: Date   // Starting date of the habit
+    var endDate: Date     // End date of the habit
+
+    
+    
     
     private var dateFormatter: DateFormatter {
         let formatter = DateFormatter()
@@ -27,6 +30,7 @@ struct ProgressIndicatorView: View {
 
     var body: some View {
         VStack(alignment: .leading, spacing: 5) {
+            
             Text("\(Int(elapsedDays)) / \(Int(totalDuration)) days")
                 .font(.headline)
                 .frame(maxWidth: .infinity, alignment: .center)
@@ -43,7 +47,7 @@ struct ProgressIndicatorView: View {
                     Rectangle()
                         .frame(width: CGFloat(progress) * geometry.size.width, height: 20)
                         .foregroundColor(Color.green)
-                        .cornerRadius(10, corners: [.topLeft, .bottomLeft])
+                        .clipShape(RoundedCorner(radius: 10, corners: [.topLeft, .bottomLeft]))
                 }
             }
             .frame(height: 20)
@@ -60,33 +64,30 @@ struct ProgressIndicatorView: View {
     }
 }
 
-
-// Custom corner radius modifier
-extension View {
-    func cornerRadius(_ radius: CGFloat, corners: UIRectCorner) -> some View {
-        clipShape(RoundedCorner(radius: radius, corners: corners))
-    }
-}
-
-struct RoundedCorner: Shape {
-    var radius: CGFloat = .infinity
-    var corners: UIRectCorner = .allCorners
-
-    func path(in rect: CGRect) -> Path {
-        let path = UIBezierPath(roundedRect: rect, byRoundingCorners: corners, cornerRadii: CGSize(width: radius, height: radius))
-        return Path(path.cgPath)
-    }
-}
-
 // Example of a preview provider
 struct ProgressIndicatorView_Previews: PreviewProvider {
     static var previews: some View {
         let startDate = Calendar.current.date(from: DateComponents(year: 2024, month: 5, day: 1))!
-        let endDate = Calendar.current.date(from: DateComponents(year: 2024, month: 6, day: 1))!
+        let endDate = Calendar.current.date(from: DateComponents(year: 2024, month: 5, day: 31))! // Example end date from the habit's actual data
 
         ProgressIndicatorView(startDate: startDate, endDate: endDate)
             .frame(height: 100)
             .padding()
             .previewLayout(.sizeThatFits)
+    }
+}
+
+// Custom corner radius modifier
+struct RoundedCorner: Shape {
+    var radius: CGFloat = .infinity
+    var corners: UIRectCorner = .allCorners
+
+    func path(in rect: CGRect) -> Path {
+        let path = UIBezierPath(
+            roundedRect: rect,
+            byRoundingCorners: corners,
+            cornerRadii: CGSize(width: radius, height: radius)
+        )
+        return Path(path.cgPath)
     }
 }
