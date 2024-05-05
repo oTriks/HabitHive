@@ -56,6 +56,8 @@
 		5548ED6E2BE6571300E4CBF2 /* SuccessCircleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5548ED6D2BE6571300E4CBF2 /* SuccessCircleView.swift */; };
 		5548ED702BE7958200E4CBF2 /* MonthTimelineView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5548ED6F2BE7958200E4CBF2 /* MonthTimelineView.swift */; };
 		5548ED722BE7A08B00E4CBF2 /* ChallengesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5548ED712BE7A08B00E4CBF2 /* ChallengesView.swift */; };
+		5548ED742BE7B65F00E4CBF2 /* AwardPopupView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5548ED732BE7B65E00E4CBF2 /* AwardPopupView.swift */; };
+		5548ED782BE7B97200E4CBF2 /* HelperDIalogView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5548ED772BE7B97200E4CBF2 /* HelperDIalogView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -106,6 +108,8 @@
 		5548ED6D2BE6571300E4CBF2 /* SuccessCircleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SuccessCircleView.swift; sourceTree = "<group>"; };
 		5548ED6F2BE7958200E4CBF2 /* MonthTimelineView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MonthTimelineView.swift; sourceTree = "<group>"; };
 		5548ED712BE7A08B00E4CBF2 /* ChallengesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChallengesView.swift; sourceTree = "<group>"; };
+		5548ED732BE7B65E00E4CBF2 /* AwardPopupView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AwardPopupView.swift; sourceTree = "<group>"; };
+		5548ED772BE7B97200E4CBF2 /* HelperDIalogView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HelperDIalogView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -234,6 +238,8 @@
 				5548ED6D2BE6571300E4CBF2 /* SuccessCircleView.swift */,
 				5548ED6F2BE7958200E4CBF2 /* MonthTimelineView.swift */,
 				5548ED712BE7A08B00E4CBF2 /* ChallengesView.swift */,
+				5548ED732BE7B65E00E4CBF2 /* AwardPopupView.swift */,
+				5548ED772BE7B97200E4CBF2 /* HelperDIalogView.swift */,
 			);
 			path = Customs;
 			sourceTree = "<group>";
@@ -339,6 +345,7 @@
 				5509EA942BDA8CE90048A8DF /* HabitsViewModel.swift in Sources */,
 				5548ED5C2BE4F8F600E4CBF2 /* DateUtilities.swift in Sources */,
 				5509EA982BDB98160048A8DF /* NewHabitViewModel.swift in Sources */,
+				5548ED782BE7B97200E4CBF2 /* HelperDIalogView.swift in Sources */,
 				5548ED662BE649C200E4CBF2 /* Notifications.swift in Sources */,
 				5548ED602BE50C0500E4CBF2 /* ScrollDaysView.swift in Sources */,
 				5509EA8E2BDA7A9B0048A8DF /* NewHabitView.swift in Sources */,
@@ -360,6 +367,7 @@
 				5509EA8C2BDA776C0048A8DF /* FloatingActionButton.swift in Sources */,
 				5509EAAA2BDBB1800048A8DF /* ProgressViewModel.swift in Sources */,
 				5509EAA82BDBB1010048A8DF /* ProgressHabitCardView.swift in Sources */,
+				5548ED742BE7B65F00E4CBF2 /* AwardPopupView.swift in Sources */,
 				5509EA962BDA8E500048A8DF /* CustomPopupView.swift in Sources */,
 				550962202BD8F74500DB5DEC /* Checkbox.swift in Sources */,
 				5548ED572BE3D5E500E4CBF2 /* UserModel.swift in Sources */,
