@@ -2,6 +2,7 @@ import Foundation
 import FirebaseFirestore
 
 class NewHabitViewModel: ObservableObject {
+    @Published var availableNotifications: [UserNotification] = [] // Store fetched notifications
     private var db = Firestore.firestore()
     private var userID: String
 
@@ -13,33 +14,48 @@ class NewHabitViewModel: ObservableObject {
     
     init(userID: String) {
             self.userID = userID
+        fetchNotifications() // Fetch notifications during initialization
+
         }
     
-    func saveHabitToFirestore(habit: Habit, completion: @escaping (Result<Habit, Error>) -> Void) {
-        var localHabit = habit
-        localHabit.userID = self.userID
+    
+    // Fetch notifications
+       private func fetchNotifications() {
+           db.collection("notifications").addSnapshotListener { snapshot, error in
+               guard let documents = snapshot?.documents else {
+                   print("No documents in 'notifications' collection")
+                   return
+               }
 
-        // Always generate progress map for +/- 14 days
-        localHabit.progress = generateDateProgressMap()
+               // Decode each document into UserNotification
+               self.availableNotifications = documents.compactMap { queryDocumentSnapshot in
+                   try? queryDocumentSnapshot.data(as: UserNotification.self)
+               }
+           }
+       }
+    
+    // Save a habit with selected notifications
+      func saveHabitToFirestore(habit: Habit, completion: @escaping (Result<Habit, Error>) -> Void) {
+          var localHabit = habit
+          localHabit.userID = self.userID
+          localHabit.progress = generateDateProgressMap()
+          localHabit.dailyMap = generateDailyMap(habit: habit)
 
-        // Generate daily map based on frequency
-        localHabit.dailyMap = generateDailyMap(habit: habit)  // Generates based on frequency selection
-
-        let habitsCollection = db.collection("habits")
-        do {
-            let ref = try habitsCollection.addDocument(from: localHabit)
-            localHabit.id = ref.documentID
-            ref.getDocument { (document, error) in
-                if let error = error {
-                    completion(.failure(error))
-                } else {
-                    completion(.success(localHabit))
-                }
-            }
-        } catch {
-            completion(.failure(error))
-        }
-    }
+          let habitsCollection = db.collection("habits")
+          do {
+              let ref = try habitsCollection.addDocument(from: localHabit)
+              localHabit.id = ref.documentID
+              ref.getDocument { document, error in
+                  if let error = error {
+                      completion(.failure(error))
+                  } else {
+                      completion(.success(localHabit))
+                  }
+              }
+          } catch {
+              completion(.failure(error))
+          }
+      }
 
 
     

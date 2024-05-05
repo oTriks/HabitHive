@@ -22,6 +22,7 @@ enum NotificationType: String, Codable {
 
 
 struct CustomPopupView: View {
+    @Binding var isPresented: Bool
     @State private var showNewNotification = false // State to toggle content
     @State private var selectedTime = Date() // State to store the selected time
     @State private var selectedNotificationType: NotificationType = .silent // Default type
@@ -136,6 +137,10 @@ struct CustomPopupView: View {
                             Text("Close")
                                 .fontWeight(.semibold)
                                 .foregroundColor(Color("Negative"))
+                                .onTapGesture {
+                                    isPresented = false // Close the popup
+                                }
+
                         }
 
                         Spacer()
@@ -171,11 +176,4 @@ struct CustomPopupView: View {
   // Allow NotificationType to be used with `ForEach`
   extension NotificationType: CaseIterable {}
 
-struct CustomPopupView_Previews: PreviewProvider {
-    static var previews: some View {
-        CustomPopupView()
-            .previewLayout(.sizeThatFits) // This will fit the view to the available size
-            .padding() // Add padding to see how it looks with extra space around it
-            .background(Color.gray.opacity(0.3)) // Optional background to differentiate the popup
-    }
-}
+
