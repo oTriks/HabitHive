@@ -16,8 +16,13 @@ struct DailyView: View {
                 ScrollView {
                     LazyVStack(spacing: 10) {
                         ForEach(viewModel.filteredHabits(for: selectedDate), id: \.habit.id) { (habit, progressStatus) in
-                            DailyHabitCardView(habit: habit, progressStatus: progressStatus)
-                                .padding(.horizontal)
+                            DailyHabitCardView(
+                                                            viewModel: viewModel,
+                                                            habit: habit,
+                                                            progressStatus: progressStatus,
+                                                            selectedDate: selectedDate
+                                                        )
+                            .padding(.horizontal)
                         }
                     }
                     .padding(.top, 10)

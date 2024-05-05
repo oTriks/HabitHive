@@ -31,7 +31,25 @@ class DailyViewModel: ObservableObject {
         }
     }
     
-    
+    func updateProgress(for habitID: String, on dateString: String, to newStatus: String) {
+           // Find the habit index
+           guard let index = habits.firstIndex(where: { $0.id == habitID }) else { return }
+
+           // Update the progress status for the given date
+           habits[index].progress?[dateString] = newStatus
+
+           // Update Firestore (replace `habits` with the relevant collection name)
+           db.collection("habits").document(habitID).updateData([
+               "progress.\(dateString)": newStatus
+           ]) { error in
+               if let error = error {
+                   print("Error updating progress: \(error.localizedDescription)")
+               } else {
+                   // Publish changes if required
+                   self.objectWillChange.send()
+               }
+           }
+       }
     
 }
 

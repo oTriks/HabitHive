@@ -16,31 +16,31 @@ struct ProgressHabitCardView: View {
                         .font(.subheadline)
                         .foregroundColor(.gray)
                         .frame(maxWidth: .infinity, alignment: .leading)
+                    
+                    
+                    
                 }
                 
-                Spacer()
+                CardProgressBar(progress: habit.progress ?? [:], totalDays: calculateTotalDays(for: habit))
+                                       .frame(width: geometry.size.width - 200) // Adjust the width based on card size
                 
-                Button(action: {
-                    isSelected.toggle()
-                }) {
-                    Circle()
-                        .fill(Color.blue)
-                        .frame(width: 48, height: 48)
-                        .padding(10)
-                        .overlay(
-                            Image(systemName: isSelected ? "checkmark" : "xmark")
-                                .foregroundColor(.white)
-                        )
-                }
+                
+            
             }
             .padding()
             .frame(width: geometry.size.width - 32)
-            .background(Color.white)
+            .background(Color("Primary background card"))
             .cornerRadius(10)
             .shadow(radius: 5)
             .padding(.horizontal)
         }
     }
+    
+    private func calculateTotalDays(for habit: Habit) -> Int {
+           let calendar = Calendar.current
+           return calendar.dateComponents([.day], from: habit.startDate, to: habit.endDate).day ?? 0
+       }
+    
 }
 
 

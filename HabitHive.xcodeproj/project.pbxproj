@@ -58,6 +58,7 @@
 		5548ED722BE7A08B00E4CBF2 /* ChallengesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5548ED712BE7A08B00E4CBF2 /* ChallengesView.swift */; };
 		5548ED742BE7B65F00E4CBF2 /* AwardPopupView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5548ED732BE7B65E00E4CBF2 /* AwardPopupView.swift */; };
 		5548ED782BE7B97200E4CBF2 /* HelperDIalogView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5548ED772BE7B97200E4CBF2 /* HelperDIalogView.swift */; };
+		5548ED7A2BE7CAA500E4CBF2 /* CardProgressBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5548ED792BE7CAA500E4CBF2 /* CardProgressBar.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -110,6 +111,7 @@
 		5548ED712BE7A08B00E4CBF2 /* ChallengesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChallengesView.swift; sourceTree = "<group>"; };
 		5548ED732BE7B65E00E4CBF2 /* AwardPopupView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AwardPopupView.swift; sourceTree = "<group>"; };
 		5548ED772BE7B97200E4CBF2 /* HelperDIalogView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HelperDIalogView.swift; sourceTree = "<group>"; };
+		5548ED792BE7CAA500E4CBF2 /* CardProgressBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardProgressBar.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -240,6 +242,7 @@
 				5548ED712BE7A08B00E4CBF2 /* ChallengesView.swift */,
 				5548ED732BE7B65E00E4CBF2 /* AwardPopupView.swift */,
 				5548ED772BE7B97200E4CBF2 /* HelperDIalogView.swift */,
+				5548ED792BE7CAA500E4CBF2 /* CardProgressBar.swift */,
 			);
 			path = Customs;
 			sourceTree = "<group>";
@@ -375,6 +378,7 @@
 				5509620F2BD8050600DB5DEC /* HabitsView.swift in Sources */,
 				5509EAA62BDBAE1B0048A8DF /* DailyViewModel.swift in Sources */,
 				5509EA902BDA7E200048A8DF /* FrequencySelevtionView.swift in Sources */,
+				5548ED7A2BE7CAA500E4CBF2 /* CardProgressBar.swift in Sources */,
 				550962172BD80A6F00DB5DEC /* SignUpView.swift in Sources */,
 				5509620B2BD804AC00DB5DEC /* ProgressView.swift in Sources */,
 			);
