@@ -23,10 +23,15 @@ struct HabitCardView: View {
                     .foregroundColor(.secondary)
             }
 
-           
+            // Pass the current date instead of the habit's `startDate`
             if let progressMap = habit.progress, !progressMap.isEmpty, let habitId = habit.id {
-                ScrollableWeekdaysView(progressMap: progressMap, currentDate: habit.startDate, habitId: habitId, viewModel: viewModel)
-                    .frame(height: 60)
+                ScrollableWeekdaysView(
+                    progressMap: progressMap,
+                    currentDate: Date(), // Pass today's date
+                    habitId: habitId,
+                    viewModel: viewModel
+                )
+                .frame(height: 60)
             }
         }
         .padding()
@@ -36,9 +41,3 @@ struct HabitCardView: View {
         .padding(.horizontal)
     }
 }
-
-
-
-
-
-

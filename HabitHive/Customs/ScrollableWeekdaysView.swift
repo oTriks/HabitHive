@@ -14,6 +14,7 @@ struct ScrollableWeekdaysView: View {
         return formatter
     }()
 
+    // Get all dates available in the progress map
     private var dates: [Date] {
         progressMap.keys.compactMap { dateString in
             formatter.date(from: dateString)
@@ -29,20 +30,18 @@ struct ScrollableWeekdaysView: View {
                         let progress = progressMap[dateString] ?? "Unknown"
                         
                         DayView(date: date, progress: progress, updateProgress: {
-                                                    viewModel.updateProgress(for: habitId, date: dateString)
-                                                })
-
+                            viewModel.updateProgress(for: habitId, date: dateString)
+                        })
                         .id(date)
-
-                                            }
-                                        }
+                    }
+                }
                 .padding()
                 .onChange(of: dataLoaded) { _ in
                     scrollToCurrentDate(using: scrollViewProxy)
                 }
                 .onAppear {
-                
-                    DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+                    // Set a slight delay to ensure data is fully loaded
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
                         self.dataLoaded = true
                     }
                 }
@@ -51,14 +50,22 @@ struct ScrollableWeekdaysView: View {
         .frame(height: 60)
     }
 
+    
     private func scrollToCurrentDate(using scrollViewProxy: ScrollViewProxy) {
-        if let currentDateIndex = dates.firstIndex(where: { formatter.string(from: $0) == formatter.string(from: currentDate) }) {
+        // Format the current date to match the format of the progress map keys
+        let currentDayString = formatter.string(from: currentDate)
+
+        // Find the index of the current date within the sorted dates
+        if let currentDateIndex = dates.firstIndex(where: { formatter.string(from: $0) == currentDayString }) {
             withAnimation {
                 scrollViewProxy.scrollTo(dates[currentDateIndex], anchor: .center)
             }
         }
     }
 }
+
+
+
 
 
 
