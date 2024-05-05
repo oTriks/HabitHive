@@ -78,11 +78,11 @@ struct DailyHabitCardView: View {
        private func cardColor(for status: String?) -> Color {
            switch status {
            case "Done":
-               return Color("Primary background card") // Define a color in Assets.xcassets
+               return Color("Primary") // Define a color in Assets.xcassets
            case "Failed":
-               return Color("Primary background card") // Define a color in Assets.xcassets
+               return Color("Primary") // Define a color in Assets.xcassets
            case "Pending":
-               return Color("Primary background card") // Define a color in Assets.xcassets
+               return Color("Primary") // Define a color in Assets.xcassets
            default:
                return .white // Default background color
            }
