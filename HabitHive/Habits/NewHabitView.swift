@@ -7,21 +7,26 @@ struct NewHabitView: View {
     @State private var frequencyOption = "Every day"
     @State private var showDayPicker = false
     @State private var startDate = Date()
-    @EnvironmentObject var userModel: UserModel // Assuming UserModel holds the userID
+    @EnvironmentObject var userModel: UserModel
     @ObservedObject var viewModel: NewHabitViewModel
     @Binding var isPresented: Bool
     @Binding var shouldDismissToHabits: Bool
     @State private var showingNotificationSetup = false
 
+    var endDate: Date {
+            Calendar.current.date(byAdding: .month, value: 1, to: Date()) ?? Date()
+        }
     
     init(isPresented: Binding<Bool>, shouldDismissToHabits: Binding<Bool>, userModel: UserModel) {
         self._isPresented = isPresented
         self._shouldDismissToHabits = shouldDismissToHabits
-        // Handle the optional userID safely
         guard let userID = userModel.userID else {
             fatalError("User ID must be set")
         }
         self._viewModel = ObservedObject(initialValue: NewHabitViewModel(userID: userID))
+        let endDate = Calendar.current.date(byAdding: .month, value: 1, to: Date()) ?? Date()
+        self.viewModel.endDate = endDate // Assuming you have an 'endDate' property in NewHabitViewModel
+
     }
 
     
@@ -64,11 +69,14 @@ struct NewHabitView: View {
                                         .padding(.leading)
                                     Text("End Date")
                                         .padding(.leading)
-
                                     Spacer()
-                                    Toggle("", isOn: .constant(false))
-                                        .padding(.trailing)
+                                
                                 }
+                                .padding(.horizontal)
+                                Text(formattedDate(from: endDate))
+                                .foregroundColor(.secondary)
+                                .padding(.horizontal)
+                            
                                 Divider()
                                     .padding(.horizontal)
                                 HStack {
@@ -78,7 +86,7 @@ struct NewHabitView: View {
                                     
                                     Spacer()
                                     Button(action: {
-                                        showingNotificationSetup.toggle()  // Toggle the state to show the popup
+                                        showingNotificationSetup.toggle()
 
                                     }) {
                                         Text("0")
@@ -114,22 +122,23 @@ struct NewHabitView: View {
 
                     Spacer()
 
-                    Button(step == 3 ? "Create" : "Next") {
+                    Button(action: {
                         if step < 3 {
                             step += 1
                         } else {
                             guard let userID = userModel.userID else {
                                 print("User ID not set, cannot create habit")
-                                            return
-                                        }
+                                return
+                            }
                             
                             let habit = Habit(
-                                       name: habitName,
-                                       description: habitDescription,
-                                       frequency: frequencyOption,
-                                       startDate: startDate,
-                                       userID: userID  // Assuming the initializer for Habit now requires a userID
-                                   )
+                                name: habitName,
+                                description: habitDescription,
+                                frequency: frequencyOption,
+                                startDate: startDate,
+                                endDate: viewModel.endDate ?? Date(),
+                                userID: userID
+                            )
                             viewModel.saveHabitToFirestore(habit: habit) { result in
                                 switch result {
                                 case .success(let updatedHabit):
@@ -141,8 +150,11 @@ struct NewHabitView: View {
                                 }
                             }
                         }
+                    }) {
+                        Text(step < 3 ? "Next" : "Create") // Adjusted the button label
                     }
                     .foregroundColor(Color("Positive"))
+
 
                 }
                 .padding()

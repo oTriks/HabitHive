@@ -49,15 +49,3 @@ extension DailyViewModel {
     
   
 
-
-struct DailyView_Previews: PreviewProvider {
-    static var previews: some View {
-        let viewModel = DailyViewModel()
-        viewModel.habits = [
-            Habit(id: "1", name: "Exercise", description: "Daily workout", frequency: "Daily", startDate: Date(), daysOfWeek: nil, progress: nil, userID: "userID1"),
-            Habit(id: "2", name: "Read", description: "Read a book", frequency: "Weekly", startDate: Date(), daysOfWeek: ["Monday"], progress: nil, userID: "userID2")
-            // Add more sample habits as needed
-        ]
-        return DailyView(viewModel: viewModel)
-    }
-}

@@ -54,6 +54,8 @@
 		5548ED6A2BE653FC00E4CBF2 /* LineGraphView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5548ED692BE653FC00E4CBF2 /* LineGraphView.swift */; };
 		5548ED6C2BE654A600E4CBF2 /* ProgressIndicatorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5548ED6B2BE654A600E4CBF2 /* ProgressIndicatorView.swift */; };
 		5548ED6E2BE6571300E4CBF2 /* SuccessCircleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5548ED6D2BE6571300E4CBF2 /* SuccessCircleView.swift */; };
+		5548ED702BE7958200E4CBF2 /* MonthTimelineView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5548ED6F2BE7958200E4CBF2 /* MonthTimelineView.swift */; };
+		5548ED722BE7A08B00E4CBF2 /* ChallengesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5548ED712BE7A08B00E4CBF2 /* ChallengesView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -102,6 +104,8 @@
 		5548ED692BE653FC00E4CBF2 /* LineGraphView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LineGraphView.swift; sourceTree = "<group>"; };
 		5548ED6B2BE654A600E4CBF2 /* ProgressIndicatorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgressIndicatorView.swift; sourceTree = "<group>"; };
 		5548ED6D2BE6571300E4CBF2 /* SuccessCircleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SuccessCircleView.swift; sourceTree = "<group>"; };
+		5548ED6F2BE7958200E4CBF2 /* MonthTimelineView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MonthTimelineView.swift; sourceTree = "<group>"; };
+		5548ED712BE7A08B00E4CBF2 /* ChallengesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChallengesView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -228,6 +232,8 @@
 				5548ED692BE653FC00E4CBF2 /* LineGraphView.swift */,
 				5548ED6B2BE654A600E4CBF2 /* ProgressIndicatorView.swift */,
 				5548ED6D2BE6571300E4CBF2 /* SuccessCircleView.swift */,
+				5548ED6F2BE7958200E4CBF2 /* MonthTimelineView.swift */,
+				5548ED712BE7A08B00E4CBF2 /* ChallengesView.swift */,
 			);
 			path = Customs;
 			sourceTree = "<group>";
@@ -342,8 +348,10 @@
 				550962132BD8085900DB5DEC /* LogInView.swift in Sources */,
 				550962152BD8091F00DB5DEC /* NavigationItems.swift in Sources */,
 				550961FB2BD8004400DB5DEC /* ContentView.swift in Sources */,
+				5548ED702BE7958200E4CBF2 /* MonthTimelineView.swift in Sources */,
 				5509EA922BDA7FF10048A8DF /* DayPickerView.swift in Sources */,
 				550962372BDA484100DB5DEC /* LoginViewModel.swift in Sources */,
+				5548ED722BE7A08B00E4CBF2 /* ChallengesView.swift in Sources */,
 				5548ED592BE3DD0E00E4CBF2 /* AuthManager.swift in Sources */,
 				5548ED6E2BE6571300E4CBF2 /* SuccessCircleView.swift in Sources */,
 				5509621C2BD8EBF000DB5DEC /* CustomButton.swift in Sources */,

@@ -1,31 +1,35 @@
 import SwiftUI
 
 struct ProgressIndicatorView: View {
-    var progress: Double  // The fraction of the period completed successfully.
     var startDate: Date   // Starting date of the habit.
     var endDate: Date     // End date of the habit.
     
     private var dateFormatter: DateFormatter {
         let formatter = DateFormatter()
-        formatter.dateFormat = "yyyy-MM-dd" // Adjust the date format as needed
+        formatter.dateFormat = "yyyy-MM-dd"
         return formatter
     }
-    
+
+    // Calculate total duration in days between startDate and endDate
     private var totalDuration: Double {
-        // Calculate the total days from the start date to the end date.
         max(endDate.timeIntervalSince(startDate) / 86400, 1)
     }
-    
-    private var completedDays: Double {
-        // Calculate days completed based on the progress ratio.
-        totalDuration * progress
+
+    // Calculate how many days have passed since the start date up to now
+    private var elapsedDays: Double {
+        max(Date().timeIntervalSince(startDate) / 86400, 0)
     }
-    
+
+    // Calculate the progress ratio based on elapsed days
+    private var progress: Double {
+        min(elapsedDays / totalDuration, 1) // Clamp to a range of 0 to 1
+    }
+
     var body: some View {
         VStack(alignment: .leading, spacing: 5) {
-            Text("\(Int(completedDays)) / \(Int(totalDuration)) days")
+            Text("\(Int(elapsedDays)) / \(Int(totalDuration)) days")
                 .font(.headline)
-                .frame(maxWidth: .infinity, alignment: .center) // Center the text above the progress bar
+                .frame(maxWidth: .infinity, alignment: .center)
 
             GeometryReader { geometry in
                 ZStack(alignment: .leading) {
@@ -33,35 +37,17 @@ struct ProgressIndicatorView: View {
                     Rectangle()
                         .frame(width: geometry.size.width, height: 20)
                         .foregroundColor(Color.yellow.opacity(0.6))
-                        .cornerRadius(10) // Rounded corners for the background
-                    
-                    // Completed duration bar (foreground)
+                        .cornerRadius(10)
+
+                    // Elapsed duration bar (foreground)
                     Rectangle()
-                        .frame(width: CGFloat(completedDays / totalDuration) * geometry.size.width, height: 20)
+                        .frame(width: CGFloat(progress) * geometry.size.width, height: 20)
                         .foregroundColor(Color.green)
-                        .cornerRadius(10, corners: [.topLeft, .bottomLeft]) // Rounded corners only on the left side
-                    
-                    // Transparent gap next to the divider
-                    if completedDays > 0 && completedDays < totalDuration {
-                        let dividerOffset = CGFloat(completedDays / totalDuration) * geometry.size.width
-                        Rectangle()
-                            .frame(width: 20, height: 20) // Transparent rectangle
-                            .foregroundColor(Color.clear)
-                            .offset(x: dividerOffset - 10, y: 0) // Centered on the edge with an offset
-                    }
-                    
-                    // Small green divider
-                    if completedDays > 0 && completedDays < totalDuration {
-                        let dividerOffset = CGFloat(completedDays / totalDuration) * geometry.size.width - 2 // Adjust the offset
-                        Rectangle()
-                            .frame(width: 2, height: 24) // Slightly taller than the bar
-                            .foregroundColor(Color.green)
-                            .offset(x: dividerOffset, y: -2) // Centered on the edge with an offset
-                    }
+                        .cornerRadius(10, corners: [.topLeft, .bottomLeft])
                 }
             }
-            .frame(height: 20) // Fixed height for the progress bar
-            
+            .frame(height: 20)
+
             // Adding date labels underneath the bar
             HStack {
                 Text(dateFormatter.string(from: startDate))
@@ -74,15 +60,15 @@ struct ProgressIndicatorView: View {
     }
 }
 
+
 // Custom corner radius modifier
 extension View {
     func cornerRadius(_ radius: CGFloat, corners: UIRectCorner) -> some View {
-        clipShape( RoundedCorner(radius: radius, corners: corners) )
+        clipShape(RoundedCorner(radius: radius, corners: corners))
     }
 }
 
 struct RoundedCorner: Shape {
-
     var radius: CGFloat = .infinity
     var corners: UIRectCorner = .allCorners
 
@@ -95,7 +81,10 @@ struct RoundedCorner: Shape {
 // Example of a preview provider
 struct ProgressIndicatorView_Previews: PreviewProvider {
     static var previews: some View {
-        ProgressIndicatorView(progress: 0.175, startDate: Calendar.current.date(byAdding: .year, value: -1, to: Date())!, endDate: Date())
+        let startDate = Calendar.current.date(from: DateComponents(year: 2024, month: 5, day: 1))!
+        let endDate = Calendar.current.date(from: DateComponents(year: 2024, month: 6, day: 1))!
+
+        ProgressIndicatorView(startDate: startDate, endDate: endDate)
             .frame(height: 100)
             .padding()
             .previewLayout(.sizeThatFits)

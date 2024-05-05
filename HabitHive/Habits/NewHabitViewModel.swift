@@ -5,6 +5,12 @@ class NewHabitViewModel: ObservableObject {
     private var db = Firestore.firestore()
     private var userID: String
 
+    var endDate: Date? {
+        didSet {
+            // Perform any necessary actions when endDate is set
+        }
+    }
+    
     init(userID: String) {
             self.userID = userID
         }

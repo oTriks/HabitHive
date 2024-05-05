@@ -1,61 +1,77 @@
+
 import SwiftUI
 
 struct ProgressHabitView: View {
     var habit: Habit
+    @StateObject private var viewModel = ProgressHabitViewModel()
 
     var body: some View {
         ScrollView {
             VStack(alignment: .leading, spacing: 20) {
-                Text("Habit Name: \(habit.name)")
-                    .font(.title)
-                    .padding()
-
+                // Display SuccessCircleView using calculated statistics
+                SectionHeaderView(title: "Task Progress")
+                HStack {
+                    Spacer()
+                    SuccessCircleView(doneCount: viewModel.doneCount, failedCount: viewModel.failedCount, pendingCount: viewModel.pendingCount)
+                        .padding()
+                    Spacer()
+                }
+                
                 Divider()
-
-                Text("Description: \(habit.description)")
-                    .padding()
-
+                    .background(Color("Primary details"))
+                
+                // Example end date calculation (1 month after start date)
+                SectionHeaderView(title: "Time-Based Progress")
+                let endDate = Calendar.current.date(byAdding: .month, value: 1, to: habit.startDate) ?? Date()
+                ProgressIndicatorView(
+                    startDate: habit.startDate,
+                    endDate: endDate
+                )
+                .padding()
+                
                 Divider()
-
-                Text("Frequency: \(habit.frequency)")
-                    .padding()
-
-                if let daysOfWeek = habit.daysOfWeek, !daysOfWeek.isEmpty {
-                    SectionHeaderView(title: "Active Days")
-                    Text("Active on: \(daysOfWeek.joined(separator: ", "))")
-                        .padding()
-                    Divider()
-                }
-
-                if let progressMap = habit.progress {
-                    SectionHeaderView(title: "Progress")
-                    ForEach(progressMap.sorted(by: { $0.key < $1.key }), id: \.key) { key, value in
-                        HStack {
-                            Text("\(key): ").bold()
-                            Text(value)
-                        }
-                        .padding()
+                    .background(Color("Primary details"))
+                
+                SectionHeaderView(title: "Streaks")
+                HStack {
+                    VStack {
+                        Text("Current")
+                            .font(.headline)
+                        Text("\(viewModel.currentStreak) days") // Replace with the actual streak count
+                            .font(.title)
+                            .foregroundColor(.green)
                     }
-                    Divider()
-                }
-
-                if let dailyMap = habit.dailyMap {
-                    SectionHeaderView(title: "Daily Status")
-                    ForEach(dailyMap.sorted(by: { $0.key < $1.key }), id: \.key) { key, value in
-                        HStack {
-                            Text("\(key): ")
-                            Image(systemName: value ? "checkmark.circle.fill" : "xmark.circle.fill")
-                                .foregroundColor(value ? .green : .red)
-                        }
-                        .padding()
+                    .frame(maxWidth: .infinity, alignment: .center)
+                    
+                    VStack {
+                        Text("Best")
+                            .font(.headline)
+                        Text("\(viewModel.bestStreak) days") // Replace with the actual streak count
+                            .font(.title)
+                            .foregroundColor(.blue)
                     }
-                    Divider()
+                    .frame(maxWidth: .infinity, alignment: .center)
                 }
+                .padding()
+                Divider()
+                    .background(Color("Primary details"))
+                
+                
+                
             }
-            .navigationBarTitle(Text("Habit Details"), displayMode: .inline)
+            SectionHeaderView(title: "Challenges")
+            ChallengesView(streaks: viewModel.bestStreak)
+
+            .navigationBarTitle(Text(habit.name), displayMode: .inline)
+            .onAppear {
+                // Calculate statistics for the given habit
+                viewModel.calculateStatistics(for: habit)
+            }
         }
     }
 }
+
+
 
 // Simple Section Header View
 struct SectionHeaderView: View {
@@ -64,6 +80,9 @@ struct SectionHeaderView: View {
     var body: some View {
         Text(title)
             .font(.headline)
+            .frame(maxWidth: .infinity, alignment: .center)
             .padding(.top)
     }
 }
+
+
