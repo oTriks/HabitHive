@@ -60,7 +60,7 @@ struct CalendarView: View {
 
                 // Display the calendar grid for the current month
                 MonthlyCalendarGrid(
-                                   currentDate: habitStartDate,
+                    currentDate: currentDate, 
                                    habitProgress: habit?.progress ?? [:],
                                    viewModel: viewModel,
                                    habitID: habitID
