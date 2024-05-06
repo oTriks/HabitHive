@@ -7,7 +7,6 @@ struct ProgressHabitView: View {
     var body: some View {
         ScrollView {
             VStack(alignment: .leading, spacing: 20) {
-                // Progress Section
                 SectionHeaderView(title: "Progress")
                 HStack {
                     Spacer()
@@ -21,7 +20,6 @@ struct ProgressHabitView: View {
                 
                 Divider().background(Color("Primary details"))
                 
-                // Time Completion Section
                 SectionHeaderView(title: "Time completion")
                 let endDate = Calendar.current.date(byAdding: .month, value: 1, to: habit.startDate) ?? Date()
                 ProgressIndicatorView(
@@ -32,7 +30,6 @@ struct ProgressHabitView: View {
                 
                 Divider().background(Color("Primary details"))
                 
-                // Streaks Section
                 SectionHeaderView(title: "Streaks")
                 HStack {
                     VStack {
@@ -57,15 +54,13 @@ struct ProgressHabitView: View {
 
                 Divider().background(Color("Primary details"))
 
-                // Bar Graph Section (Inserting here)
                 SectionHeaderView(title: "Monthly Progress")
                 BarGraphView(habitData: viewModel.getMonthlyHabitData(for: habit))
-                    .frame(height: 200) // Adjust this to the desired height
+                    .frame(height: 200)
                     .padding()
 
                 Divider().background(Color("Primary details"))
                 
-                // Challenges Section
                 SectionHeaderView(title: "Challenges")
                 ChallengesView(streaks: viewModel.bestStreak)
 

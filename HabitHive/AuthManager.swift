@@ -1,9 +1,3 @@
-//
-//  AuthManager.swift
-//  HabitHive
-//
-//  Created by Martin Larsson on 2024-05-02.
-//
 
 import Foundation
 import Firebase

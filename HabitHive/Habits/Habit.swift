@@ -13,6 +13,6 @@ struct Habit: Codable, Identifiable {
     var progress: [String: String]?
     var userID: String
     var dailyMap: [String: Bool]?
-    var notifications: [UserNotification]? // Add this attribute to hold notifications
+    var notifications: [UserNotification]? 
 
 }

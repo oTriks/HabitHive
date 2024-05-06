@@ -1,6 +1,5 @@
 import SwiftUI
 
-// Extend Date to include a dayNumber() method
 extension Date {
     func dayNumber() -> String {
         let calendar = Calendar.current
@@ -37,7 +36,6 @@ struct MonthTimelineView: View {
         }
     }
 
-    // Generate dates for the month
     private func monthDates() -> [Date] {
         let calendar = Calendar.current
         let startDate = calendar.startOfDay(for: habit.startDate)
@@ -45,7 +43,6 @@ struct MonthTimelineView: View {
         return generateDates(inside: startDate ..< endDate, matching: [.day], matchingPolicy: .nextTime)!
     }
 
-    // Helper method to generate dates within a range
     private func generateDates(inside range: Range<Date>, matching components: Set<Calendar.Component>, matchingPolicy: Calendar.MatchingPolicy, repeatedTime: DateComponents? = nil) -> [Date]? {
         var dates: [Date] = []
         var currentDate = range.lowerBound

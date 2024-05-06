@@ -4,9 +4,9 @@ struct DailyHabitCardView: View {
     @ObservedObject var viewModel: DailyViewModel
 
     var habit: Habit
-    var progressStatus: String? // Status for the selected date
+    var progressStatus: String?
     var selectedDate: Date
-    var onStreakAchieved: (Int) -> Void // Callback for achieving a streak
+    var onStreakAchieved: (Int) -> Void
 
     var body: some View {
            HStack {
@@ -45,7 +45,6 @@ struct DailyHabitCardView: View {
            .padding(.horizontal)
        }
     
-    // Determines the icon based on the progress status
     private func iconBasedOnStatus(_ status: String?) -> String {
         switch status {
         case "Done":
@@ -55,13 +54,12 @@ struct DailyHabitCardView: View {
         case "Pending":
             return "clock"
         default:
-            return "circle" // Default icon if no status
+            return "circle"
         }
     }
     
     
     
-    // Determines the circle fill color based on the progress status
     private func circleFillColor(for status: String?) -> Color {
         switch status {
         case "Done":
@@ -75,29 +73,26 @@ struct DailyHabitCardView: View {
         }
     }
     
-    // Determines the card color based on the progress status
        private func cardColor(for status: String?) -> Color {
            switch status {
            case "Done":
-               return Color("Primary") // Define a color in Assets.xcassets
+               return Color("Color primary")
            case "Failed":
-               return Color("Primary") // Define a color in Assets.xcassets
+               return Color("Color primary")
            case "Pending":
-               return Color("Primary") // Define a color in Assets.xcassets
+               return Color("Color primary")
            default:
-               return .white // Default background color
+               return .white
            }
        }
 
     
     
-    // Toggle the progress status based on the current value
        private func toggleProgressStatus() {
            let dateString = formatDate(selectedDate)
            let currentStatus = habit.progress?[dateString] ?? "Pending"
            let newStatus: String
 
-           // Switch status logic here as per your requirements
            switch currentStatus {
            case "Done":
                newStatus = "Failed"
@@ -109,19 +104,14 @@ struct DailyHabitCardView: View {
            print("Toggling progress status for habit:", habit.name)
                print("Current status:", currentStatus)
                print("New status:", newStatus)
-           // Update the habit's progress map
            viewModel.updateProgress(for: habit.id ?? "", on: dateString, to: newStatus)
        }
     
-    // Format the date to the required string format
         private func formatDate(_ date: Date) -> String {
             let formatter = DateFormatter()
             formatter.dateFormat = "yyyy-MM-dd"
             return formatter.string(from: date)
         }
-    
-    
-    
 }
     
 

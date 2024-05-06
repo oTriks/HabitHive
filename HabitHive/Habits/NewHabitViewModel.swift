@@ -2,24 +2,21 @@ import Foundation
 import FirebaseFirestore
 
 class NewHabitViewModel: ObservableObject {
-    @Published var availableNotifications: [UserNotification] = [] // Store fetched notifications
+    @Published var availableNotifications: [UserNotification] = []
     private var db = Firestore.firestore()
     private var userID: String
 
     var endDate: Date? {
         didSet {
-            // Perform any necessary actions when endDate is set
         }
     }
     
     init(userID: String) {
             self.userID = userID
-        fetchNotifications() // Fetch notifications during initialization
+        fetchNotifications()
 
         }
     
-    
-    // Fetch notifications
        private func fetchNotifications() {
            db.collection("notifications").addSnapshotListener { snapshot, error in
                guard let documents = snapshot?.documents else {
@@ -27,7 +24,6 @@ class NewHabitViewModel: ObservableObject {
                    return
                }
 
-               // Decode each document into UserNotification
                self.availableNotifications = documents.compactMap { queryDocumentSnapshot in
                    try? queryDocumentSnapshot.data(as: UserNotification.self)
                }
@@ -166,7 +162,6 @@ class NewHabitViewModel: ObservableObject {
         let calendar = Calendar.current
         let today = Date()
         
-        // Range: -14 days to +14 days
         for dayOffset in -14...14 {
             if let date = calendar.date(byAdding: .day, value: dayOffset, to: today) {
                 let dateString = formatDate(date)
@@ -214,12 +209,12 @@ class NewHabitViewModel: ObservableObject {
                 return generateDailyMapForSpecificDays(daysOfWeek: daysOfWeek, startDate: habit.startDate)
             }
         case "Repeat":
-            let repeatFrequency = 2 // Adjust based on actual input
+            let repeatFrequency = 2
             return generateDailyMapForRepeat(everyNthDay: repeatFrequency, startDate: habit.startDate)
         default:
-            return [:] // Return an empty map if none of the conditions match
+            return [:]
         }
-        return [:] // Fallback return
+        return [:]
     }
 
 
@@ -262,13 +257,13 @@ class NewHabitViewModel: ObservableObject {
 
     private func dayStringToWeekdayNumber(day: String) -> Int? {
         switch day {
-        case "S": return 1  // Sunday
-        case "M": return 2  // Monday
-        case "T": return 3  // Tuesday
-        case "W": return 4  // Wednesday
-        case "TH": return 5 // Thursday
-        case "F": return 6  // Friday
-        case "SA": return 7 // Saturday
+        case "S": return 1
+        case "M": return 2
+        case "T": return 3
+        case "W": return 4
+        case "TH": return 5
+        case "F": return 6
+        case "SA": return 7
         default: return nil
         }
     }
@@ -295,7 +290,7 @@ class NewHabitViewModel: ObservableObject {
     
     private func formatDate(_ date: Date) -> String {
         let formatter = DateFormatter()
-        formatter.dateFormat = "yyyy-MM-dd" // Use ISO-8601 format
+        formatter.dateFormat = "yyyy-MM-dd" 
         return formatter.string(from: date)
     }
 }

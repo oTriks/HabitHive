@@ -1,7 +1,7 @@
 import SwiftUI
 
 struct DebugCurrentDateView: View {
-    let currentDate: Date = Date()  // This captures today's date at the moment of view initialization
+    let currentDate: Date = Date()
     
     var body: some View {
         Text("Current Date: \(formattedDate)")
@@ -19,7 +19,7 @@ extension DateFormatter {
     static let iso8601Full: DateFormatter = {
         let formatter = DateFormatter()
         formatter.dateFormat = "yyyy-MM-dd"
-        formatter.timeZone = TimeZone(secondsFromGMT: 0) // Optional: Set this to match your expected timezone
+        formatter.timeZone = TimeZone(secondsFromGMT: 0) 
         return formatter
     }()
 }

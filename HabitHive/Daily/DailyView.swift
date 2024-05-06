@@ -11,8 +11,8 @@ struct DailyView: View {
         NavigationView {
             VStack {
                 ScrollDaysView(
-                    startDate: Date().addingTimeInterval(-60 * 24 * 60 * 60), // Start 60 days earlier
-                    endDate: Date().addingTimeInterval(60 * 24 * 60 * 60),    // End 60 days later
+                    startDate: Date().addingTimeInterval(-60 * 24 * 60 * 60),
+                    endDate: Date().addingTimeInterval(60 * 24 * 60 * 60),
                     selectedDate: $selectedDate
                 )
                 
@@ -67,7 +67,6 @@ extension DailyViewModel {
 
 struct DailyView_Previews: PreviewProvider {
     static var previews: some View {
-        // Create sample data for the preview
         let sampleHabits = [
             Habit(
                 id: "1",
@@ -107,11 +106,9 @@ struct DailyView_Previews: PreviewProvider {
             )
         ]
         
-        // Mocked ViewModel for preview purposes
         let mockViewModel = DailyViewModel()
         mockViewModel.habits = sampleHabits
         
-        // Create a DailyView with the mocked ViewModel and return it
         return DailyView(viewModel: mockViewModel)
     }
 }

@@ -35,7 +35,6 @@ class DailyViewModel: ObservableObject {
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "yyyy-MM-dd"
 
-        // Sort progress by date in ascending order
         let sortedProgress = progress.sorted(by: { dateFormatter.date(from: $0.key)! < dateFormatter.date(from: $1.key)! })
 
         print("Sorted Progress Array:", sortedProgress)
@@ -51,23 +50,17 @@ class DailyViewModel: ObservableObject {
 
             if let date = dateFormatter.date(from: dateString) {
                 if let previousDate = previousDate {
-                    // Calculate the difference between the current date and the previous date
                     let calendar = Calendar.current
                     let components = calendar.dateComponents([.day], from: previousDate, to: date)
 
-                    // Check if the current date is one day after the previous date
                     if components.day == 1 {
-                        // Increment streak if status is "Done"
                         if status == "Done" {
                             currentStreak += 1
                         }
                     } else {
-                        // Reset streak if there is a gap in dates
                         currentStreak = 0
                     }
                 }
-
-                // Set the previous date to the current date
                 previousDate = date
             }
         }
@@ -77,16 +70,11 @@ class DailyViewModel: ObservableObject {
 
 
 
-    /// Update progress for a habit, check milestones, and trigger callback if a milestone is achieved
     func updateProgress(for habitID: String, on dateString: String, to newStatus: String) -> Int? {
-        // Find the habit index
         guard let index = habits.firstIndex(where: { $0.id == habitID }) else { return nil }
-
-        // Update the progress status for the given date
         habits[index].progress?[dateString] = newStatus
         print("Updated progress status for habit ID:", habitID, "on date:", dateString, "to:", newStatus)
 
-        // Update Firestore
         db.collection("habits").document(habitID).updateData([
             "progress.\(dateString)": newStatus
         ]) { error in
@@ -97,16 +85,15 @@ class DailyViewModel: ObservableObject {
             }
         }
 
-        // Calculate the current streak and check for milestones
         let currentStreak = calculateCurrentStreak(for: habits[index])
         print("Current streak for habit ID:", habitID, "is:", currentStreak)
 
         if milestones.contains(currentStreak) {
             print("Milestone achieved for habit ID:", habitID, "with streak:", currentStreak)
 
-            return currentStreak // Milestone achieved
+            return currentStreak
         }
 
-        return nil // No milestone achieved
+        return nil 
     }
 }

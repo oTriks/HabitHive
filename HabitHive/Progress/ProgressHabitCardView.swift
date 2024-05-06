@@ -30,7 +30,7 @@ struct ProgressHabitCardView: View {
             }
             .padding()
             .frame(width: geometry.size.width - 32)
-            .background(Color("Primary"))
+            .background(Color("Color primary"))
             .cornerRadius(10)
             .shadow(radius: 5)
             .padding(.horizontal)

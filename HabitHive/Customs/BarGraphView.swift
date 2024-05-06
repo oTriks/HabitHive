@@ -8,7 +8,6 @@ struct BarGraphView: View {
     ]
 
     var maxCount: Int {
-        // Get the maximum count from the data for scaling purposes
         habitData.values.max() ?? 1
     }
 
@@ -17,28 +16,23 @@ struct BarGraphView: View {
             HStack(alignment: .bottom, spacing: 8) {
                 ForEach(0..<months.count, id: \.self) { index in
                     VStack {
-                        // Retrieve the completion count for the given month
                         let completionCount = habitData[months[index]] ?? 0
-                        // Normalize bar height based on the maximum count
                         let barHeight = CGFloat(completionCount) / CGFloat(maxCount) * 200
 
-                        // Display the count above the bar
                         Text("\(completionCount)")
                             .font(.caption)
                             .foregroundColor(.primary)
                             .padding(.bottom, 2)
 
-                        // Display the bar itself
                         Rectangle()
                             .fill(Color("Positive"))
                             .frame(width: 20, height: barHeight)
 
-                        // Display the month name below the bar
                         Text(months[index])
                             .font(.caption)
                             .foregroundColor(.primary)
-                            .frame(width: 24) // Set a width that works well for your needs
-                            .fixedSize(horizontal: true, vertical: false) // Ensure the label doesn't shrink
+                            .frame(width: 24)
+                            .fixedSize(horizontal: true, vertical: false) 
 
                     }
                 }

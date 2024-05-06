@@ -1,7 +1,7 @@
 import SwiftUI
 
 struct AwardPopupView: View {
-    var streak: Int // This will hold the current streak count
+    var streak: Int
 
     var body: some View {
         GeometryReader { geometry in
@@ -24,7 +24,6 @@ struct AwardPopupView: View {
                     Divider()
                         .background(Color("Positive"))
 
-                    // Display the current streak count
                     VStack(spacing: 10) {
                         Text("Streak")
                         Text("\(streak) days")
@@ -35,7 +34,6 @@ struct AwardPopupView: View {
                     Divider()
                         .background(Color("Positive"))
 
-                    // Display the next milestone information
                     Text("Next award: \(nextMilestone(after: streak)) days")
                         .foregroundColor(Color("Text trailing"))
 
@@ -62,7 +60,6 @@ struct AwardPopupView: View {
         }
     }
 
-    // Function to return the correct medal name based on the streak count
     private func medalName(for streak: Int) -> String {
         switch streak {
         case 1:
@@ -76,11 +73,10 @@ struct AwardPopupView: View {
         case 30:
             return "medal_30"
         default:
-            return "medal_locked" // Provide a default medal image if needed
+            return "medal_locked"
         }
     }
 
-    // Function to determine the next milestone based on the current streak
     private func nextMilestone(after streak: Int) -> Int {
         if streak < 3 {
             return 3
@@ -91,13 +87,13 @@ struct AwardPopupView: View {
         } else if streak < 30 {
             return 30
         } else {
-            return streak // Or any other logic for streaks exceeding 30 days
+            return streak
         }
     }
 }
 
 struct AwardPopupView_Previews: PreviewProvider {
     static var previews: some View {
-        AwardPopupView(streak: 3) // Adjust this to test different streaks
+        AwardPopupView(streak: 3) 
     }
 }

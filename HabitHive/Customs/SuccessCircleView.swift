@@ -1,6 +1,5 @@
 import SwiftUI
 
-// Define the CircleSegment Shape
 struct CircleSegment: Shape {
     var startAngle: Angle
     var endAngle: Angle
@@ -12,14 +11,11 @@ struct CircleSegment: Shape {
             let outerRadius = min(rect.width, rect.height) / 2
             let innerRadius = outerRadius * innerRadiusFactor
 
-            // Adjust angles to start at the top (12 o'clock position)
             let adjustedStartAngle = startAngle - .degrees(90)
             let adjustedEndAngle = endAngle - .degrees(90)
 
-            // Draw outer arc
             path.addArc(center: center, radius: outerRadius, startAngle: adjustedStartAngle, endAngle: adjustedEndAngle, clockwise: false)
 
-            // Draw inner arc in reverse direction to form a wedge
             path.addArc(center: center, radius: innerRadius, startAngle: adjustedEndAngle, endAngle: adjustedStartAngle, clockwise: true)
 
             path.closeSubpath()
@@ -27,7 +23,6 @@ struct CircleSegment: Shape {
     }
 }
 
-// Main SuccessCircleView with CircleSegment
 struct SuccessCircleView: View {
     var doneCount: Int
     var failedCount: Int
@@ -51,7 +46,6 @@ struct SuccessCircleView: View {
 
     var body: some View {
         HStack(alignment: .bottom) {
-            // Legend items to the left of the main circle
             VStack(alignment: .leading, spacing: 5) {
                 LegendItem(color: Color("Positive"), label: "Done")
                 LegendItem(color: Color("Negative"), label: "Failed")
@@ -59,7 +53,6 @@ struct SuccessCircleView: View {
             }
             .padding(.trailing, 10)
 
-            // Main circle segment view
             ZStack {
                 CircleSegment(startAngle: .degrees(0), endAngle: .degrees(doneAngle), innerRadiusFactor: 0.7)
                     .fill(Color("Positive"))
@@ -75,7 +68,6 @@ struct SuccessCircleView: View {
     }
 }
 
-// Legend item component
 struct LegendItem: View {
     var color: Color
     var label: String
@@ -91,7 +83,6 @@ struct LegendItem: View {
     }
 }
 
-// Preview of SuccessCircleView
 struct SuccessCircleView_Previews: PreviewProvider {
     static var previews: some View {
         SuccessCircleView(doneCount: 2, failedCount: 1, pendingCount: 1)

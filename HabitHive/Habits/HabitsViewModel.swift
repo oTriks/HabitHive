@@ -6,21 +6,21 @@ import FirebaseFirestore
 
 class HabitsViewModel: ObservableObject {
     @Published var habits: [Habit] = []
-       @Published var isAddingNewHabit = false
-       private var db = Firestore.firestore()
+    @Published var isAddingNewHabit = false
+    private var db = Firestore.firestore()
     private var userID: String?
-
+    
     init(userID: String? = nil) {
         self.userID = userID
-
-           fetchHabits()
-       }
+        
+        fetchHabits()
+    }
     
     func fetchHabits() {
         guard let userID = userID else {
-                    print("User ID not set, fetching habits is not possible")
-                    return
-                }
+            print("User ID not set, fetching habits is not possible")
+            return
+        }
         db.collection("habits").addSnapshotListener { querySnapshot, error in
             guard let documents = querySnapshot?.documents else {
                 print("No documents")
@@ -36,7 +36,7 @@ class HabitsViewModel: ObservableObject {
             }
         }
     }
-
+    
     func configure(withUserID userID: String) {
         self.userID = userID
         fetchHabits()
@@ -51,12 +51,12 @@ class HabitsViewModel: ObservableObject {
         
         let newStatus: String
         switch currentStatus {
-            case "Done":
-                newStatus = "Failed"
-            case "Failed":
-                newStatus = "Pending"
-            default:
-                newStatus = "Done"
+        case "Done":
+            newStatus = "Failed"
+        case "Failed":
+            newStatus = "Pending"
+        default:
+            newStatus = "Done"
         }
         
         let updatePath = "progress.\(date)"
@@ -74,11 +74,6 @@ class HabitsViewModel: ObservableObject {
             }
         }
     }
-
-
-
-
-    
     
     func addNewHabit() {
         isAddingNewHabit = true

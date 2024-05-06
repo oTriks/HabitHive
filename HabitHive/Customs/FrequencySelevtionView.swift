@@ -4,7 +4,7 @@ struct FrequencySelectionView: View {
     let options: [String]
     @Binding var showDaysPicker: Bool
     @State private var repeatDays: Int = 2
-    @State private var selectedDays: Set<String> = []  // Use Set<String> to match DayPickerView
+    @State private var selectedDays: Set<String> = [] 
 
     var body: some View {
         VStack {

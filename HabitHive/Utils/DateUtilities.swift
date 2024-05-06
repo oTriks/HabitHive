@@ -63,11 +63,10 @@ struct DateView: View {
             .background(selectedDate == date ? Color.blue : Color.clear)
             .clipShape(RoundedRectangle(cornerRadius: 10))
             
-            // Clear overlay to intercept interactions
             Color.clear
                 .contentShape(Rectangle())
                 .onTapGesture { }
-                .zIndex(1) // Place the overlay above the DateView
+                .zIndex(1) 
         }
         .onTapGesture {
             selectedDate = date

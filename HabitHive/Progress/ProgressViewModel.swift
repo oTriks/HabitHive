@@ -17,9 +17,9 @@ class ProgressViewModel: ObservableObject {
     
     internal func fetchHabits(forUserID userID: String) {
         print("Fetching habits for user ID: \(userID)")
-        listener?.remove() // Remove previous listener if any
+        listener?.remove()
         listener = db.collection("habits")
-            .whereField("userID", isEqualTo: userID) // Filter habits by user ID
+            .whereField("userID", isEqualTo: userID)
             .addSnapshotListener { querySnapshot, error in
                 if let error = error {
                     print("Error fetching habits: \(error.localizedDescription)")
@@ -35,7 +35,7 @@ class ProgressViewModel: ObservableObject {
                 
                 self.habits = documents.compactMap { queryDocumentSnapshot -> Habit? in
                     var habit = try? queryDocumentSnapshot.data(as: Habit.self)
-                    habit?.id = queryDocumentSnapshot.documentID // Assigning document ID to habit's id property
+                    habit?.id = queryDocumentSnapshot.documentID 
                     return habit
                 }
             }

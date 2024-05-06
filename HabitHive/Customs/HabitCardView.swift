@@ -3,6 +3,7 @@ import SwiftUI
 struct HabitCardView: View {
     var habit: Habit
     @ObservedObject var viewModel: HabitsViewModel
+    @State private var isShowingCalendar = false
 
     var body: some View {
         VStack(alignment: .leading, spacing: 10) {
@@ -23,11 +24,19 @@ struct HabitCardView: View {
                     .foregroundColor(.secondary)
             }
 
-            // Pass the current date instead of the habit's `startDate`
+            Button(action: {
+                            isShowingCalendar = true
+                        }) {
+                            Text("Select Date")
+                        }
+                        .sheet(isPresented: $isShowingCalendar) {
+                            CalendarView(habitID: habit.id ?? "", viewModel: viewModel)
+                        }
+            
             if let progressMap = habit.progress, !progressMap.isEmpty, let habitId = habit.id {
                 ScrollableWeekdaysView(
                     progressMap: progressMap,
-                    currentDate: Date(), // Pass today's date
+                    currentDate: Date(), 
                     habitId: habitId,
                     viewModel: viewModel
                 )

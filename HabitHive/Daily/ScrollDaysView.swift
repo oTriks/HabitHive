@@ -9,7 +9,7 @@ struct ScrollDaysView: View {
         var currentDate = startDate
         var dateArray = [Date]()
         while currentDate <= endDate {
-            let startOfDay = Calendar.current.startOfDay(for: currentDate) // Normalize to start of day
+            let startOfDay = Calendar.current.startOfDay(for: currentDate)
             dateArray.append(startOfDay)
             currentDate = Calendar.current.date(byAdding: .day, value: 1, to: currentDate)!
         }
@@ -24,7 +24,7 @@ struct ScrollDaysView: View {
                         Day2View(date: date, isSelected: Calendar.current.isDate(selectedDate, inSameDayAs: date))
                             .id(date)
                             .onTapGesture {
-                                let startOfDay = Calendar.current.startOfDay(for: date) // Normalize tapped date
+                                let startOfDay = Calendar.current.startOfDay(for: date)
                                 selectedDate = startOfDay
                                 withAnimation {
                                     proxy.scrollTo(startOfDay, anchor: .center)
@@ -34,7 +34,7 @@ struct ScrollDaysView: View {
                 }
                 .padding(.horizontal)
                 .onAppear {
-                    let startOfDay = Calendar.current.startOfDay(for: selectedDate) // Normalize initially selected date
+                    let startOfDay = Calendar.current.startOfDay(for: selectedDate)
                     DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
                         withAnimation {
                             proxy.scrollTo(startOfDay, anchor: .center)
@@ -42,7 +42,7 @@ struct ScrollDaysView: View {
                     }
                 }
                 .onChange(of: selectedDate) { newValue in
-                    let startOfDay = Calendar.current.startOfDay(for: newValue) // Normalize changed date
+                    let startOfDay = Calendar.current.startOfDay(for: newValue) 
                     DispatchQueue.main.async {
                         withAnimation {
                             proxy.scrollTo(startOfDay, anchor: .center)
@@ -74,7 +74,7 @@ struct Day2View: View {
             .frame(width: 35, alignment: .center)
             .padding(4)
             .background(isSelected ? Color("button") : Color.clear)
-            .cornerRadius(14)  // Rounded corners for the background
+            .cornerRadius(14)
             .foregroundColor(isSelected ? Color("Text primary") : Color("Text trailing"))
         }
 

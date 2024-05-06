@@ -18,7 +18,7 @@ struct HabitsView: View {
                         Spacer()
                     }
                     .padding(.vertical, 2)
-                    .background(Color(UIColor.systemBackground)) // Adjust color to fit the design
+                    .background(Color(UIColor.systemBackground))
                     .shadow(radius: 2)
                     
                     ScrollView {
@@ -28,12 +28,11 @@ struct HabitsView: View {
                             }
                         }
                         .padding(.horizontal)
-                        .padding(.top, 16) // Add padding at the top of the ScrollView
-                        .padding(.bottom, 80) // Add padding to prevent overlap with the FAB
+                        .padding(.top, 16)
+                        .padding(.bottom, 80)
                     }
                 }
                 
-                // Floating Action Button Layer
                 VStack {
                     Spacer()
                     HStack {

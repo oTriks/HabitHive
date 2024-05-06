@@ -11,7 +11,6 @@ class NotificationViewModel: ObservableObject {
         fetchNotifications()
     }
 
-    // Fetch notifications from Firestore
     func fetchNotifications() {
         listenerRegistration = db.collection("notifications").addSnapshotListener { snapshot, error in
             guard let documents = snapshot?.documents else {
@@ -19,14 +18,12 @@ class NotificationViewModel: ObservableObject {
                 return
             }
 
-            // Fetch all notifications and decode them
             self.notifications = documents.compactMap { queryDocumentSnapshot in
                 try? queryDocumentSnapshot.data(as: UserNotification.self)
             }
         }
     }
 
-    // Add a new notification to Firestore
     func addNotification(_ notification: UserNotification) {
         do {
             _ = try db.collection("notifications").addDocument(from: notification)
@@ -36,9 +33,7 @@ class NotificationViewModel: ObservableObject {
     }
 
     
-    
-    // Remove a notification from Firestore
-    func removeNotification(withId id: String) {
+        func removeNotification(withId id: String) {
         db.collection("notifications").whereField("id", isEqualTo: id).getDocuments { snapshot, error in
             if let error = error {
                 print("Error finding document to remove: \(error.localizedDescription)")
