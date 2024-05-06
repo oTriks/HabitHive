@@ -2,12 +2,18 @@ import SwiftUI
 
 struct AwardPopupView: View {
     var streak: Int
+    @Binding var isShowing: Bool
+    
+    init(isShowing: Binding<Bool>, streak: Int) {
+        self._isShowing = isShowing
+        self.streak = streak
+    }
     
     var body: some View {
         GeometryReader { geometry in
             ZStack {
                 Color.black
-                    .opacity(0.4)
+                    .opacity(0.1)
                     .edgesIgnoringSafeArea(.all)
                 
                 VStack(spacing: 10) {
@@ -40,15 +46,19 @@ struct AwardPopupView: View {
                     Divider()
                         .background(Color("Positive"))
                     
-                    Text("Close")
-                        .fontWeight(.semibold)
-                        .foregroundColor(Color("Negative"))
+                    Button(action: {
+                        isShowing = false
+                    }) {
+                        Text("Close")
+                            .fontWeight(.semibold)
+                            .foregroundColor(Color("Negative"))
+                    }
                     
                     Spacer()
                 }
                 .padding()
-                .frame(width: geometry.size.width * 0.8, height: geometry.size.height * 0.5)
-                .background(Color.white)
+                .frame(width: geometry.size.width * 0.8, height: geometry.size.height * 0.6)
+                .background(Color.white.opacity(0.9))
                 .cornerRadius(15)
                 .shadow(radius: 10)
                 .overlay(
@@ -92,8 +102,3 @@ struct AwardPopupView: View {
     }
 }
 
-struct AwardPopupView_Previews: PreviewProvider {
-    static var previews: some View {
-        AwardPopupView(streak: 3) 
-    }
-}

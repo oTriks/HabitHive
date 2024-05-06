@@ -86,13 +86,11 @@ struct DailyHabitCardView: View {
         }
     }
     
-    
-    
     private func toggleProgressStatus() {
         let dateString = formatDate(selectedDate)
         let currentStatus = habit.progress?[dateString] ?? "Pending"
         let newStatus: String
-        
+
         switch currentStatus {
         case "Done":
             newStatus = "Failed"
@@ -101,11 +99,12 @@ struct DailyHabitCardView: View {
         default:
             newStatus = "Done"
         }
-        print("Toggling progress status for habit:", habit.name)
-        print("Current status:", currentStatus)
-        print("New status:", newStatus)
-        viewModel.updateProgress(for: habit.id ?? "", on: dateString, to: newStatus)
+
+        if let milestone = viewModel.updateProgress(for: habit.id ?? "", on: dateString, to: newStatus) {
+            onStreakAchieved(milestone)
+        }
     }
+
     
     private func formatDate(_ date: Date) -> String {
         let formatter = DateFormatter()

@@ -4,6 +4,7 @@ import FirebaseFirestore
 
 class DailyViewModel: ObservableObject {
     @Published var habits: [Habit] = []
+    @Published var filteredHabits: [(habit: Habit, progressStatus: String?)] = []
     private var db = Firestore.firestore()
     private var listener: ListenerRegistration?
     private let milestones = [1, 3, 7, 14, 30]
@@ -12,20 +13,35 @@ class DailyViewModel: ObservableObject {
         listener?.remove()
     }
     
+    init(){
+        fetchHabits()
+    }
+    
     func fetchHabits() {
+        listener?.remove()
+        
         listener = db.collection("habits").addSnapshotListener { querySnapshot, error in
-            guard let documents = querySnapshot?.documents else {
-                print("No documents")
+            if let error = error {
+                print("Error fetching habits: \(error.localizedDescription)")
                 return
             }
             
+            guard let documents = querySnapshot?.documents else {
+                print("No documents found")
+                return
+            }
+
+            print("Fetched \(documents.count) habit documents from Firestore")
+
             self.habits = documents.compactMap { queryDocumentSnapshot -> Habit? in
                 var habit = try? queryDocumentSnapshot.data(as: Habit.self)
                 habit?.id = queryDocumentSnapshot.documentID
                 return habit
             }
+            print("Updated habits array with \(self.habits.count) items")
         }
     }
+
     
     private func calculateCurrentStreak(for habit: Habit) -> Int {
         guard let progress = habit.progress else {
@@ -68,7 +84,18 @@ class DailyViewModel: ObservableObject {
         return currentStreak
     }
     
-    
+    func refreshHabits(for date: Date) {
+            let dateString = formatDate(date)
+            filteredHabits = habits.compactMap { habit in
+                if habit.dailyMap?[dateString] ?? false {
+                    let progressStatus = habit.progress?[dateString] ?? nil
+                    return (habit: habit, progressStatus: progressStatus)
+                }
+                return nil
+            }
+        }
+   
+   
     
     func updateProgress(for habitID: String, on dateString: String, to newStatus: String) -> Int? {
         guard let index = habits.firstIndex(where: { $0.id == habitID }) else { return nil }
