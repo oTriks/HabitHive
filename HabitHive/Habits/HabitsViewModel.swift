@@ -37,6 +37,42 @@ class HabitsViewModel: ObservableObject {
         }
     }
     
+    func updateHabit(habitID: String, name: String, description: String, frequency: String, startDate: Date, endDate: Date) {
+        guard let index = habits.firstIndex(where: { $0.id == habitID }) else {
+            print("Habit not found")
+            return
+        }
+
+        // Update the habit locally
+        habits[index].name = name
+        habits[index].description = description
+        habits[index].frequency = frequency
+        habits[index].startDate = startDate
+        habits[index].endDate = endDate
+
+        let startDateTimestamp = Timestamp(date: startDate)
+        let endDateTimestamp = Timestamp(date: endDate)
+
+        let habitRef = db.collection("habits").document(habitID)
+        habitRef.updateData([
+            "name": name,
+            "description": description,
+            "frequency": frequency,
+            "startDate": startDateTimestamp,
+            "endDate": endDateTimestamp
+        ]) { error in
+            if let error = error {
+                print("Error updating habit: \(error)")
+            } else {
+                DispatchQueue.main.async {
+                    self.objectWillChange.send()
+                }
+                print("Habit updated successfully")
+            }
+        }
+    }
+
+    
     func configure(withUserID userID: String) {
         self.userID = userID
         fetchHabits()

@@ -45,7 +45,7 @@ struct ContentView: View {
                     }) {
                         Image("avatar_dark")
                             .resizable()
-                            .frame(width: 48, height: 48)
+                            .frame(width: 40, height: 40)
                     }
                 }
             }

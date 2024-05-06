@@ -39,7 +39,7 @@ struct ScrollableWeekdaysView: View {
                     scrollToCurrentDate(using: scrollViewProxy)
                 }
                 .onAppear {
-                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.0) {
                         self.dataLoaded = true
                     }
                 }
@@ -59,10 +59,6 @@ struct ScrollableWeekdaysView: View {
         }
     }
 }
-
-
-
-
 
 
 struct DayView: View {
