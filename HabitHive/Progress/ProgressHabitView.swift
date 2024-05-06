@@ -8,8 +8,7 @@ struct ProgressHabitView: View {
     var body: some View {
         ScrollView {
             VStack(alignment: .leading, spacing: 20) {
-                // Display SuccessCircleView using calculated statistics
-                SectionHeaderView(title: "Task Progress")
+                SectionHeaderView(title: "Progress")
                 HStack {
                     Spacer()
                     SuccessCircleView(doneCount: viewModel.doneCount, failedCount: viewModel.failedCount, pendingCount: viewModel.pendingCount)
@@ -20,8 +19,7 @@ struct ProgressHabitView: View {
                 Divider()
                     .background(Color("Primary details"))
                 
-                // Example end date calculation (1 month after start date)
-                SectionHeaderView(title: "Time-Based Progress")
+                SectionHeaderView(title: "Time completion")
                 let endDate = Calendar.current.date(byAdding: .month, value: 1, to: habit.startDate) ?? Date()
                 ProgressIndicatorView(
                     startDate: habit.startDate,
@@ -37,7 +35,7 @@ struct ProgressHabitView: View {
                     VStack {
                         Text("Current")
                             .font(.headline)
-                        Text("\(viewModel.currentStreak) days") // Replace with the actual streak count
+                        Text("\(viewModel.currentStreak) days")
                             .font(.title)
                             .foregroundColor(.green)
                     }
@@ -46,7 +44,7 @@ struct ProgressHabitView: View {
                     VStack {
                         Text("Best")
                             .font(.headline)
-                        Text("\(viewModel.bestStreak) days") // Replace with the actual streak count
+                        Text("\(viewModel.bestStreak) days")
                             .font(.title)
                             .foregroundColor(.blue)
                     }
@@ -64,7 +62,6 @@ struct ProgressHabitView: View {
 
             .navigationBarTitle(Text(habit.name), displayMode: .inline)
             .onAppear {
-                // Calculate statistics for the given habit
                 viewModel.calculateStatistics(for: habit)
             }
         }
@@ -73,7 +70,6 @@ struct ProgressHabitView: View {
 
 
 
-// Simple Section Header View
 struct SectionHeaderView: View {
     let title: String
 

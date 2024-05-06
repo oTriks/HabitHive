@@ -1,12 +1,10 @@
 import SwiftUI
 
-// Struct representing a notification
 struct UserNotification: Identifiable, Codable {
-    let id: String // Unique identifier as a String
+    let id: String
     let time: String
     let type: NotificationType
 
-    // Initialize with a string `id`
     init(id: String = UUID().uuidString, time: String, type: NotificationType) {
         self.id = id
         self.time = time
@@ -23,10 +21,10 @@ enum NotificationType: String, Codable {
 
 struct CustomPopupView: View {
     @Binding var isPresented: Bool
-    @State private var showNewNotification = false // State to toggle content
-    @State private var selectedTime = Date() // State to store the selected time
-    @State private var selectedNotificationType: NotificationType = .silent // Default type
-    @StateObject private var viewModel = NotificationViewModel() // Create the view model
+    @State private var showNewNotification = false
+    @State private var selectedTime = Date()
+    @State private var selectedNotificationType: NotificationType = .silent
+    @StateObject private var viewModel = NotificationViewModel()
 
 
     var body: some View {
@@ -43,18 +41,16 @@ struct CustomPopupView: View {
                                 .fontWeight(.semibold)
 
                             VStack(spacing: 10) {
-                                // DatePicker for the time
                                 HStack {
                                     Image(systemName: "clock")
                                         .foregroundColor(Color("Positive"))
                                     DatePicker("Select Time", selection: $selectedTime, displayedComponents: .hourAndMinute)
-                                        .labelsHidden() // Hide label to show only time
+                                        .labelsHidden()
                                 }
 
                                 Divider()
                                     .background(Color("Positive"))
 
-                                // Notification type selection (Silent, Notification, Alarm)
                                 HStack(spacing: 20) {
                                     ForEach(NotificationType.allCases, id: \.self) { type in
                                         VStack {
@@ -74,7 +70,6 @@ struct CustomPopupView: View {
                                     .background(Color("Positive"))
                             }
 
-                            // Cancel and Confirm Buttons
                             HStack(spacing: 70) {
                                 Text("Cancel")
                                     .fontWeight(.semibold)
@@ -86,18 +81,16 @@ struct CustomPopupView: View {
                                     .fontWeight(.semibold)
                                     .foregroundColor(Color("Positive"))
                                     .onTapGesture {
-                                        // Confirm the notification settings
                                         let formatter = DateFormatter()
                                         formatter.dateFormat = "h:mm a"
                                         let formattedTime = formatter.string(from: selectedTime)
 
                                         let newNotification = UserNotification(time: formattedTime, type: selectedNotificationType)
-                                        viewModel.addNotification(newNotification) // Add notification to Firestore
+                                        viewModel.addNotification(newNotification)
                                         showNewNotification = false
                                     }
                             }
                         } else {
-                            // Display existing notifications
                             Text("Notifications")
                                 .font(.title)
                                 .fontWeight(.semibold)
@@ -113,14 +106,13 @@ struct CustomPopupView: View {
                                     Image(systemName: "trash")
                                         .foregroundColor(Color("Negative"))
                                         .onTapGesture {
-                                            viewModel.removeNotification(withId: notification.id) // Remove from Firestore
+                                            viewModel.removeNotification(withId: notification.id)
                                         }
                                 }
                                 Divider()
                                     .background(Color("Positive"))
                             }
 
-                            // New Notification Button
                             HStack(spacing: 10) {
                                 Image(systemName: "plus")
                                 Text("New Notification")
@@ -138,7 +130,7 @@ struct CustomPopupView: View {
                                 .fontWeight(.semibold)
                                 .foregroundColor(Color("Negative"))
                                 .onTapGesture {
-                                    isPresented = false // Close the popup
+                                    isPresented = false
                                 }
 
                         }
@@ -153,13 +145,12 @@ struct CustomPopupView: View {
                         RoundedRectangle(cornerRadius: 15)
                             .stroke(Color.gray, lineWidth: 1)
                     )
-                    .fixedSize(horizontal: false, vertical: true) // Ensure vertical expansion
+                    .fixedSize(horizontal: false, vertical: true)
                     .position(x: geometry.size.width / 2, y: geometry.size.height / 2)
                 }
             }
         }
 
-        // Helper function to map the notification type to an icon
         private func icon(for type: NotificationType) -> String {
             switch type {
             case .silent:
@@ -173,7 +164,6 @@ struct CustomPopupView: View {
     }
 
 
-  // Allow NotificationType to be used with `ForEach`
   extension NotificationType: CaseIterable {}
 
 

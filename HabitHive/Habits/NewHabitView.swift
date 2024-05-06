@@ -8,12 +8,15 @@ struct NewHabitView: View {
     @State private var showDayPicker = false
     @State private var startDate = Date()
     @State private var selectedNotifications: [UserNotification] = []
+    @State private var isStartDatePickerVisible = false
+    @State private var isEndDatePickerVisible = false
     @EnvironmentObject var userModel: UserModel
     @ObservedObject var viewModel: NewHabitViewModel
     @StateObject private var notificationViewModel = NotificationViewModel()
     @Binding var isPresented: Bool
     @Binding var shouldDismissToHabits: Bool
     @State private var showingNotificationSetup = false
+    @Environment(\.presentationMode) var presentationMode
 
     init(isPresented: Binding<Bool>, shouldDismissToHabits: Binding<Bool>, userModel: UserModel) {
         self._isPresented = isPresented
@@ -36,6 +39,7 @@ struct NewHabitView: View {
                     case 1:
                         TextField("What habit?", text: $habitName)
                             .modifier(ElevatedTextFieldStyle())
+
                         TextField("Describe the habit (optional)", text: $habitDescription)
                             .modifier(ElevatedTextFieldStyle())
 
@@ -52,8 +56,13 @@ struct NewHabitView: View {
                                 Text("Start Date")
                                     .padding(.leading)
                                 Spacer()
+                                
+                                
+                                
                                 Text("Today")
                                     .padding(.trailing)
+                                    .foregroundColor(Color("Positive"))
+
                             }
                             Divider().padding(.horizontal)
 
@@ -65,11 +74,13 @@ struct NewHabitView: View {
                                 Spacer()
                                 Text(formattedDate(from: endDate))
                                     .padding(.trailing)
+                                    .foregroundColor(Color("Positive"))
                             }
                             Divider().padding(.horizontal)
 
                             HStack {
                                 Image(systemName: "alarm")
+                                    .padding(.leading)
                                 Text("Notifications")
                                     .padding(.leading)
                                 Spacer()
@@ -77,35 +88,37 @@ struct NewHabitView: View {
                                     showingNotificationSetup = true
                                 }) {
                                     Text("Add new")
-                                        .foregroundColor(.blue)
+                                        .foregroundColor(Color("Positive"))
                                 }
                                 .padding(.trailing)
                             }
                             Divider().padding(.horizontal)
-
+                            
+                            let sortedNotifications = notificationViewModel.notifications.sorted { $0.time < $1.time }
                             VStack(alignment: .leading, spacing: 8) {
-                                ForEach(notificationViewModel.notifications) { notification in
-                                    HStack {
-                                        Text("\(notification.time) (\(notification.type.rawValue))")
-                                        Spacer()
-                                        Image(systemName: selectedNotifications.contains(where: { $0.id == notification.id }) ? "checkmark.circle.fill" : "circle")
-                                            .foregroundColor(.blue)
-                                            .onTapGesture {
-                                                // Toggle selection
-                                                if let index = selectedNotifications.firstIndex(where: { $0.id == notification.id }) {
-                                                    selectedNotifications.remove(at: index)
-                                                } else {
-                                                    selectedNotifications.append(notification)
-                                                }
-                                            }
-                                    }
-                                    .padding(.horizontal)
-                                    .padding(.vertical, 4)
-                                    .background(Color.gray.opacity(0.1))
-                                    .cornerRadius(8)
-                                }
-                            }
-                        }
+                                       ForEach(sortedNotifications) { notification in
+                                           HStack {
+                                               Text("\(notification.time) (\(notification.type.rawValue))")
+                                                   .padding(.leading)
+                                                   .padding(.leading)
+                                               Spacer()
+                                               Image(systemName: selectedNotifications.contains(where: { $0.id == notification.id }) ? "checkmark.circle.fill" : "circle")
+                                                   .foregroundColor(Color("Positive"))
+                                                   .onTapGesture {
+                                                       if let index = selectedNotifications.firstIndex(where: { $0.id == notification.id }) {
+                                                           selectedNotifications.remove(at: index)
+                                                       } else {
+                                                           selectedNotifications.append(notification)
+                                                       }
+                                                   }
+                                           }
+                                           .padding(.horizontal)
+                                           .padding(.vertical, 4)
+                                           .background(Color.gray.opacity(0.1))
+                                           .cornerRadius(8)
+                                       }
+                                   }
+                               }
 
                     default:
                         Text("Creating new habit...")
@@ -157,6 +170,7 @@ struct NewHabitView: View {
                                 case .success(let updatedHabit):
                                     print("Habit Created with ID: \(updatedHabit.id ?? "unknown")")
                                     shouldDismissToHabits = true
+                                    presentationMode.wrappedValue.dismiss()
 
                                 case .failure(let error):
                                     print("Error creating habit: \(error)")
@@ -175,10 +189,26 @@ struct NewHabitView: View {
             .sheet(isPresented: $showingNotificationSetup) {
                 CustomPopupView(isPresented: $showingNotificationSetup)
             }
-            .navigationTitle("Step \(step)")
+            .navigationTitle(headerTitle(for: step))
             .onAppear {
                 notificationViewModel.fetchNotifications()
+                
             }
+        }
+    }
+
+    
+    
+    private func headerTitle(for step: Int) -> String {
+        switch step {
+        case 1:
+            return "Name & description"
+        case 2:
+            return "Set Frequency"
+        case 3:
+            return "When & notifications"
+        default:
+            return "New Habit"
         }
     }
 }

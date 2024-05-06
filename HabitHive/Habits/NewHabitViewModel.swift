@@ -34,54 +34,52 @@ class NewHabitViewModel: ObservableObject {
            }
        }
     
-    func saveHabitToFirestore(habit: Habit, completion: @escaping (Result<Habit, Error>) -> Void) {
-        var localHabit = habit
-        localHabit.userID = self.userID
-        localHabit.progress = generateDateProgressMap()
-        localHabit.dailyMap = generateDailyMap(habit: habit)
-
-        let habitsCollection = db.collection("habits")
-        do {
-            let ref = try habitsCollection.addDocument(from: localHabit)
-            localHabit.id = ref.documentID
-            ref.getDocument { [weak self] document, error in
-                guard let self = self else { return }
-                
-                if let error = error {
-                    completion(.failure(error))
-                } else {
-                    // Unwrap the optional notifications array
-                    guard let notifications = habit.notifications else {
-                        print("No notifications to schedule.")
-                        completion(.success(localHabit))
-                        return
-                    }
-                    
-                    // Schedule selected notifications
-                    for notification in notifications {
-                        self.scheduleNotification(
-                            time: notification.time,
-                            title: "Habit Reminder",
-                            message: "Don't forget your habit: \(habit.name)!",
-                            identifier: UUID().uuidString
-                        )
-                    }
-                    completion(.success(localHabit))
-                }
-            }
-        } catch {
-            completion(.failure(error))
-        }
-    }
-
-
     
-    // Function to schedule notification
-       private func scheduleNotification(time: String, title: String, message: String, identifier: String) {
+    
+    func saveHabitToFirestore(habit: Habit, completion: @escaping (Result<Habit, Error>) -> Void) {
+            var localHabit = habit
+            localHabit.userID = self.userID
+            localHabit.progress = generateDateProgressMap()
+            localHabit.dailyMap = generateDailyMap(habit: habit)
+
+            let habitsCollection = db.collection("habits")
+            do {
+                let ref = try habitsCollection.addDocument(from: localHabit)
+                localHabit.id = ref.documentID
+                ref.getDocument { [weak self] document, error in
+                    guard let self = self else { return }
+                    
+                    if let error = error {
+                        completion(.failure(error))
+                    } else {
+                        guard let notifications = habit.notifications else {
+                            print("No notifications to schedule.")
+                            completion(.success(localHabit))
+                            return
+                        }
+                        
+                        for notification in notifications {
+                            switch notification.type {
+                            case .silent:
+                                self.scheduleSilentNotification(time: notification.time, identifier: UUID().uuidString)
+                            case .notification:
+                                self.scheduleNotificationWithSound(time: notification.time, title: "Habit Reminder", message: "Don't forget your habit: \(habit.name)!", identifier: UUID().uuidString)
+                            case .alarm:
+                                self.scheduleAlarmNotification(time: notification.time, identifier: UUID().uuidString)
+                            }
+                        }
+                        completion(.success(localHabit))
+                    }
+                }
+            } catch {
+                completion(.failure(error))
+            }
+        }
+
+       private func scheduleSilentNotification(time: String, identifier: String) {
            let content = UNMutableNotificationContent()
-           content.title = title
-           content.body = message
-           content.sound = UNNotificationSound.default
+           content.title = ""
+           content.body = ""
 
            let formatter = DateFormatter()
            formatter.dateFormat = "h:mm a"
@@ -98,12 +96,69 @@ class NewHabitViewModel: ObservableObject {
 
            UNUserNotificationCenter.current().add(request) { error in
                if let error = error {
-                   print("Error scheduling notification: \(error)")
+                   print("Error scheduling silent notification: \(error)")
                } else {
-                   print("Notification scheduled successfully!")
+                   print("Silent notification scheduled successfully!")
                }
            }
        }
+
+        private func scheduleNotificationWithSound(time: String, title: String, message: String, identifier: String) {
+            let content = UNMutableNotificationContent()
+            content.title = title
+            content.body = message
+            content.sound = UNNotificationSound.default
+
+            let formatter = DateFormatter()
+            formatter.dateFormat = "h:mm a"
+            guard let notificationTime = formatter.date(from: time) else {
+                print("Invalid time format")
+                return
+            }
+
+            let calendar = Calendar.current
+            let dateComponents = calendar.dateComponents([.hour, .minute], from: notificationTime)
+            let trigger = UNCalendarNotificationTrigger(dateMatching: dateComponents, repeats: false)
+
+            let request = UNNotificationRequest(identifier: identifier, content: content, trigger: trigger)
+
+            UNUserNotificationCenter.current().add(request) { error in
+                if let error = error {
+                    print("Error scheduling notification: \(error)")
+                } else {
+                    print("Notification scheduled successfully!")
+                }
+            }
+        }
+
+    private func scheduleAlarmNotification(time: String, identifier: String) {
+           let content = UNMutableNotificationContent()
+           content.title = "Alarm"
+           content.body = "It's time for your alarm!"
+            content.sound = UNNotificationSound(named: UNNotificationSoundName(rawValue: "iphone_alarm.mp3"))
+
+           let formatter = DateFormatter()
+           formatter.dateFormat = "h:mm a"
+           guard let notificationTime = formatter.date(from: time) else {
+               print("Invalid time format")
+               return
+           }
+
+           let calendar = Calendar.current
+           let dateComponents = calendar.dateComponents([.hour, .minute], from: notificationTime)
+           let trigger = UNCalendarNotificationTrigger(dateMatching: dateComponents, repeats: false)
+
+           let request = UNNotificationRequest(identifier: identifier, content: content, trigger: trigger)
+
+           UNUserNotificationCenter.current().add(request) { error in
+               if let error = error {
+                   print("Error scheduling alarm notification: \(error)")
+               } else {
+                   print("Alarm notification scheduled successfully!")
+               }
+           }
+       }
+    
 
     
     private func generateDateProgressMap() -> [String: String] {

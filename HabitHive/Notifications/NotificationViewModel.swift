@@ -35,6 +35,8 @@ class NotificationViewModel: ObservableObject {
         }
     }
 
+    
+    
     // Remove a notification from Firestore
     func removeNotification(withId id: String) {
         db.collection("notifications").whereField("id", isEqualTo: id).getDocuments { snapshot, error in
