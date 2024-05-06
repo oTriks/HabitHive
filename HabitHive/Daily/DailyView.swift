@@ -3,7 +3,10 @@ import SwiftUI
 struct DailyView: View {
     @ObservedObject var viewModel = DailyViewModel()
     @State private var selectedDate = Date()
-    
+    @State private var isShowingAwardPopup = false
+
+    @State private var achievedStreak = 0
+
     var body: some View {
         NavigationView {
             VStack {
@@ -20,7 +23,10 @@ struct DailyView: View {
                                                             viewModel: viewModel,
                                                             habit: habit,
                                                             progressStatus: progressStatus,
-                                                            selectedDate: selectedDate
+                                                            selectedDate: selectedDate,  onStreakAchieved: { milestone in
+                                                                achievedStreak = milestone
+                                                                isShowingAwardPopup = true
+                                                            }
                                                         )
                             .padding(.horizontal)
                         }
@@ -29,6 +35,9 @@ struct DailyView: View {
                 }
             }
             .navigationBarHidden(true)
+            .sheet(isPresented: $isShowingAwardPopup) {
+                            AwardPopupView(streak: achievedStreak)
+                        }
             .onAppear {
                 viewModel.fetchHabits()
                 selectedDate = Date()

@@ -4,7 +4,7 @@ struct ScrollDaysView: View {
     var startDate: Date
     var endDate: Date
     @Binding var selectedDate: Date
-    
+
     private var dates: [Date] {
         var currentDate = startDate
         var dateArray = [Date]()

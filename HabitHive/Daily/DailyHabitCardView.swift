@@ -6,6 +6,7 @@ struct DailyHabitCardView: View {
     var habit: Habit
     var progressStatus: String? // Status for the selected date
     var selectedDate: Date
+    var onStreakAchieved: (Int) -> Void // Callback for achieving a streak
 
     var body: some View {
            HStack {
@@ -105,7 +106,9 @@ struct DailyHabitCardView: View {
            default:
                newStatus = "Done"
            }
-
+           print("Toggling progress status for habit:", habit.name)
+               print("Current status:", currentStatus)
+               print("New status:", newStatus)
            // Update the habit's progress map
            viewModel.updateProgress(for: habit.id ?? "", on: dateString, to: newStatus)
        }
