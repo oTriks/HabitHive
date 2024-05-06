@@ -38,13 +38,15 @@ struct ContentView: View {
                     }
                     .tag(2)
             }
-            .navigationTitle(navigationTitle) // Use the dynamic navigation title
+            .navigationTitle(navigationTitle)
             .toolbar {
                 ToolbarItem(placement: .navigationBarTrailing) {
                     Button(action: {
                         // Actions for the button
                     }) {
-                        Image(systemName: "plus")
+                        Image("avatar_dark")
+                            .resizable() // Make the image resizable
+                                    .frame(width: 48, height: 48) // Set the desired width and height
                     }
                 }
             }

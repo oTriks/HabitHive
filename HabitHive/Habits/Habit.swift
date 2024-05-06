@@ -4,11 +4,15 @@ import Foundation
 struct Habit: Codable, Identifiable {
     var id: String?
     var name: String
+    
     var description: String
     var frequency: String
     var startDate: Date
-    var daysOfWeek: [String]?  
+    var endDate: Date 
+    var daysOfWeek: [String]?
     var progress: [String: String]?
-    var userID: String // Reference to the user who owns the habit
+    var userID: String
+    var dailyMap: [String: Bool]?
+    var notifications: [UserNotification]? // Add this attribute to hold notifications
 
 }

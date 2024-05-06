@@ -49,6 +49,17 @@
 		5548ED592BE3DD0E00E4CBF2 /* AuthManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5548ED582BE3DD0E00E4CBF2 /* AuthManager.swift */; };
 		5548ED5C2BE4F8F600E4CBF2 /* DateUtilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5548ED5B2BE4F8F600E4CBF2 /* DateUtilities.swift */; };
 		5548ED602BE50C0500E4CBF2 /* ScrollDaysView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5548ED5F2BE50C0500E4CBF2 /* ScrollDaysView.swift */; };
+		5548ED662BE649C200E4CBF2 /* Notifications.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5548ED652BE649C200E4CBF2 /* Notifications.swift */; };
+		5548ED682BE653CA00E4CBF2 /* BarGraphView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5548ED672BE653CA00E4CBF2 /* BarGraphView.swift */; };
+		5548ED6A2BE653FC00E4CBF2 /* LineGraphView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5548ED692BE653FC00E4CBF2 /* LineGraphView.swift */; };
+		5548ED6C2BE654A600E4CBF2 /* ProgressIndicatorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5548ED6B2BE654A600E4CBF2 /* ProgressIndicatorView.swift */; };
+		5548ED6E2BE6571300E4CBF2 /* SuccessCircleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5548ED6D2BE6571300E4CBF2 /* SuccessCircleView.swift */; };
+		5548ED702BE7958200E4CBF2 /* MonthTimelineView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5548ED6F2BE7958200E4CBF2 /* MonthTimelineView.swift */; };
+		5548ED722BE7A08B00E4CBF2 /* ChallengesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5548ED712BE7A08B00E4CBF2 /* ChallengesView.swift */; };
+		5548ED742BE7B65F00E4CBF2 /* AwardPopupView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5548ED732BE7B65E00E4CBF2 /* AwardPopupView.swift */; };
+		5548ED782BE7B97200E4CBF2 /* HelperDIalogView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5548ED772BE7B97200E4CBF2 /* HelperDIalogView.swift */; };
+		5548ED7A2BE7CAA500E4CBF2 /* CardProgressBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5548ED792BE7CAA500E4CBF2 /* CardProgressBar.swift */; };
+		5548ED7D2BE7EA1500E4CBF2 /* NotificationViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5548ED7C2BE7EA1500E4CBF2 /* NotificationViewModel.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -92,6 +103,17 @@
 		5548ED582BE3DD0E00E4CBF2 /* AuthManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthManager.swift; sourceTree = "<group>"; };
 		5548ED5B2BE4F8F600E4CBF2 /* DateUtilities.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateUtilities.swift; sourceTree = "<group>"; };
 		5548ED5F2BE50C0500E4CBF2 /* ScrollDaysView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScrollDaysView.swift; sourceTree = "<group>"; };
+		5548ED652BE649C200E4CBF2 /* Notifications.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Notifications.swift; sourceTree = "<group>"; };
+		5548ED672BE653CA00E4CBF2 /* BarGraphView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BarGraphView.swift; sourceTree = "<group>"; };
+		5548ED692BE653FC00E4CBF2 /* LineGraphView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LineGraphView.swift; sourceTree = "<group>"; };
+		5548ED6B2BE654A600E4CBF2 /* ProgressIndicatorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgressIndicatorView.swift; sourceTree = "<group>"; };
+		5548ED6D2BE6571300E4CBF2 /* SuccessCircleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SuccessCircleView.swift; sourceTree = "<group>"; };
+		5548ED6F2BE7958200E4CBF2 /* MonthTimelineView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MonthTimelineView.swift; sourceTree = "<group>"; };
+		5548ED712BE7A08B00E4CBF2 /* ChallengesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChallengesView.swift; sourceTree = "<group>"; };
+		5548ED732BE7B65E00E4CBF2 /* AwardPopupView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AwardPopupView.swift; sourceTree = "<group>"; };
+		5548ED772BE7B97200E4CBF2 /* HelperDIalogView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HelperDIalogView.swift; sourceTree = "<group>"; };
+		5548ED792BE7CAA500E4CBF2 /* CardProgressBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardProgressBar.swift; sourceTree = "<group>"; };
+		5548ED7C2BE7EA1500E4CBF2 /* NotificationViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationViewModel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -127,6 +149,7 @@
 		550961F72BD8004400DB5DEC /* HabitHive */ = {
 			isa = PBXGroup;
 			children = (
+				5548ED7B2BE7E8C100E4CBF2 /* Notifications */,
 				5548ED5A2BE4F8EC00E4CBF2 /* Utils */,
 				550962382BDA4D1400DB5DEC /* GoogleService-Info.plist */,
 				550962252BD91D8300DB5DEC /* Customs */,
@@ -211,9 +234,17 @@
 				5509EA8B2BDA776C0048A8DF /* FloatingActionButton.swift */,
 				5509EA8F2BDA7E200048A8DF /* FrequencySelevtionView.swift */,
 				5509EA912BDA7FF10048A8DF /* DayPickerView.swift */,
-				5509EA952BDA8E500048A8DF /* CustomPopupView.swift */,
 				5509EA9F2BDBA6740048A8DF /* ScrollableWeekdaysView.swift */,
 				5509EA9B2BDB9D790048A8DF /* HabitCardView.swift */,
+				5548ED672BE653CA00E4CBF2 /* BarGraphView.swift */,
+				5548ED692BE653FC00E4CBF2 /* LineGraphView.swift */,
+				5548ED6B2BE654A600E4CBF2 /* ProgressIndicatorView.swift */,
+				5548ED6D2BE6571300E4CBF2 /* SuccessCircleView.swift */,
+				5548ED6F2BE7958200E4CBF2 /* MonthTimelineView.swift */,
+				5548ED712BE7A08B00E4CBF2 /* ChallengesView.swift */,
+				5548ED732BE7B65E00E4CBF2 /* AwardPopupView.swift */,
+				5548ED772BE7B97200E4CBF2 /* HelperDIalogView.swift */,
+				5548ED792BE7CAA500E4CBF2 /* CardProgressBar.swift */,
 			);
 			path = Customs;
 			sourceTree = "<group>";
@@ -222,8 +253,18 @@
 			isa = PBXGroup;
 			children = (
 				5548ED5B2BE4F8F600E4CBF2 /* DateUtilities.swift */,
+				5548ED652BE649C200E4CBF2 /* Notifications.swift */,
 			);
 			path = Utils;
+			sourceTree = "<group>";
+		};
+		5548ED7B2BE7E8C100E4CBF2 /* Notifications */ = {
+			isa = PBXGroup;
+			children = (
+				5509EA952BDA8E500048A8DF /* CustomPopupView.swift */,
+				5548ED7C2BE7EA1500E4CBF2 /* NotificationViewModel.swift */,
+			);
+			path = Notifications;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -317,28 +358,39 @@
 				5509EAA22BDBAA820048A8DF /* DailyHabitCardView.swift in Sources */,
 				5509EA942BDA8CE90048A8DF /* HabitsViewModel.swift in Sources */,
 				5548ED5C2BE4F8F600E4CBF2 /* DateUtilities.swift in Sources */,
+				5548ED7D2BE7EA1500E4CBF2 /* NotificationViewModel.swift in Sources */,
 				5509EA982BDB98160048A8DF /* NewHabitViewModel.swift in Sources */,
+				5548ED782BE7B97200E4CBF2 /* HelperDIalogView.swift in Sources */,
+				5548ED662BE649C200E4CBF2 /* Notifications.swift in Sources */,
 				5548ED602BE50C0500E4CBF2 /* ScrollDaysView.swift in Sources */,
 				5509EA8E2BDA7A9B0048A8DF /* NewHabitView.swift in Sources */,
+				5548ED6C2BE654A600E4CBF2 /* ProgressIndicatorView.swift in Sources */,
 				5509EAAE2BDBB1E00048A8DF /* ProgressHabitViewModel.swift in Sources */,
 				5548ED4F2BE3828A00E4CBF2 /* DebugCurrentDateView.swift in Sources */,
 				550962132BD8085900DB5DEC /* LogInView.swift in Sources */,
 				550962152BD8091F00DB5DEC /* NavigationItems.swift in Sources */,
 				550961FB2BD8004400DB5DEC /* ContentView.swift in Sources */,
+				5548ED702BE7958200E4CBF2 /* MonthTimelineView.swift in Sources */,
 				5509EA922BDA7FF10048A8DF /* DayPickerView.swift in Sources */,
 				550962372BDA484100DB5DEC /* LoginViewModel.swift in Sources */,
+				5548ED722BE7A08B00E4CBF2 /* ChallengesView.swift in Sources */,
 				5548ED592BE3DD0E00E4CBF2 /* AuthManager.swift in Sources */,
+				5548ED6E2BE6571300E4CBF2 /* SuccessCircleView.swift in Sources */,
 				5509621C2BD8EBF000DB5DEC /* CustomButton.swift in Sources */,
 				550961F92BD8004400DB5DEC /* HabitHiveApp.swift in Sources */,
+				5548ED6A2BE653FC00E4CBF2 /* LineGraphView.swift in Sources */,
 				5509EA8C2BDA776C0048A8DF /* FloatingActionButton.swift in Sources */,
 				5509EAAA2BDBB1800048A8DF /* ProgressViewModel.swift in Sources */,
 				5509EAA82BDBB1010048A8DF /* ProgressHabitCardView.swift in Sources */,
+				5548ED742BE7B65F00E4CBF2 /* AwardPopupView.swift in Sources */,
 				5509EA962BDA8E500048A8DF /* CustomPopupView.swift in Sources */,
 				550962202BD8F74500DB5DEC /* Checkbox.swift in Sources */,
 				5548ED572BE3D5E500E4CBF2 /* UserModel.swift in Sources */,
+				5548ED682BE653CA00E4CBF2 /* BarGraphView.swift in Sources */,
 				5509620F2BD8050600DB5DEC /* HabitsView.swift in Sources */,
 				5509EAA62BDBAE1B0048A8DF /* DailyViewModel.swift in Sources */,
 				5509EA902BDA7E200048A8DF /* FrequencySelevtionView.swift in Sources */,
+				5548ED7A2BE7CAA500E4CBF2 /* CardProgressBar.swift in Sources */,
 				550962172BD80A6F00DB5DEC /* SignUpView.swift in Sources */,
 				5509620B2BD804AC00DB5DEC /* ProgressView.swift in Sources */,
 			);
