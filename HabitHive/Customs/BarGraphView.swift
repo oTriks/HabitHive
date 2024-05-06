@@ -1,37 +1,45 @@
 import SwiftUI
 
 struct BarGraphView: View {
-    var habitData: [String: Int] // Dictionary containing habit completion data for each month
+    var habitData: [String: Int]
     private let months = [
         "Jan", "Feb", "Mar", "Apr", "May", "Jun",
         "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"
     ]
 
+    var maxCount: Int {
+        // Get the maximum count from the data for scaling purposes
+        habitData.values.max() ?? 1
+    }
+
     var body: some View {
         VStack {
-            // Bar Graph with months' data
             HStack(alignment: .bottom, spacing: 8) {
                 ForEach(0..<months.count, id: \.self) { index in
                     VStack {
-                        // Calculate bar height based on habit completion count for the month
+                        // Retrieve the completion count for the given month
                         let completionCount = habitData[months[index]] ?? 0
-                        let barHeight = CGFloat(completionCount) / 31 * 200 // 31 is the maximum value for a month
-                        
-                        // Create a bar for each month
-                        Rectangle()
-                            .fill(Color.blue)
-                            .frame(width: 20, height: barHeight)
+                        // Normalize bar height based on the maximum count
+                        let barHeight = CGFloat(completionCount) / CGFloat(maxCount) * 200
 
-                        // Month abbreviation label
-                        Text(months[index])
-                            .font(.caption)
-                            .foregroundColor(.primary)
-                        
-                        // Completion count label above the bar
+                        // Display the count above the bar
                         Text("\(completionCount)")
                             .font(.caption)
                             .foregroundColor(.primary)
-                            .padding(.top, 2)
+                            .padding(.bottom, 2)
+
+                        // Display the bar itself
+                        Rectangle()
+                            .fill(Color("Positive"))
+                            .frame(width: 20, height: barHeight)
+
+                        // Display the month name below the bar
+                        Text(months[index])
+                            .font(.caption)
+                            .foregroundColor(.primary)
+                            .frame(width: 24) // Set a width that works well for your needs
+                            .fixedSize(horizontal: true, vertical: false) // Ensure the label doesn't shrink
+
                     }
                 }
             }
@@ -40,10 +48,9 @@ struct BarGraphView: View {
     }
 }
 
-// Preview Provider for the BarGraphView
+
 struct BarGraphView_Previews: PreviewProvider {
     static var previews: some View {
-        // Example habit data representing completions for each month
         let habitData: [String: Int] = [
             "Jan": 15, "Feb": 20, "Mar": 10, "Apr": 25,
             "May": 12, "Jun": 18, "Jul": 22, "Aug": 14,
@@ -51,6 +58,6 @@ struct BarGraphView_Previews: PreviewProvider {
         ]
         
         BarGraphView(habitData: habitData)
-            .frame(width: 400, height: 300) // Adjust the size as needed
+            .frame(width: 400, height: 300)
     }
 }

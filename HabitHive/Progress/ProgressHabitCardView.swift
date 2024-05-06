@@ -10,11 +10,12 @@ struct ProgressHabitCardView: View {
                 VStack(alignment: .leading, spacing: 8) {
                     Text(habit.name)
                         .font(.headline)
+                        .foregroundColor(Color("Text primary"))
                         .frame(maxWidth: .infinity, alignment: .leading)
 
                     Text(habit.description)
                         .font(.subheadline)
-                        .foregroundColor(.gray)
+                        .foregroundColor(Color("Text trailing"))
                         .frame(maxWidth: .infinity, alignment: .leading)
                 }
                 

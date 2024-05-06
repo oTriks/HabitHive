@@ -53,20 +53,20 @@ struct SuccessCircleView: View {
         HStack(alignment: .bottom) {
             // Legend items to the left of the main circle
             VStack(alignment: .leading, spacing: 5) {
-                LegendItem(color: .green, label: "Done")
-                LegendItem(color: .red, label: "Failed")
-                LegendItem(color: .yellow, label: "Pending")
+                LegendItem(color: Color("Positive"), label: "Done")
+                LegendItem(color: Color("Negative"), label: "Failed")
+                LegendItem(color: .orange, label: "Pending")
             }
             .padding(.trailing, 10)
 
             // Main circle segment view
             ZStack {
                 CircleSegment(startAngle: .degrees(0), endAngle: .degrees(doneAngle), innerRadiusFactor: 0.7)
-                    .fill(Color.green)
+                    .fill(Color("Positive"))
                 CircleSegment(startAngle: .degrees(doneAngle), endAngle: .degrees(doneAngle + failedAngle), innerRadiusFactor: 0.7)
-                    .fill(Color.red)
+                    .fill(Color("Negative"))
                 CircleSegment(startAngle: .degrees(doneAngle + failedAngle), endAngle: .degrees(doneAngle + failedAngle + pendingAngle), innerRadiusFactor: 0.7)
-                    .fill(Color.yellow)
+                    .fill(Color.orange)
             }
             .frame(width: 200, height: 200)
             .overlay(Circle().stroke(Color.black, lineWidth: 2))

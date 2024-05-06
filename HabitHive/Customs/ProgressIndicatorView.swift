@@ -40,13 +40,13 @@ struct ProgressIndicatorView: View {
                     // Total duration bar (background)
                     Rectangle()
                         .frame(width: geometry.size.width, height: 20)
-                        .foregroundColor(Color.yellow.opacity(0.6))
+                        .foregroundColor(Color.orange.opacity(0.6))
                         .cornerRadius(10)
 
                     // Elapsed duration bar (foreground)
                     Rectangle()
                         .frame(width: CGFloat(progress) * geometry.size.width, height: 20)
-                        .foregroundColor(Color.green)
+                        .foregroundColor(Color("Positive"))
                         .clipShape(RoundedCorner(radius: 10, corners: [.topLeft, .bottomLeft]))
                 }
             }

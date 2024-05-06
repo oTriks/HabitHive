@@ -56,6 +56,34 @@ class ProgressHabitViewModel: ObservableObject {
     }
 
 
+    func getMonthlyHabitData(for habit: Habit) -> [String: Int] {
+        guard let progress = habit.progress else {
+            return [:]
+        }
+        var monthlyData: [String: Int] = [:]
+
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "yyyy-MM-dd"
+
+        let monthFormatter = DateFormatter()
+        monthFormatter.dateFormat = "MMM"
+
+        for (dateString, status) in progress {
+            if let date = dateFormatter.date(from: dateString) {
+                if status == "Done" {
+                    let monthString = monthFormatter.string(from: date)
+
+                    monthlyData[monthString, default: 0] += 1
+                }
+            } else {
+            }
+        }
+
+
+        return monthlyData
+    }
+
+
 
 // Function to calculate time-based progress
    private func calculateTimeProgress(startDate: Date, endDate: Date) -> Double {

@@ -13,11 +13,11 @@ struct CardProgressBar: View {
             
             HStack(spacing: 0) {
                 Rectangle()
-                    .fill(Color.green)
+                    .fill(Color("Positive"))
                     .frame(width: doneWidth)
                 
                 Rectangle()
-                    .fill(Color.yellow)
+                    .fill(Color.orange)
                     .frame(width: pendingWidth)
             }
             .cornerRadius(4)

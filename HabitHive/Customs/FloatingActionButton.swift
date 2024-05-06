@@ -6,8 +6,8 @@ import SwiftUI
 struct CustomFloatingActionButton: View {
     let action: () -> Void
     let imageName: String
-    var backgroundColor: Color = Color("Popup")  // Replace "popup" with your asset name or color
-    var foregroundColor: Color = Color("Text primary")  // Replace "text primary" with your asset name or color
+    var backgroundColor: Color = Color("Calendar")
+    var foregroundColor: Color = Color("Text primary")
 
     var body: some View {
             Button(action: action) {

@@ -5,11 +5,13 @@ struct ChallengesView: View {
     let streaks: Int // Assuming this is the current streak
     
     var body: some View {
-        HStack(spacing: 20) {
+        HStack(spacing: 1) {
             ForEach(1...5, id: \.self) { index in
                 let isUnlocked = streaks >= streakNeeded(for: index)
                 let imageName = isUnlocked ? "medal_\(streakNeeded(for: index))" : "medal_locked"
                 ChallengeIcon(isUnlocked: isUnlocked, imageName: imageName)
+                    .frame(width: 80, height: 80) // Adjust this width and height as needed
+
             }
         }
         .padding()

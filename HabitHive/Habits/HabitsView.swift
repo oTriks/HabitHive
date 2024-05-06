@@ -12,12 +12,9 @@ struct HabitsView: View {
         NavigationView {
             ZStack {
                 VStack {
-                    // Navigation Bar or Title
                     HStack {
                         Spacer()
-                        Text("Habits")
-                            .font(.headline)
-                            .padding(.top, 16)
+                        
                         Spacer()
                     }
                     .padding(.vertical, 2)
