@@ -2,7 +2,7 @@ import SwiftUI
 
 struct AwardPopupView: View {
     var streak: Int
-
+    
     var body: some View {
         GeometryReader { geometry in
             ZStack {
@@ -15,7 +15,7 @@ struct AwardPopupView: View {
                         .font(.title)
                         .fontWeight(.semibold)
                         .foregroundColor(Color("Positive"))
-
+                    
                     Image(medalName(for: streak))
                         .resizable()
                         .scaledToFit()
@@ -23,27 +23,27 @@ struct AwardPopupView: View {
                     
                     Divider()
                         .background(Color("Positive"))
-
+                    
                     VStack(spacing: 10) {
                         Text("Streak")
                         Text("\(streak) days")
                     }
                     .foregroundColor(Color("Positive"))
                     .fontWeight(.semibold)
-
+                    
                     Divider()
                         .background(Color("Positive"))
-
+                    
                     Text("Next award: \(nextMilestone(after: streak)) days")
                         .foregroundColor(Color("Text trailing"))
-
+                    
                     Divider()
                         .background(Color("Positive"))
-
+                    
                     Text("Close")
                         .fontWeight(.semibold)
                         .foregroundColor(Color("Negative"))
-
+                    
                     Spacer()
                 }
                 .padding()
@@ -59,7 +59,7 @@ struct AwardPopupView: View {
             }
         }
     }
-
+    
     private func medalName(for streak: Int) -> String {
         switch streak {
         case 1:
@@ -76,7 +76,7 @@ struct AwardPopupView: View {
             return "medal_locked"
         }
     }
-
+    
     private func nextMilestone(after streak: Int) -> Int {
         if streak < 3 {
             return 3

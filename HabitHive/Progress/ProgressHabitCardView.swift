@@ -12,7 +12,7 @@ struct ProgressHabitCardView: View {
                         .font(.headline)
                         .foregroundColor(Color("Text primary"))
                         .frame(maxWidth: .infinity, alignment: .leading)
-
+                    
                     Text(habit.description)
                         .font(.subheadline)
                         .foregroundColor(Color("Text trailing"))

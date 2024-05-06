@@ -6,11 +6,11 @@ struct BarGraphView: View {
         "Jan", "Feb", "Mar", "Apr", "May", "Jun",
         "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"
     ]
-
+    
     var maxCount: Int {
         habitData.values.max() ?? 1
     }
-
+    
     var body: some View {
         VStack {
             HStack(alignment: .bottom, spacing: 8) {
@@ -18,22 +18,22 @@ struct BarGraphView: View {
                     VStack {
                         let completionCount = habitData[months[index]] ?? 0
                         let barHeight = CGFloat(completionCount) / CGFloat(maxCount) * 200
-
+                        
                         Text("\(completionCount)")
                             .font(.caption)
                             .foregroundColor(.primary)
                             .padding(.bottom, 2)
-
+                        
                         Rectangle()
                             .fill(Color("Positive"))
                             .frame(width: 20, height: barHeight)
-
+                        
                         Text(months[index])
                             .font(.caption)
                             .foregroundColor(.primary)
                             .frame(width: 24)
                             .fixedSize(horizontal: true, vertical: false) 
-
+                        
                     }
                 }
             }

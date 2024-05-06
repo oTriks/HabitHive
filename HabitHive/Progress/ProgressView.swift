@@ -3,7 +3,7 @@ import SwiftUI
 struct ProgressView: View {
     @EnvironmentObject var userModel: UserModel
     @StateObject var viewModel = ProgressViewModel()
-
+    
     var body: some View {
         ScrollView {
             VStack(spacing: 95) {

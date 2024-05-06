@@ -35,10 +35,9 @@ class ProgressViewModel: ObservableObject {
                 
                 self.habits = documents.compactMap { queryDocumentSnapshot -> Habit? in
                     var habit = try? queryDocumentSnapshot.data(as: Habit.self)
-                    habit?.id = queryDocumentSnapshot.documentID 
+                    habit?.id = queryDocumentSnapshot.documentID
                     return habit
                 }
             }
     }
-    
 }

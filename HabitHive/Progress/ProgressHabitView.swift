@@ -3,7 +3,7 @@ import SwiftUI
 struct ProgressHabitView: View {
     var habit: Habit
     @StateObject private var viewModel = ProgressHabitViewModel()
-
+    
     var body: some View {
         ScrollView {
             VStack(alignment: .leading, spacing: 20) {
@@ -14,7 +14,7 @@ struct ProgressHabitView: View {
                         .padding()
                         .padding()
                         .frame(maxWidth: .infinity) 
-
+                    
                     Spacer()
                 }
                 
@@ -51,23 +51,23 @@ struct ProgressHabitView: View {
                     .frame(maxWidth: .infinity, alignment: .center)
                 }
                 .padding()
-
+                
                 Divider().background(Color("Primary details"))
-
+                
                 SectionHeaderView(title: "Monthly Progress")
                 BarGraphView(habitData: viewModel.getMonthlyHabitData(for: habit))
                     .frame(height: 200)
                     .padding()
-
+                
                 Divider().background(Color("Primary details"))
                 
                 SectionHeaderView(title: "Challenges")
                 ChallengesView(streaks: viewModel.bestStreak)
-
-                .navigationBarTitle(Text(habit.name), displayMode: .inline)
-                .onAppear {
-                    viewModel.calculateStatistics(for: habit)
-                }
+                
+                    .navigationBarTitle(Text(habit.name), displayMode: .inline)
+                    .onAppear {
+                        viewModel.calculateStatistics(for: habit)
+                    }
             }
         }
     }
@@ -77,7 +77,7 @@ struct ProgressHabitView: View {
 
 struct SectionHeaderView: View {
     let title: String
-
+    
     var body: some View {
         Text(title)
             .font(.headline)

@@ -4,7 +4,7 @@ struct ScrollDaysView: View {
     var startDate: Date
     var endDate: Date
     @Binding var selectedDate: Date
-
+    
     private var dates: [Date] {
         var currentDate = startDate
         var dateArray = [Date]()
@@ -42,7 +42,7 @@ struct ScrollDaysView: View {
                     }
                 }
                 .onChange(of: selectedDate) { newValue in
-                    let startOfDay = Calendar.current.startOfDay(for: newValue) 
+                    let startOfDay = Calendar.current.startOfDay(for: newValue)
                     DispatchQueue.main.async {
                         withAnimation {
                             proxy.scrollTo(startOfDay, anchor: .center)
@@ -59,34 +59,34 @@ struct Day2View: View {
     var isSelected: Bool
     
     public init(date: Date, isSelected: Bool) {
-            self.date = date
-            self.isSelected = isSelected
-        }
+        self.date = date
+        self.isSelected = isSelected
+    }
     
     var body: some View {
-            VStack(spacing: 0) {
-                Text(dayMonthFormatter.string(from: date))
-                    .font(.caption)
-                
-                Text(dayFormatter.string(from: date))
-                    .font(.headline)
-            }
-            .frame(width: 35, alignment: .center)
-            .padding(4)
-            .background(isSelected ? Color("button") : Color.clear)
-            .cornerRadius(14)
-            .foregroundColor(isSelected ? Color("Text primary") : Color("Text trailing"))
+        VStack(spacing: 0) {
+            Text(dayMonthFormatter.string(from: date))
+                .font(.caption)
+            
+            Text(dayFormatter.string(from: date))
+                .font(.headline)
         }
-
-        private var dayMonthFormatter: DateFormatter = {
-            let formatter = DateFormatter()
-            formatter.dateFormat = "E, MMM"
-            return formatter
-        }()
-
-        private var dayFormatter: DateFormatter = {
-            let formatter = DateFormatter()
-            formatter.dateFormat = "d"
-            return formatter
-        }()
+        .frame(width: 35, alignment: .center)
+        .padding(4)
+        .background(isSelected ? Color("button") : Color.clear)
+        .cornerRadius(14)
+        .foregroundColor(isSelected ? Color("Text primary") : Color("Text trailing"))
     }
+    
+    private var dayMonthFormatter: DateFormatter = {
+        let formatter = DateFormatter()
+        formatter.dateFormat = "E, MMM"
+        return formatter
+    }()
+    
+    private var dayFormatter: DateFormatter = {
+        let formatter = DateFormatter()
+        formatter.dateFormat = "d"
+        return formatter
+    }()
+}

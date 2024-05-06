@@ -4,9 +4,9 @@ struct DailyView: View {
     @ObservedObject var viewModel = DailyViewModel()
     @State private var selectedDate = Date()
     @State private var isShowingAwardPopup = false
-
+    
     @State private var achievedStreak = 0
-
+    
     var body: some View {
         NavigationView {
             VStack {
@@ -20,14 +20,14 @@ struct DailyView: View {
                     LazyVStack(spacing: 10) {
                         ForEach(viewModel.filteredHabits(for: selectedDate), id: \.habit.id) { (habit, progressStatus) in
                             DailyHabitCardView(
-                                                            viewModel: viewModel,
-                                                            habit: habit,
-                                                            progressStatus: progressStatus,
-                                                            selectedDate: selectedDate,  onStreakAchieved: { milestone in
-                                                                achievedStreak = milestone
-                                                                isShowingAwardPopup = true
-                                                            }
-                                                        )
+                                viewModel: viewModel,
+                                habit: habit,
+                                progressStatus: progressStatus,
+                                selectedDate: selectedDate,  onStreakAchieved: { milestone in
+                                    achievedStreak = milestone
+                                    isShowingAwardPopup = true
+                                }
+                            )
                             .padding(.horizontal)
                         }
                     }
@@ -36,8 +36,8 @@ struct DailyView: View {
             }
             .navigationBarHidden(true)
             .sheet(isPresented: $isShowingAwardPopup) {
-                            AwardPopupView(streak: achievedStreak)
-                        }
+                AwardPopupView(streak: achievedStreak)
+            }
             .onAppear {
                 viewModel.fetchHabits()
                 selectedDate = Date()
@@ -57,7 +57,7 @@ extension DailyViewModel {
             return nil
         }
     }
-
+    
     private func formatDate(_ date: Date) -> String {
         let formatter = DateFormatter()
         formatter.dateFormat = "yyyy-MM-dd"

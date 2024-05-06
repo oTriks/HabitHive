@@ -7,7 +7,7 @@ class AppDelegate: NSObject, UIApplicationDelegate {
                      didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]? = nil) -> Bool {
         FirebaseApp.configure()
         print("Firebase configured successfully.")
-
+        
         UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .sound, .badge]) { granted, error in
             if granted {
                 print("Notification permission granted.")
@@ -15,16 +15,16 @@ class AppDelegate: NSObject, UIApplicationDelegate {
                 print("Error requesting notification permissions: \(error)")
             }
         }
-
+        
         UNUserNotificationCenter.current().delegate = self
-
+        
         return true
     }
 }
 
 extension AppDelegate: UNUserNotificationCenterDelegate {
     func userNotificationCenter(_ center: UNUserNotificationCenter, willPresent notification: UNNotification, withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
-        completionHandler([.sound, .alert, .badge]) 
+        completionHandler([.sound, .alert, .badge])
     }
 }
 
@@ -33,13 +33,13 @@ extension AppDelegate: UNUserNotificationCenterDelegate {
 struct HabitHiveApp: App {
     @UIApplicationDelegateAdaptor(AppDelegate.self) var delegate
     @StateObject private var userModel = UserModel()
-
+    
     var body: some Scene {
         WindowGroup {
             NavigationStack {
                 LoginView()
             }
-            .environmentObject(userModel)  
+            .environmentObject(userModel)
         }
     }
 }

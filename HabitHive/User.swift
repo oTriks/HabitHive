@@ -1,4 +1,3 @@
-// User Model
 struct User {
     let id: String
     let name: String

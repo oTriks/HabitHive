@@ -4,20 +4,20 @@ struct CircleSegment: Shape {
     var startAngle: Angle
     var endAngle: Angle
     var innerRadiusFactor: CGFloat = 0.7
-
+    
     func path(in rect: CGRect) -> Path {
         Path { path in
             let center = CGPoint(x: rect.midX, y: rect.midY)
             let outerRadius = min(rect.width, rect.height) / 2
             let innerRadius = outerRadius * innerRadiusFactor
-
+            
             let adjustedStartAngle = startAngle - .degrees(90)
             let adjustedEndAngle = endAngle - .degrees(90)
-
+            
             path.addArc(center: center, radius: outerRadius, startAngle: adjustedStartAngle, endAngle: adjustedEndAngle, clockwise: false)
-
+            
             path.addArc(center: center, radius: innerRadius, startAngle: adjustedEndAngle, endAngle: adjustedStartAngle, clockwise: true)
-
+            
             path.closeSubpath()
         }
     }
@@ -27,23 +27,23 @@ struct SuccessCircleView: View {
     var doneCount: Int
     var failedCount: Int
     var pendingCount: Int
-
+    
     private var totalTasks: Double {
         Double(doneCount + failedCount + pendingCount)
     }
-
+    
     private var doneAngle: Double {
         (Double(doneCount) / totalTasks) * 360
     }
-
+    
     private var failedAngle: Double {
         (Double(failedCount) / totalTasks) * 360
     }
-
+    
     private var pendingAngle: Double {
         (Double(pendingCount) / totalTasks) * 360
     }
-
+    
     var body: some View {
         HStack(alignment: .bottom) {
             VStack(alignment: .leading, spacing: 5) {
@@ -52,7 +52,7 @@ struct SuccessCircleView: View {
                 LegendItem(color: .orange, label: "Pending")
             }
             .padding(.trailing, 10)
-
+            
             ZStack {
                 CircleSegment(startAngle: .degrees(0), endAngle: .degrees(doneAngle), innerRadiusFactor: 0.7)
                     .fill(Color("Positive"))
@@ -71,7 +71,7 @@ struct SuccessCircleView: View {
 struct LegendItem: View {
     var color: Color
     var label: String
-
+    
     var body: some View {
         HStack(spacing: 5) {
             Circle()

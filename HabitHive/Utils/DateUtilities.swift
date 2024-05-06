@@ -5,9 +5,9 @@ import SwiftUI
 
 class DateUtilities {
     static let shared = DateUtilities()
-
+    
     private init() {}
-
+    
     func daysInRange(from startOffset: Int, to endOffset: Int, relativeTo date: Date) -> [Date] {
         var dates: [Date] = []
         let calendar = Calendar.current
@@ -35,7 +35,7 @@ struct FormatterConfig {
         formatter.dateFormat = "E, MMM"
         return formatter
     }()
-
+    
     static let numberFormatter: DateFormatter = {
         let formatter = DateFormatter()
         formatter.dateFormat = "d"

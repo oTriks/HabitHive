@@ -4,7 +4,7 @@ struct HabitCardView: View {
     var habit: Habit
     @ObservedObject var viewModel: HabitsViewModel
     @State private var isShowingCalendar = false
-
+    
     var body: some View {
         VStack(alignment: .leading, spacing: 10) {
             HStack {
@@ -17,21 +17,21 @@ struct HabitCardView: View {
                     .font(.caption)
                     .foregroundColor(.blue)
             }
-
+            
             if !habit.description.isEmpty {
                 Text(habit.description)
                     .font(.body)
                     .foregroundColor(.secondary)
             }
-
+            
             Button(action: {
-                            isShowingCalendar = true
-                        }) {
-                            Text("Select Date")
-                        }
-                        .sheet(isPresented: $isShowingCalendar) {
-                            CalendarView(habitID: habit.id ?? "", viewModel: viewModel)
-                        }
+                isShowingCalendar = true
+            }) {
+                Text("Select Date")
+            }
+            .sheet(isPresented: $isShowingCalendar) {
+                CalendarView(habitID: habit.id ?? "", viewModel: viewModel)
+            }
             
             if let progressMap = habit.progress, !progressMap.isEmpty, let habitId = habit.id {
                 ScrollableWeekdaysView(

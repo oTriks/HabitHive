@@ -45,7 +45,7 @@ struct LineGraphView: View {
 
 struct LineGraph: View {
     var data: [Double] 
-
+    
     var body: some View {
         GeometryReader { geometry in
             Path { path in

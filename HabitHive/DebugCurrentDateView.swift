@@ -9,7 +9,7 @@ struct DebugCurrentDateView: View {
                 print("Current Date: \(formattedDate)")
             }
     }
-
+    
     private var formattedDate: String {
         DateFormatter.iso8601Full.string(from: currentDate)
     }
@@ -19,7 +19,7 @@ extension DateFormatter {
     static let iso8601Full: DateFormatter = {
         let formatter = DateFormatter()
         formatter.dateFormat = "yyyy-MM-dd"
-        formatter.timeZone = TimeZone(secondsFromGMT: 0) 
+        formatter.timeZone = TimeZone(secondsFromGMT: 0)
         return formatter
     }()
 }

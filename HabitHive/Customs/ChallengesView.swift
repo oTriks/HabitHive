@@ -11,22 +11,22 @@ struct ChallengesView: View {
                 let imageName = isUnlocked ? "medal_\(streakNeeded(for: index))" : "medal_locked"
                 ChallengeIcon(isUnlocked: isUnlocked, imageName: imageName)
                     .frame(width: 80, height: 80)
-
+                
             }
         }
         .padding()
     }
     
     private func streakNeeded(for index: Int) -> Int {
-          switch index {
-          case 1: return 1
-          case 2: return 3
-          case 3: return 7
-          case 4: return 14
-          case 5: return 30
-          default: return 0
-          }
-      }
+        switch index {
+        case 1: return 1
+        case 2: return 3
+        case 3: return 7
+        case 4: return 14
+        case 5: return 30
+        default: return 0
+        }
+    }
     
 }
 

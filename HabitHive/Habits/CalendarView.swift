@@ -5,7 +5,7 @@ struct CalendarView: View {
     @ObservedObject var viewModel: HabitsViewModel
     @State private var selectedDate: Date = Date()
     @State private var habitProgress: [String: String] = [:]
-
+    
     var body: some View {
         VStack {
             Text("Calendar View for \(habitID)")
@@ -15,20 +15,20 @@ struct CalendarView: View {
                 .onChange(of: selectedDate) { newValue in
                     viewModel.updateProgress(for: habitID, date: formatDate(newValue))
                 }
-
+            
             CustomCalendar(selectedDate: $selectedDate, habitProgress: habitProgress)
         }
         .onAppear {
             fetchHabitProgress()
         }
     }
-
+    
     private func fetchHabitProgress() {
         if let habit = viewModel.habits.first(where: { $0.id == habitID }), let progress = habit.progress {
             habitProgress = progress
         }
     }
-
+    
     private func formatDate(_ date: Date) -> String {
         let formatter = DateFormatter()
         formatter.dateFormat = "yyyy-MM-dd"
@@ -39,17 +39,17 @@ struct CalendarView: View {
 struct CustomCalendar: View {
     @Binding var selectedDate: Date
     var habitProgress: [String: String]
-
+    
     var body: some View {
         VStack {
             Text(monthYearString(from: selectedDate))
                 .font(.title)
                 .padding(.vertical)
-
+            
             CalendarGridView(selectedDate: $selectedDate, habitProgress: habitProgress)
         }
     }
-
+    
     private func monthYearString(from date: Date) -> String {
         let formatter = DateFormatter()
         formatter.dateFormat = "MMMM yyyy"
@@ -60,7 +60,7 @@ struct CustomCalendar: View {
 struct CalendarGridView: View {
     @Binding var selectedDate: Date
     var habitProgress: [String: String]
-
+    
     var body: some View {
         VStack {
             HStack {
@@ -70,7 +70,7 @@ struct CalendarGridView: View {
                         .padding(.vertical, 4)
                 }
             }
-
+            
             VStack {
                 ForEach(monthDates(for: selectedDate), id: \.self) { weekDates in
                     HStack {
@@ -83,28 +83,28 @@ struct CalendarGridView: View {
             }
         }
     }
-
+    
     private func weekdayAbbreviation(from date: Date) -> String {
         let formatter = DateFormatter()
         formatter.dateFormat = "E"
         return formatter.string(from: date)
     }
-
+    
     private func monthDates(for date: Date) -> [[Date]] {
         let calendar = Calendar.current
         var components = calendar.dateComponents([.year, .month, .weekday], from: date)
-
+        
         components.day = 1
         let startOfMonth = calendar.date(from: components)!
-
+        
         components.month! += 1
         components.day! -= 1
         let endOfMonth = calendar.date(from: components)!
-
+        
         var monthDates: [[Date]] = []
         var weekDates: [Date] = []
         var currentDate = startOfMonth
-
+        
         while currentDate <= endOfMonth {
             if calendar.isDate(currentDate, equalTo: startOfMonth, toGranularity: .month) {
                 weekDates.append(currentDate)
@@ -114,20 +114,20 @@ struct CalendarGridView: View {
             }
             currentDate = calendar.date(byAdding: .day, value: 1, to: currentDate)!
         }
-
+        
         monthDates.append(weekDates)
         return monthDates
     }
-
+    
     private func isDateSelected(_ date: Date) -> Bool {
         return Calendar.current.isDate(date, inSameDayAs: selectedDate)
     }
-
+    
     private func progressStatus(for date: Date) -> String? {
         let dateString = formatDate(date)
         return habitProgress[dateString]
     }
-
+    
     private func formatDate(_ date: Date) -> String {
         let formatter = DateFormatter()
         formatter.dateFormat = "yyyy-MM-dd"
@@ -139,12 +139,12 @@ struct DateCell: View {
     var date: Date
     var isSelected: Bool
     var progressStatus: String?
-
+    
     var body: some View {
         Text("\(date.day)")
             .font(.body)
             .frame(width: 30, height: 30)
-            .background(isSelected ? Color.blue : (progressStatus == "Done" ? Color.green : Color.clear)) 
+            .background(isSelected ? Color.blue : (progressStatus == "Done" ? Color.green : Color.clear))
             .clipShape(Circle())
             .foregroundColor(isSelected ? .white : .primary)
             .padding(.vertical, 4)

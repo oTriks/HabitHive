@@ -4,22 +4,22 @@ struct ScrollableWeekdaysView: View {
     var progressMap: [String: String]
     var currentDate: Date
     var habitId: String
-
+    
     @State private var dataLoaded = false
     @ObservedObject var viewModel: HabitsViewModel
-
+    
     private let formatter: DateFormatter = {
         let formatter = DateFormatter()
         formatter.dateFormat = "yyyy-MM-dd"
         return formatter
     }()
-
+    
     private var dates: [Date] {
         progressMap.keys.compactMap { dateString in
             formatter.date(from: dateString)
         }.sorted()
     }
-
+    
     var body: some View {
         ScrollView(.horizontal, showsIndicators: false) {
             ScrollViewReader { scrollViewProxy in
@@ -47,11 +47,11 @@ struct ScrollableWeekdaysView: View {
         }
         .frame(height: 60)
     }
-
+    
     
     private func scrollToCurrentDate(using scrollViewProxy: ScrollViewProxy) {
         let currentDayString = formatter.string(from: currentDate)
-
+        
         if let currentDateIndex = dates.firstIndex(where: { formatter.string(from: $0) == currentDayString }) {
             withAnimation {
                 scrollViewProxy.scrollTo(dates[currentDateIndex], anchor: .center)
@@ -69,26 +69,26 @@ struct DayView: View {
     var date: Date
     var progress: String
     var updateProgress: () -> Void
-
+    
     
     public init(date: Date, progress: String, updateProgress: @escaping () -> Void) {
         self.date = date
         self.progress = progress
         self.updateProgress = updateProgress
     }
-
+    
     private var weekdayFormatter: DateFormatter = {
         let formatter = DateFormatter()
         formatter.dateFormat = "E"
         return formatter
     }()
-
+    
     private var dayFormatter: DateFormatter = {
         let formatter = DateFormatter()
         formatter.dateFormat = "d"
         return formatter
     }()
-
+    
     var body: some View {
         VStack {
             Text(weekdayFormatter.string(from: date).prefix(1))
@@ -103,11 +103,11 @@ struct DayView: View {
                 .cornerRadius(4)
                 .foregroundColor(textColor(for: progress))
                 .onTapGesture {
-                                    updateProgress()
-                                }
+                    updateProgress()
+                }
         }
     }
-
+    
     private func background(for status: String) -> Color {
         switch status {
         case "Done":
@@ -118,7 +118,7 @@ struct DayView: View {
             return .clear
         }
     }
-
+    
     private func borderColor(for status: String) -> Color {
         switch status {
         case "Pending":
@@ -127,7 +127,7 @@ struct DayView: View {
             return .clear
         }
     }
-
+    
     private func textColor(for status: String) -> Color {
         switch status {
         case "Done", "Failed":

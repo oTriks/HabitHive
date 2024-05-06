@@ -3,7 +3,7 @@ import SwiftUI
 struct DayPickerView: View {
     let daysOfWeek = ["S", "M", "T", "W", "TH", "F", "SA"]
     @Binding var selectedDays: Set<String>
-
+    
     var body: some View {
         HStack {
             ForEach(daysOfWeek, id: \.self) { day in
