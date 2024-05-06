@@ -10,7 +10,7 @@ struct NewHabitView: View {
     @State private var selectedNotifications: [UserNotification] = []
     @EnvironmentObject var userModel: UserModel
     @ObservedObject var viewModel: NewHabitViewModel
-    @StateObject private var notificationViewModel = NotificationViewModel() // ViewModel for fetching notifications
+    @StateObject private var notificationViewModel = NotificationViewModel()
     @Binding var isPresented: Bool
     @Binding var shouldDismissToHabits: Bool
     @State private var showingNotificationSetup = false
@@ -41,12 +41,11 @@ struct NewHabitView: View {
 
                     case 2:
                         FrequencySelectionView(selectedFrequency: $frequencyOption,
-                                               options: ["Every day", "Specific days", "Repeat"],
+                                               options: ["Every day", "Specific days"],
                                                showDaysPicker: $showDayPicker)
 
                     case 3:
                         VStack(spacing: 12) {
-                            // Start Date Row
                             HStack {
                                 Image(systemName: "calendar")
                                     .padding(.leading)
@@ -58,7 +57,6 @@ struct NewHabitView: View {
                             }
                             Divider().padding(.horizontal)
 
-                            // End Date Row
                             HStack {
                                 Image(systemName: "calendar")
                                     .padding(.leading)
@@ -70,7 +68,6 @@ struct NewHabitView: View {
                             }
                             Divider().padding(.horizontal)
 
-                            // Notifications Row
                             HStack {
                                 Image(systemName: "alarm")
                                 Text("Notifications")
@@ -86,7 +83,6 @@ struct NewHabitView: View {
                             }
                             Divider().padding(.horizontal)
 
-                            // Available Notifications List
                             VStack(alignment: .leading, spacing: 8) {
                                 ForEach(notificationViewModel.notifications) { notification in
                                     HStack {
@@ -119,15 +115,19 @@ struct NewHabitView: View {
 
                 HStack {
                     if step == 1 {
+                        
                         Button("Cancel") {
                             isPresented = false
                         }
                         .foregroundColor(Color("Negative"))
+                        .padding()
                     } else {
                         Button("Back") {
                             if step > 1 { step -= 1 }
                         }
                         .foregroundColor(Color("Negative"))
+                        .padding()
+
 
                     }
 
@@ -149,7 +149,7 @@ struct NewHabitView: View {
                                 startDate: startDate,
                                 endDate: endDate,
                                 userID: userID,
-                                notifications: selectedNotifications // Attach selected notifications
+                                notifications: selectedNotifications
                             )
 
                             viewModel.saveHabitToFirestore(habit: habit) { result in
@@ -167,22 +167,22 @@ struct NewHabitView: View {
                         Text(step < 3 ? "Next" : "Create")
                     }
                     .foregroundColor(Color("Positive"))
+                    .padding()
+
                 }
                 .padding()
             }
             .sheet(isPresented: $showingNotificationSetup) {
-                CustomPopupView(isPresented: $showingNotificationSetup) // Pass the binding here
+                CustomPopupView(isPresented: $showingNotificationSetup)
             }
             .navigationTitle("Step \(step)")
             .onAppear {
-                // Fetch all available notifications when the view appears
                 notificationViewModel.fetchNotifications()
             }
         }
     }
 }
 
-// Date Formatting Function
 func formattedDate(from date: Date) -> String {
     let formatter = DateFormatter()
     formatter.dateStyle = .medium
