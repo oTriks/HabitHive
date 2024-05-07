@@ -15,9 +15,7 @@ struct CalendarView: View {
     @State private var habitEndDate: Date = Date()
     @State private var showStartDatePicker = false
     @State private var showEndDatePicker = false
-    @State private var isShowingEdit = false // Add state variable for edit tab
 
-    // Month navigation state variable
     @State private var currentDate: Date = Date()
 
     var body: some View {
@@ -27,13 +25,12 @@ struct CalendarView: View {
                 Text("Edit").tag(1)
             }
             .pickerStyle(SegmentedPickerStyle())
-            .padding()
+            .padding(.horizontal, 15)
+            .padding(.vertical, 5)
 
             if selectedTab == 0 {
-                // Month navigation header
                 HStack {
                     Button(action: {
-                        // Move backward by one month
                         currentDate = Calendar.current.date(byAdding: .month, value: -1, to: currentDate) ?? currentDate
                     }) {
                         Image(systemName: "chevron.left")
@@ -43,113 +40,119 @@ struct CalendarView: View {
                     Spacer()
 
                     Text(currentDate.monthNameAndYear)
-                        .font(.headline)
+                        .font(.subheadline)
                         .fontWeight(.bold)
 
                     Spacer()
 
                     Button(action: {
-                        // Move forward by one month
                         currentDate = Calendar.current.date(byAdding: .month, value: 1, to: currentDate) ?? currentDate
                     }) {
                         Image(systemName: "chevron.right")
                             .foregroundColor(Color("Positive"))
                     }
                 }
-                .padding()
+                .padding(.horizontal, 15)
+                .padding(.vertical, 5)
 
-                // Display the calendar grid for the current month
                 MonthlyCalendarGrid(
-                    currentDate: currentDate, 
-                                   habitProgress: habit?.progress ?? [:],
-                                   viewModel: viewModel,
-                                   habitID: habitID
-                               )
-                               .padding()
-                           } else {
-                               VStack(alignment: .leading, spacing: 15) {
-                                   HStack {
-                                       Text("Habit Name")
-                                       Spacer()
-                                       TextField("Enter habit name", text: $habitName)
-                                           .textFieldStyle(RoundedBorderTextFieldStyle())
-                                           .frame(width: 150) // Set a smaller width
-                                           .padding(.leading, 10)
-                                   }
-                                   
-                                   HStack {
-                                       Text("Description")
-                                       Spacer()
-                                       TextField("Enter description", text: $habitDescription)
-                                           .textFieldStyle(RoundedBorderTextFieldStyle())
-                                           .frame(width: 150) // Set a smaller width
-                                           .padding(.leading, 10)
-                                   }
-                                   
-                                   HStack {
-                                       Text("Frequency")
-                                       Spacer()
-                                       TextField("Enter frequency", text: $habitFrequency)
-                                           .textFieldStyle(RoundedBorderTextFieldStyle())
-                                           .frame(width: 150) // Set a smaller width
-                                           .padding(.leading, 10)
-                                   }
-                                   HStack {
-                                       Text("Start date")
-                                       Spacer()
-                                       Button("\(habitStartDate.formattedString())") {
-                                           showStartDatePicker.toggle()
-                                       }
-                                       .foregroundColor(Color("Positive"))
-                                       if showStartDatePicker {
-                                           DatePicker(selection: $habitStartDate, displayedComponents: [.date]) {
-                                               EmptyView()
-                                           }                                .datePickerStyle(CompactDatePickerStyle())
-                                               .background(Color("Positive").opacity(0))
-                                               .padding(.leading, 10)
-                                       }
-                                   }
-                                   
-                                   HStack {
-                                       Text("End date")
-                                       Spacer()
-                                       Button("\(habitEndDate.formattedString())") {
-                                           showEndDatePicker.toggle()
-                                       }
-                                       .foregroundColor(Color("Positive"))
-                                       if showEndDatePicker {
-                                           DatePicker(selection: $habitEndDate, displayedComponents: [.date]){
-                                               EmptyView()
-                                           }
-                                           .datePickerStyle(CompactDatePickerStyle())
-                                           .background(Color("Positive").opacity(0))
-                                           .padding(.leading, 10)
-                                       }
-                                   }
-                                   Divider()
-                                   HStack {
-                                       Spacer()
-                                       
-                                       Button("Save Changes") {
-                                           viewModel.updateHabit(
-                                               habitID: habitID,
-                                               name: habitName,
-                                               description: habitDescription,
-                                               frequency: habitFrequency,
-                                               startDate: habitStartDate,
-                                               endDate: habitEndDate
-                                           )
-                                       }
-                                       .foregroundColor(Color("Positive"))
-                                       Spacer()
-                                   }
-                                   Divider()
-                               }
-                               .padding()
-                           }
-                           HStack {
-                               Spacer()
-                               Button("Close") {
+                    currentDate: currentDate,
+                    habitProgress: habit?.progress ?? [:],
+                    viewModel: viewModel,
+                    habitID: habitID
+                )
+                .padding(.horizontal, 15)
+                .padding(.vertical, 5)
+            } else {
+                VStack(alignment: .leading, spacing: 19) {
+                    HStack {
+                        Text("Habit Name")
+                            .font(.subheadline)
+                        Spacer()
+                        TextField("Enter habit name", text: $habitName)
+                            .textFieldStyle(RoundedBorderTextFieldStyle())
+                            .frame(width: 120)
+                            .padding(.leading, 8)
+                    }
+
+                    HStack {
+                        Text("Description")
+                            .font(.subheadline)
+                        Spacer()
+                        TextField("Enter description", text: $habitDescription)
+                            .textFieldStyle(RoundedBorderTextFieldStyle())
+                            .frame(width: 120)
+                            .padding(.leading, 8)
+                    }
+
+                    HStack {
+                        Text("Frequency")
+                            .font(.subheadline)
+                        Spacer()
+                        TextField("Enter frequency", text: $habitFrequency)
+                            .textFieldStyle(RoundedBorderTextFieldStyle())
+                            .frame(width: 120)
+                            .padding(.leading, 8)
+                    }
+
+                    HStack {
+                        Text("Start date")
+                            .font(.subheadline)
+                        Spacer()
+                        Button("\(habitStartDate.formattedString())") {
+                            showStartDatePicker.toggle()
+                        }
+                        .foregroundColor(Color("Positive"))
+                        if showStartDatePicker {
+                            DatePicker(selection: $habitStartDate, displayedComponents: [.date]) {
+                                EmptyView()
+                            }
+                            .datePickerStyle(CompactDatePickerStyle())
+                            .padding(.leading, 8)
+                        }
+                    }
+
+                    HStack {
+                        Text("End date")
+                            .font(.subheadline)
+                        Spacer()
+                        Button("\(habitEndDate.formattedString())") {
+                            showEndDatePicker.toggle()
+                        }
+                        .foregroundColor(Color("Positive"))
+                        if showEndDatePicker {
+                            DatePicker(selection: $habitEndDate, displayedComponents: [.date]) {
+                                EmptyView()
+                            }
+                            .datePickerStyle(CompactDatePickerStyle())
+                            .padding(.leading, 8)
+                        }
+                    }
+
+                    Divider()
+                    HStack {
+                        Spacer()
+                        Button("Save Changes") {
+                            viewModel.updateHabit(
+                                habitID: habitID,
+                                name: habitName,
+                                description: habitDescription,
+                                frequency: habitFrequency,
+                                startDate: habitStartDate,
+                                endDate: habitEndDate
+                            )
+                        }
+                        .foregroundColor(Color("Positive"))
+                        Spacer()
+                    }
+                    Divider()
+                }
+                .padding(10)
+            }
+
+            HStack {
+                Spacer()
+                Button("Close") {
                     isPresented = false
                 }
                 .padding(.trailing)
@@ -167,16 +170,17 @@ struct CalendarView: View {
                 formattedEndDate = habit.endDate.formattedString()
             }
         }
-        .frame(width: 400, height: 520)
+        .frame(width: 360, height: 480)
         .background(Color("Calendar"))
-        .cornerRadius(40)
-        .shadow(radius: 20)
+        .cornerRadius(30)
+        .shadow(radius: 15)
     }
 
     private var habit: Habit? {
         viewModel.habits.first { $0.id == habitID }
     }
 }
+
 
 
 
@@ -219,40 +223,34 @@ struct MonthlyCalendarGrid: View {
     var habitID: String
 
     var body: some View {
-        // Determine the first day of the current month
         let firstDayOfMonth = currentDate.startOfMonth()
         let currentYear = Calendar.current.component(.year, from: currentDate)
         let currentMonth = Calendar.current.component(.month, from: currentDate)
 
-        // Calculate the total number of days in the current month
         let daysInMonthRange = Calendar.current.range(of: .day, in: .month, for: firstDayOfMonth)!
         let daysInMonth = daysInMonthRange.count
 
-        // Get the weekday for the first day of the month (1 = Sunday, etc.)
         let calendar = Calendar.current
         let startWeekday = calendar.component(.weekday, from: firstDayOfMonth)
 
-        // Adjust the weekday symbols so the first day starts on Sunday
         var weekdaySymbols = calendar.shortWeekdaySymbols
         let reorderedWeekdaySymbols = weekdaySymbols[0...] + weekdaySymbols[0..<0]
 
-        // Create a grid with 7 columns representing the days of the week
         LazyVGrid(columns: Array(repeating: GridItem(.flexible()), count: 7)) {
-            // Add headers for the days of the week
             ForEach(0..<7, id: \.self) { dayIndex in
                 let dayString = String(reorderedWeekdaySymbols[dayIndex].prefix(1))
                 Text(dayString)
                     .fontWeight(.bold)
                     .padding()
+
+
             }
 
-            // Fill in blank days to align the first day of the month correctly
             ForEach(0..<(startWeekday - 1), id: \.self) { index in
-                Text("") // Ensure this is a valid view
+                Text("")
                     .id("empty-\(index)")
             }
 
-            // Add the days of the month starting from day 1 up to the total number of days
             ForEach(1...daysInMonth, id: \.self) { day in
                 let dateKey = "\(currentYear)-\(String(format: "%02d", currentMonth))-\(String(format: "%02d", day))"
                 let status = habitProgress[dateKey] ?? "Pending"
@@ -265,19 +263,17 @@ struct MonthlyCalendarGrid: View {
                     .foregroundColor(self.textColorForStatus(status))
                     .onTapGesture {
                         selectedDate = dateKey
-                        // Update the progress status
                         viewModel.updateProgress(for: habitID, date: dateKey)
                     }
                     .id("day-\(day)")
                     .overlay(
                         RoundedRectangle(cornerRadius: 8)
-                            .stroke(self.borderColorForStatus(status), lineWidth: 1) // Adjust border thickness
+                            .stroke(self.borderColorForStatus(status), lineWidth: 1)
                     )
             }
         }
     }
 
-    // Background color based on the status
        private func backgroundForStatus(_ status: String) -> Color {
            switch status {
            case "Done":
@@ -285,30 +281,28 @@ struct MonthlyCalendarGrid: View {
            case "Failed":
                return Color("Negative")
            case "Pending":
-               return .clear // No background color
+               return .clear
            default:
                return .gray
            }
        }
     
-    // Text color based on the status
        private func textColorForStatus(_ status: String) -> Color {
            switch status {
            case "Done", "Failed":
-               return .white // White text for Done and Failed statuses
+               return .white
            case "Pending":
-               return .black // Black text for Pending status
+               return .black
            default:
                return .black
            }
        }
-    // Border color based on the status
         private func borderColorForStatus(_ status: String) -> Color {
             switch status {
             case "Pending":
-                return .black // Black border for Pending status
+                return .black
             default:
-                return .clear // No border for other statuses
+                return .clear
             }
         }
     
