@@ -7,7 +7,8 @@ class ProgressHabitViewModel: ObservableObject {
     @Published var currentStreak = 0
     @Published var bestStreak = 0
     @Published var challengeStreaks: [Int] = [1, 3, 7, 14, 30]
-    
+    @Published var habitEndDate: Date = Date()
+
     func calculateStatistics(for habit: Habit) {
         guard let progress = habit.progress else {
             doneCount = 0
