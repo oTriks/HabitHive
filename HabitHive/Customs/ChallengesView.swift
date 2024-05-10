@@ -2,7 +2,7 @@
 import SwiftUI
 
 struct ChallengesView: View {
-    let streaks: Int // Assuming this is the current streak
+    let streaks: Int
     
     var body: some View {
         HStack(spacing: 1) {
@@ -10,23 +10,23 @@ struct ChallengesView: View {
                 let isUnlocked = streaks >= streakNeeded(for: index)
                 let imageName = isUnlocked ? "medal_\(streakNeeded(for: index))" : "medal_locked"
                 ChallengeIcon(isUnlocked: isUnlocked, imageName: imageName)
-                    .frame(width: 80, height: 80) // Adjust this width and height as needed
-
+                    .frame(width: 80, height: 80)
+                
             }
         }
         .padding()
     }
     
     private func streakNeeded(for index: Int) -> Int {
-          switch index {
-          case 1: return 1
-          case 2: return 3
-          case 3: return 7
-          case 4: return 14
-          case 5: return 30
-          default: return 0
-          }
-      }
+        switch index {
+        case 1: return 1
+        case 2: return 3
+        case 3: return 7
+        case 4: return 14
+        case 5: return 30
+        default: return 0
+        }
+    }
     
 }
 
@@ -47,7 +47,6 @@ struct ChallengeIcon: View {
 
 struct ChallengesView_Previews: PreviewProvider {
     static var previews: some View {
-        // Assuming a streak count for preview
         ChallengesView(streaks: 5)
             .previewLayout(.sizeThatFits)
             .padding()

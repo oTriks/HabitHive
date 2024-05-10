@@ -60,6 +60,7 @@
 		5548ED782BE7B97200E4CBF2 /* HelperDIalogView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5548ED772BE7B97200E4CBF2 /* HelperDIalogView.swift */; };
 		5548ED7A2BE7CAA500E4CBF2 /* CardProgressBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5548ED792BE7CAA500E4CBF2 /* CardProgressBar.swift */; };
 		5548ED7D2BE7EA1500E4CBF2 /* NotificationViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5548ED7C2BE7EA1500E4CBF2 /* NotificationViewModel.swift */; };
+		5548ED7F2BE904D700E4CBF2 /* CalendarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5548ED7E2BE904D700E4CBF2 /* CalendarView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -114,6 +115,7 @@
 		5548ED772BE7B97200E4CBF2 /* HelperDIalogView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HelperDIalogView.swift; sourceTree = "<group>"; };
 		5548ED792BE7CAA500E4CBF2 /* CardProgressBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardProgressBar.swift; sourceTree = "<group>"; };
 		5548ED7C2BE7EA1500E4CBF2 /* NotificationViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationViewModel.swift; sourceTree = "<group>"; };
+		5548ED7E2BE904D700E4CBF2 /* CalendarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -221,6 +223,7 @@
 				5509EA932BDA8CE90048A8DF /* HabitsViewModel.swift */,
 				5509EA972BDB98160048A8DF /* NewHabitViewModel.swift */,
 				5509EA992BDB98A90048A8DF /* Habit.swift */,
+				5548ED7E2BE904D700E4CBF2 /* CalendarView.swift */,
 			);
 			path = Habits;
 			sourceTree = "<group>";
@@ -351,6 +354,7 @@
 				5509EA9C2BDB9D790048A8DF /* HabitCardView.swift in Sources */,
 				5509EAAC2BDBB1CA0048A8DF /* ProgressHabitView.swift in Sources */,
 				5509EAA02BDBA6740048A8DF /* ScrollableWeekdaysView.swift in Sources */,
+				5548ED7F2BE904D700E4CBF2 /* CalendarView.swift in Sources */,
 				5548ED552BE3D33300E4CBF2 /* User.swift in Sources */,
 				550962352BDA454D00DB5DEC /* SignUpViewModel.swift in Sources */,
 				5509621E2BD8F20900DB5DEC /* ElevatedTextFieldStyle.swift in Sources */,

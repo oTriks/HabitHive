@@ -6,21 +6,21 @@ import FirebaseFirestore
 
 class HabitsViewModel: ObservableObject {
     @Published var habits: [Habit] = []
-       @Published var isAddingNewHabit = false
-       private var db = Firestore.firestore()
+    @Published var isAddingNewHabit = false
+    private var db = Firestore.firestore()
     private var userID: String?
-
+    
     init(userID: String? = nil) {
         self.userID = userID
-
-           fetchHabits()
-       }
+        
+        fetchHabits()
+    }
     
     func fetchHabits() {
         guard let userID = userID else {
-                    print("User ID not set, fetching habits is not possible")
-                    return
-                }
+            print("User ID not set, fetching habits is not possible")
+            return
+        }
         db.collection("habits").addSnapshotListener { querySnapshot, error in
             guard let documents = querySnapshot?.documents else {
                 print("No documents")
@@ -36,7 +36,43 @@ class HabitsViewModel: ObservableObject {
             }
         }
     }
+    
+    func updateHabit(habitID: String, name: String, description: String, frequency: String, startDate: Date, endDate: Date) {
+        guard let index = habits.firstIndex(where: { $0.id == habitID }) else {
+            print("Habit not found")
+            return
+        }
 
+        // Update the habit locally
+        habits[index].name = name
+        habits[index].description = description
+        habits[index].frequency = frequency
+        habits[index].startDate = startDate
+        habits[index].endDate = endDate
+
+        let startDateTimestamp = Timestamp(date: startDate)
+        let endDateTimestamp = Timestamp(date: endDate)
+
+        let habitRef = db.collection("habits").document(habitID)
+        habitRef.updateData([
+            "name": name,
+            "description": description,
+            "frequency": frequency,
+            "startDate": startDateTimestamp,
+            "endDate": endDateTimestamp
+        ]) { error in
+            if let error = error {
+                print("Error updating habit: \(error)")
+            } else {
+                DispatchQueue.main.async {
+                    self.objectWillChange.send()
+                }
+                print("Habit updated successfully")
+            }
+        }
+    }
+
+    
     func configure(withUserID userID: String) {
         self.userID = userID
         fetchHabits()
@@ -51,12 +87,12 @@ class HabitsViewModel: ObservableObject {
         
         let newStatus: String
         switch currentStatus {
-            case "Done":
-                newStatus = "Failed"
-            case "Failed":
-                newStatus = "Pending"
-            default:
-                newStatus = "Done"
+        case "Done":
+            newStatus = "Failed"
+        case "Failed":
+            newStatus = "Pending"
+        default:
+            newStatus = "Done"
         }
         
         let updatePath = "progress.\(date)"
@@ -74,11 +110,6 @@ class HabitsViewModel: ObservableObject {
             }
         }
     }
-
-
-
-
-    
     
     func addNewHabit() {
         isAddingNewHabit = true

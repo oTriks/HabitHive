@@ -3,11 +3,10 @@ import SwiftUI
 struct ProgressHabitView: View {
     var habit: Habit
     @StateObject private var viewModel = ProgressHabitViewModel()
-
+    
     var body: some View {
         ScrollView {
             VStack(alignment: .leading, spacing: 20) {
-                // Progress Section
                 SectionHeaderView(title: "Progress")
                 HStack {
                     Spacer()
@@ -15,13 +14,12 @@ struct ProgressHabitView: View {
                         .padding()
                         .padding()
                         .frame(maxWidth: .infinity) 
-
+                    
                     Spacer()
                 }
                 
                 Divider().background(Color("Primary details"))
                 
-                // Time Completion Section
                 SectionHeaderView(title: "Time completion")
                 let endDate = Calendar.current.date(byAdding: .month, value: 1, to: habit.startDate) ?? Date()
                 ProgressIndicatorView(
@@ -32,7 +30,6 @@ struct ProgressHabitView: View {
                 
                 Divider().background(Color("Primary details"))
                 
-                // Streaks Section
                 SectionHeaderView(title: "Streaks")
                 HStack {
                     VStack {
@@ -54,25 +51,23 @@ struct ProgressHabitView: View {
                     .frame(maxWidth: .infinity, alignment: .center)
                 }
                 .padding()
-
-                Divider().background(Color("Primary details"))
-
-                // Bar Graph Section (Inserting here)
-                SectionHeaderView(title: "Monthly Progress")
-                BarGraphView(habitData: viewModel.getMonthlyHabitData(for: habit))
-                    .frame(height: 200) // Adjust this to the desired height
-                    .padding()
-
+                
                 Divider().background(Color("Primary details"))
                 
-                // Challenges Section
+                SectionHeaderView(title: "Monthly Progress")
+                BarGraphView(habitData: viewModel.getMonthlyHabitData(for: habit))
+                    .frame(height: 200)
+                    .padding()
+                
+                Divider().background(Color("Primary details"))
+                
                 SectionHeaderView(title: "Challenges")
                 ChallengesView(streaks: viewModel.bestStreak)
-
-                .navigationBarTitle(Text(habit.name), displayMode: .inline)
-                .onAppear {
-                    viewModel.calculateStatistics(for: habit)
-                }
+                
+                    .navigationBarTitle(Text(habit.name), displayMode: .inline)
+                    .onAppear {
+                        viewModel.calculateStatistics(for: habit)
+                    }
             }
         }
     }
@@ -82,7 +77,7 @@ struct ProgressHabitView: View {
 
 struct SectionHeaderView: View {
     let title: String
-
+    
     var body: some View {
         Text(title)
             .font(.headline)

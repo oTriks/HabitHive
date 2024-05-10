@@ -8,11 +8,11 @@ struct Habit: Codable, Identifiable {
     var description: String
     var frequency: String
     var startDate: Date
-    var endDate: Date 
+    var endDate: Date
     var daysOfWeek: [String]?
     var progress: [String: String]?
     var userID: String
     var dailyMap: [String: Bool]?
-    var notifications: [UserNotification]? // Add this attribute to hold notifications
-
+    var notifications: [UserNotification]?
+    
 }

@@ -1,8 +1,8 @@
 import SwiftUI
 
 struct LineGraphView: View {
-    let currentMonthDates: [String] // List of current month dates
-    var completionStatus: [String: String] // Dictionary representing completion status for each date
+    let currentMonthDates: [String]
+    var completionStatus: [String: String]
     
     var body: some View {
         VStack {
@@ -22,7 +22,6 @@ struct LineGraphView: View {
                                     .foregroundColor(.red)
                             }
                         } else {
-                            // Placeholder for pending or incomplete tasks
                             Rectangle()
                                 .fill(Color.gray)
                                 .frame(width: 20, height: 20)
@@ -45,8 +44,8 @@ struct LineGraphView: View {
 }
 
 struct LineGraph: View {
-    var data: [Double] // Expected values between 0 and 1
-
+    var data: [Double] 
+    
     var body: some View {
         GeometryReader { geometry in
             Path { path in

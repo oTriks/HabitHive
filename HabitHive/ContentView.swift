@@ -3,7 +3,7 @@ import SwiftUI
 struct ContentView: View {
     @State private var selection = 0
     var habits: [Habit] = []
-
+    
     var navigationTitle: String {
         switch selection {
         case 0:
@@ -22,19 +22,19 @@ struct ContentView: View {
             TabView(selection: $selection) {
                 ProgressView()
                     .tabItem {
-                        Label("Progress", systemImage: "house")
+                        Label("Progress", systemImage: "chart.bar.doc.horizontal.fill")
                     }
                     .tag(0)
-
-                DailyView() 
+                
+                DailyView()
                     .tabItem {
-                        Label("Daily", systemImage: "bell")
+                        Label("Daily", systemImage: "calendar")
                     }
                     .tag(1)
-
+                
                 HabitsView()
                     .tabItem {
-                        Label("Habits", systemImage: "gear")
+                        Label("Habits", systemImage: "list.bullet")
                     }
                     .tag(2)
             }
@@ -42,14 +42,14 @@ struct ContentView: View {
             .toolbar {
                 ToolbarItem(placement: .navigationBarTrailing) {
                     Button(action: {
-                        // Actions for the button
                     }) {
                         Image("avatar_dark")
-                            .resizable() // Make the image resizable
-                                    .frame(width: 48, height: 48) // Set the desired width and height
+                            .resizable()
+                            .frame(width: 40, height: 40)
                     }
                 }
             }
         }
+        .accentColor(Color("Positive"))
     }
 }

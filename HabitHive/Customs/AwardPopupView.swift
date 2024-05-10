@@ -1,13 +1,19 @@
 import SwiftUI
 
 struct AwardPopupView: View {
-    var streak: Int // This will hold the current streak count
-
+    var streak: Int
+    @Binding var isShowing: Bool
+    
+    init(isShowing: Binding<Bool>, streak: Int) {
+        self._isShowing = isShowing
+        self.streak = streak
+    }
+    
     var body: some View {
         GeometryReader { geometry in
             ZStack {
                 Color.black
-                    .opacity(0.4)
+                    .opacity(0.1)
                     .edgesIgnoringSafeArea(.all)
                 
                 VStack(spacing: 10) {
@@ -15,7 +21,7 @@ struct AwardPopupView: View {
                         .font(.title)
                         .fontWeight(.semibold)
                         .foregroundColor(Color("Positive"))
-
+                    
                     Image(medalName(for: streak))
                         .resizable()
                         .scaledToFit()
@@ -23,34 +29,36 @@ struct AwardPopupView: View {
                     
                     Divider()
                         .background(Color("Positive"))
-
-                    // Display the current streak count
+                    
                     VStack(spacing: 10) {
                         Text("Streak")
                         Text("\(streak) days")
                     }
                     .foregroundColor(Color("Positive"))
                     .fontWeight(.semibold)
-
+                    
                     Divider()
                         .background(Color("Positive"))
-
-                    // Display the next milestone information
+                    
                     Text("Next award: \(nextMilestone(after: streak)) days")
                         .foregroundColor(Color("Text trailing"))
-
+                    
                     Divider()
                         .background(Color("Positive"))
-
-                    Text("Close")
-                        .fontWeight(.semibold)
-                        .foregroundColor(Color("Negative"))
-
+                    
+                    Button(action: {
+                        isShowing = false
+                    }) {
+                        Text("Close")
+                            .fontWeight(.semibold)
+                            .foregroundColor(Color("Negative"))
+                    }
+                    
                     Spacer()
                 }
                 .padding()
-                .frame(width: geometry.size.width * 0.8, height: geometry.size.height * 0.5)
-                .background(Color.white)
+                .frame(width: geometry.size.width * 0.8, height: geometry.size.height * 0.6)
+                .background(Color.white.opacity(0.9))
                 .cornerRadius(15)
                 .shadow(radius: 10)
                 .overlay(
@@ -61,8 +69,7 @@ struct AwardPopupView: View {
             }
         }
     }
-
-    // Function to return the correct medal name based on the streak count
+    
     private func medalName(for streak: Int) -> String {
         switch streak {
         case 1:
@@ -76,11 +83,10 @@ struct AwardPopupView: View {
         case 30:
             return "medal_30"
         default:
-            return "medal_locked" // Provide a default medal image if needed
+            return "medal_locked"
         }
     }
-
-    // Function to determine the next milestone based on the current streak
+    
     private func nextMilestone(after streak: Int) -> Int {
         if streak < 3 {
             return 3
@@ -91,13 +97,8 @@ struct AwardPopupView: View {
         } else if streak < 30 {
             return 30
         } else {
-            return streak // Or any other logic for streaks exceeding 30 days
+            return streak
         }
     }
 }
 
-struct AwardPopupView_Previews: PreviewProvider {
-    static var previews: some View {
-        AwardPopupView(streak: 3) // Adjust this to test different streaks
-    }
-}

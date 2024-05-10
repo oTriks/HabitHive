@@ -6,7 +6,8 @@ class ProgressHabitViewModel: ObservableObject {
     @Published var pendingCount = 0
     @Published var currentStreak = 0
     @Published var bestStreak = 0
-    @Published var challengeStreaks: [Int] = [1, 3, 7, 14, 30] // Example streak challenges
+    @Published var challengeStreaks: [Int] = [1, 3, 7, 14, 30]
+    @Published var habitEndDate: Date = Date()
 
     func calculateStatistics(for habit: Habit) {
         guard let progress = habit.progress else {
@@ -15,21 +16,16 @@ class ProgressHabitViewModel: ObservableObject {
             pendingCount = 0
             return
         }
-
+        
         var done = 0
         var failed = 0
         var pending = 0
-
-        // Date formatter for progress keys
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "yyyy-MM-dd"
-
-        // Ensure the start date is compared only by day
         let calendar = Calendar.current
         let habitStartDay = calendar.startOfDay(for: habit.startDate)
         let today = calendar.startOfDay(for: Date())
-
-        // Count only progress entries up to today and from the habit's start date
+        
         for (dateString, status) in progress {
             if let date = dateFormatter.date(from: dateString), date >= habitStartDay && date <= today {
                 switch status {
@@ -44,117 +40,99 @@ class ProgressHabitViewModel: ObservableObject {
                 }
             }
         }
-
-        // Update the published properties
+        
         doneCount = done
         failedCount = failed
         pendingCount = pending
-
-        // Update streaks
         currentStreak = calculateCurrentStreak(for: habit, dateFormatter: dateFormatter)
         bestStreak = calculateBestStreak(for: habit, dateFormatter: dateFormatter)
     }
-
-
+    
+    
     func getMonthlyHabitData(for habit: Habit) -> [String: Int] {
         guard let progress = habit.progress else {
             return [:]
         }
         var monthlyData: [String: Int] = [:]
-
+        
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "yyyy-MM-dd"
-
+        
         let monthFormatter = DateFormatter()
         monthFormatter.dateFormat = "MMM"
-
+        
         for (dateString, status) in progress {
             if let date = dateFormatter.date(from: dateString) {
                 if status == "Done" {
                     let monthString = monthFormatter.string(from: date)
-
+                    
                     monthlyData[monthString, default: 0] += 1
                 }
             } else {
             }
         }
-
-
         return monthlyData
     }
-
-
-
-// Function to calculate time-based progress
-   private func calculateTimeProgress(startDate: Date, endDate: Date) -> Double {
-       // Total duration in days between startDate and endDate
-       let totalDuration = max(endDate.timeIntervalSince(startDate) / 86400, 1)
-
-       // Days elapsed from the start date to today
-       let elapsedDays = max(Date().timeIntervalSince(startDate) / 86400, 0)
-
-       // Calculate the progress ratio (clamp between 0 and 1)
-       return min(elapsedDays / totalDuration, 1)
-   }
-
-
+    
+    private func calculateTimeProgress(startDate: Date, endDate: Date) -> Double {
+        let totalDuration = max(endDate.timeIntervalSince(startDate) / 86400, 1)
+        
+        let elapsedDays = max(Date().timeIntervalSince(startDate) / 86400, 0)
+        
+        return min(elapsedDays / totalDuration, 1)
+    }
+    
+    
     private func calculateCurrentStreak(for habit: Habit, dateFormatter: DateFormatter) -> Int {
-           guard let progress = habit.progress else {
-               return 0
-           }
-
-           // Use a calendar to compare by day
-           let calendar = Calendar.current
-           let habitStartDay = calendar.startOfDay(for: habit.startDate)
-           let today = calendar.startOfDay(for: Date())
-
-           // Sort progress in descending order of date
-           let sortedProgress = progress.sorted(by: { $0.key > $1.key })
-           var currentStreak = 0
-
-           for (dateString, status) in sortedProgress {
-               if let date = dateFormatter.date(from: dateString), date <= today && date >= habitStartDay {
-                   if status == "Done" {
-                       currentStreak += 1
-                   } else {
-                       // Break when any non-Done status is encountered
-                       break
-                   }
-               }
-           }
-
-           return currentStreak
-       }
-
-       private func calculateBestStreak(for habit: Habit, dateFormatter: DateFormatter) -> Int {
-           guard let progress = habit.progress else {
-               return 0
-           }
-
-           // Use a calendar to compare by day
-           let calendar = Calendar.current
-           let habitStartDay = calendar.startOfDay(for: habit.startDate)
-           let today = calendar.startOfDay(for: Date())
-
-           // Sort progress in ascending order of date
-           let sortedProgress = progress.sorted(by: { $0.key < $1.key })
-           var bestStreak = 0
-           var currentStreak = 0
-
-           for (dateString, status) in sortedProgress {
-               if let date = dateFormatter.date(from: dateString), date <= today && date >= habitStartDay {
-                   if status == "Done" {
-                       currentStreak += 1
-                       bestStreak = max(bestStreak, currentStreak)
-                   } else {
-                       // Reset current streak when encountering a non-Done status
-                       currentStreak = 0
-                   }
-               }
-           }
-
-           return bestStreak
-       }
-   }
+        guard let progress = habit.progress else {
+            return 0
+        }
+        
+        let calendar = Calendar.current
+        let habitStartDay = calendar.startOfDay(for: habit.startDate)
+        let today = calendar.startOfDay(for: Date())
+        
+        let sortedProgress = progress.sorted(by: { $0.key > $1.key })
+        var currentStreak = 0
+        
+        for (dateString, status) in sortedProgress {
+            if let date = dateFormatter.date(from: dateString), date <= today && date >= habitStartDay {
+                if status == "Done" {
+                    currentStreak += 1
+                } else {
+                    break
+                }
+            }
+        }
+        
+        return currentStreak
+    }
+    
+    private func calculateBestStreak(for habit: Habit, dateFormatter: DateFormatter) -> Int {
+        guard let progress = habit.progress else {
+            return 0
+        }
+        
+        let calendar = Calendar.current
+        let habitStartDay = calendar.startOfDay(for: habit.startDate)
+        let today = calendar.startOfDay(for: Date())
+        let sortedProgress = progress.sorted(by: { $0.key < $1.key })
+        var bestStreak = 0
+        var currentStreak = 0
+        
+        for (dateString, status) in sortedProgress {
+            if let date = dateFormatter.date(from: dateString), date <= today && date >= habitStartDay {
+                if status == "Done" {
+                    currentStreak += 1
+                    bestStreak = max(bestStreak, currentStreak)
+                } else {
+                    currentStreak = 0
+                }
+            }
+        }
+        
+        return bestStreak
+    }
+}
 
 
